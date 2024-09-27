@@ -330,6 +330,14 @@ namespace MPIEnv
         return allreduce(buffer.data(), static_cast<int>(buffer.size()), op);
     }
 
+    template <class T> int Comm::allreduce(const std::vector<T>& sendbuf, std::vector<T>& recvbuf, MPI_Op op) const
+    {
+        int count = sendbuf.size();
+        if (!is_same_val(count)) return MPI_ERR_OTHER;
+        recvbuf.resize(count);
+        return allreduce(sendbuf.data(), recvbuf.data(), count, op);
+    }
+
     template <class T> int Comm::gather(const T* sendbuf, int count, T* recvbuf, int root) const
     {
         return MPI_Gather(sendbuf, count, mpi_type<T>(), recvbuf, count, mpi_type<T>(), root, getcomm());

@@ -152,6 +152,7 @@ namespace MPIEnv
             template <class T> int allreduce(T* buffer, int count, MPI_Op op) const;
             template <class T> int allreduce(T& buffer, MPI_Op op) const;
             template <class T> int allreduce(std::vector<T>& buffer, MPI_Op op) const;
+            template <class T> int allreduce(const std::vector<T>& sendbuf, std::vector<T>& recvbuf, MPI_Op op) const;
 
             template <class T> int gather(const T* sendbuf, int count, T* recvbuf, int root) const;
             template <class T> int gather(const T& sendbuf, std::vector<T>& recvbuf, int root) const;
