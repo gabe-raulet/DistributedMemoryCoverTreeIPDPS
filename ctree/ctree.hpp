@@ -1,5 +1,5 @@
 template <class PointTraits_, class Distance_, index_type Index_>
-void CoverTree<PointTraits_, Distance_, Index_>::build(const PointVector& points, Real split_ratio, Real switch_size, Index min_hub_size, bool level_synch, bool threaded, bool verbose)
+void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real split_ratio, Real switch_size, Index min_hub_size, bool level_synch, bool threaded, bool verbose)
 {
     using Hub = Hub<CoverTree>;
     using HubVector = typename Hub::HubVector;
@@ -12,7 +12,6 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(const PointVector& points
     HubVector hubs;
 
     tree.clear();
-    size = points.size();
 
     t = -omp_get_wtime();
     hubs.emplace_back(points);
@@ -84,7 +83,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(const PointVector& points
         if (verbose)
         {
             double leaf_percent = (100.0*leaf_count)/size;
-            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] {:.2f} percent leaves reached on iteration {} [vertices={},levels={},hubs={},avg_hub_size={:.3f}]\n", __func__, elapsed, t, leaf_percent, iter, balltree.num_vertices(), balltree.num_levels(), hubs.size(), avg_hub_size);
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] {:.2f} percent leaves reached [iter={},levels={},vertices={},hubs={},avg_hub_size={:.3f}]\n", __func__, elapsed, t, leaf_percent, iter, balltree.num_levels(), balltree.num_vertices(), hubs.size(), avg_hub_size);
             std::cout << std::flush;
         }
 
@@ -97,10 +96,17 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(const PointVector& points
     t += omp_get_wtime();
     elapsed += t;
 
+    ghost_trees = (leaf_count < size);
+
     if (verbose)
     {
         fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] added points to tree\n", __func__, elapsed, t);
         std::cout << std::flush;
+    }
+
+    if (ghost_trees)
+    {
+
     }
 
 }

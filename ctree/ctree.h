@@ -24,7 +24,9 @@ class CoverTree
         using IndexVector = std::vector<Index>;
         using PointVector = std::vector<Point>;
 
-        void build(const PointVector& points, Real split_ratio, Real switch_size, Index min_hub_size, bool level_synch, bool threaded, bool verbose = false);
+        CoverTree(const PointVector& points) : points(points), size(points.size()) {}
+
+        void build(Real ghost_radius, Real split_ratio, Real switch_size, Index min_hub_size, bool level_synch, bool threaded, bool verbose = false);
         void point_query(const Point& query, Real epsilon, IndexVector& neighbors) const;
         void write_tree_file(const char *fname) const;
         bool is_correct(Real split_ratio) const;
@@ -44,7 +46,9 @@ class CoverTree
     protected:
 
         Index size;
+        PointVector points;
         PointBallTree tree;
+        bool ghost_trees;
 
         void fill_point_ball_tree(const BallTree& balltree, const PointVector& points);
 };

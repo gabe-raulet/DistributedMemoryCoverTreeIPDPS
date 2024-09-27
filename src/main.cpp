@@ -68,10 +68,10 @@ int main(int argc, char *argv[])
 
     fmt::print("[msg::{},time={:.3f}] read {} points from file '{}'\n", __func__, t, size, fname);
 
-    CoverTree<PointTraits, Distance, Index> ctree;
 
     t = -omp_get_wtime();
-    ctree.build(points, split_ratio, switch_size, min_hub_size, level_synch, true, verbose);
+    CoverTree<PointTraits, Distance, Index> ctree(points);
+    ctree.build(radius, split_ratio, switch_size, min_hub_size, level_synch, true, verbose);
     t += omp_get_wtime();
 
     fmt::print("[msg::{},time={:.3f}] constructed cover tree [vertices={},levels={},avg_nesting={:.3f}]\n", __func__, t, ctree.num_vertices(), ctree.num_levels(), (ctree.num_vertices()+0.0)/size);
