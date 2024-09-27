@@ -113,6 +113,15 @@ int main(int argc, char *argv[])
         }
     }
 
+    if (tree_fname)
+    {
+        t = -omp_get_wtime();
+        ctree.write_tree_file(tree_fname);
+        t += omp_get_wtime();
+
+        fmt::print("[msg::{},time={:.3f}] wrote tree file '{}'\n", __func__, t, tree_fname);
+    }
+
     return 0;
 }
 
