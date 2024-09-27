@@ -1,5 +1,6 @@
 *.dSYM
 *.swp
 version.h
+main
 ptgen
 points

@@ -18,15 +18,18 @@ else
 FLAGS+=-O2
 endif
 
-all: ptgen
+all: main ptgen
 
 .PHONY: version.h
 
 version.h:
 	@echo "#define GIT_COMMIT \"$(shell git describe --always --dirty --match 'NOT A TAG')\"" > version.h
 
+main: src/main.cpp misc ptraits ctree version.h
+	$(COMPILER) -o $@ $(FLAGS) $(INCS) -I./ctree $<
+
 ptgen: src/ptgen.cpp misc ptraits version.h
 	$(COMPILER) -o $@ $(FLAGS) $(INCS) $<
 
 clean:
-	rm -rf ptgen version.h *.dSYM
+	rm -rf main ptgen version.h *.dSYM
