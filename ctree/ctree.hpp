@@ -70,7 +70,12 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         for (Hub& split_hub : split_hubs)
         {
-            leaf_count += split_hub.update_tree(balltree, next_hubs, points, hub_map);
+            split_hub.add_hub_vertex(balltree, hub_map);
+        }
+
+        for (Hub& split_hub : split_hubs)
+        {
+            leaf_count += split_hub.add_hub_leaves(balltree, next_hubs);
         }
 
         std::swap(hubs, next_hubs);

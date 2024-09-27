@@ -56,7 +56,8 @@ class Hub
         void add_new_leader(const PointVector& points);
         void split_leaders(const PointVector& points);
         void find_leaves(Index min_hub_size);
-        Index update_tree(BallTree& tree, HubVector& next_hubs, const PointVector& points, IndexVector& hub_map);
+        Index add_hub_leaves(BallTree& tree, HubVector& next_hubs);
+        void add_hub_vertex(BallTree& tree, IndexVector& hub_map);
 
     protected:
 
@@ -66,6 +67,7 @@ class Hub
         HubPointVector hub_points; /* indices, leader pointers and leader distances of hub points */
 
         Index hub_size; /* number of hub points */
+        Index hub_vertex; /* vertex id of hub tree vertex */
         Index hub_parent; /* vertex id of hub parent tree vertex */
         Index representative; /* point id of hub representative (first leader) */
         Index candidate; /* point id of current candidate for the next leader */
