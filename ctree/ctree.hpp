@@ -28,24 +28,6 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
     iter = 1;
     leaf_count = 0;
 
-    IndexVector pt2hub(size, 0);
-    IndexVector hub2vtx(size, -1);
-    std::vector<bool> is_leaf(size, false);
-
-#ifdef LOG
-    auto itemizer = [&] (json& vertex_repr, const Ball& ball, const BallTree& balltree)
-    {
-        vertex_repr["point"] = ball.id;
-        vertex_repr["radius"] = ball.radius;
-        vertex_repr["is_leaf"] = vertex_repr["children"].empty() && is_leaf[ball.id];
-        vertex_repr["hub"] = pt2hub[ball.id];
-        vertex_repr["nested"] = balltree.vertices[vertex_repr["parent"]].id == ball.id;
-    };
-
-    std::vector<json> iterations;
-
-#endif
-
     do
     {
         t = -omp_get_wtime();
@@ -88,19 +70,13 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         for (Hub& split_hub : split_hubs)
         {
-            hub2vtx[split_hub.repr()] = split_hub.add_hub_vertex(balltree);
-
-            for (const auto& hub_point : split_hub.get_hub_points())
-                pt2hub[hub_point.id] = split_hub.repr();
+            split_hub.add_hub_vertex(balltree);
         }
 
         for (Hub& split_hub : split_hubs)
         {
             Index num_leaves = split_hub.add_hub_leaves(balltree, next_hubs);
             leaf_count += num_leaves;
-
-            for (Index leaf : split_hub.get_leaves())
-                is_leaf[leaf] = true;
         }
 
         std::swap(hubs, next_hubs);
@@ -117,14 +93,6 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
             std::cout << std::flush;
         }
 
-#ifdef LOG
-
-        iterations.emplace_back();
-        json& iter_json = iterations.back();
-        iter_json["iter"] = iter;
-        balltree.get_json_repr(iter_json["tree"], itemizer);
-#endif
-
         iter++;
 
     } while (static_cast<Real>(leaf_count) < switch_size && leaf_count < size);
@@ -139,19 +107,6 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
         fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] added points to tree\n", __func__, elapsed, t);
         std::cout << std::flush;
     }
-
-#ifdef LOG
-
-    if (!has_globids())
-    {
-        json tree_repr;
-        tree_repr["iterations"] = iterations;
-        std::ofstream os("tree_repr.json");
-        os << std::setw(4) << tree_repr << std::endl;
-        os.close();
-    }
-
-#endif
 
     if (leaf_count < size) // need ghost trees
     {
