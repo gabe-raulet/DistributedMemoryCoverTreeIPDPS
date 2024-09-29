@@ -101,11 +101,6 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
             for (Index leaf : split_hub.get_leaves())
                 is_leaf[leaf] = true;
-
-            /* if (num_leaves > 0) */
-            /* { */
-                /* hub2vtx[split_hub.repr()] = -1; */
-            /* } */
         }
 
         std::swap(hubs, next_hubs);
