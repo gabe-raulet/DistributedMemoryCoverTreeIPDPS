@@ -60,9 +60,7 @@ class CoverTree
 
         Index size;
         PointVector points;
-        PointBallTree tree;
-
-        void fill_point_ball_tree(const BallTree& balltree, const PointVector& points);
+        BallTree tree;
 
         IndexVector globids;
         CoverTreeVector ghost_trees;
