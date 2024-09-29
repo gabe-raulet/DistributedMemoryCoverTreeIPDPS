@@ -170,6 +170,8 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
             }
         }
     }
+
+    if (has_globids()) std::for_each(neighbors.begin(), neighbors.end(), [&](Index& id) { id = globids[id]; });
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>

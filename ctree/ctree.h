@@ -31,6 +31,7 @@ class CoverTree
         using CoverTreeVector = std::vector<CoverTree>;
 
         CoverTree(const PointVector& points) : points(points), size(points.size()) {}
+        CoverTree(const PointVector& points, const IndexVector& globids) : points(points), globids(globids), size(points.size()) {}
 
         void build(Real ghost_radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool level_synch, bool threaded, bool verbose = false);
         void point_query(const Point& query, Real epsilon, IndexVector& neighbors) const;
@@ -54,9 +55,11 @@ class CoverTree
         Index size;
         PointVector points;
         PointBallTree tree;
+        IndexVector globids;
 
         void fill_point_ball_tree(const BallTree& balltree, const PointVector& points);
         bool has_ghost_trees() const { return !ghost_trees.empty(); }
+        bool has_globids() const { return globids.size() == size; }
 
         CoverTreeVector ghost_trees;
 };
