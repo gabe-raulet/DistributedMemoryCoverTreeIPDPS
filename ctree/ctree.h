@@ -35,6 +35,7 @@ class CoverTree
 
         using IndexSet = std::unordered_set<Index>;
         using IndexMap = std::unordered_map<Index, Index>;
+        using IndexVectorVector = std::vector<IndexVector>;
 
         CoverTree() : size(0) {}
         CoverTree(const PointVector& points) : points(points), size(points.size()) {}

@@ -123,18 +123,49 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         t = -omp_get_wtime();
 
-        for (Index i = 0; i < size; ++i)
+
+        #pragma omp parallel
         {
-            if (pt2hub[i] < 0) continue;
+            IndexVectorVector my_ghost_hub_points(hubs.size());
 
-            IndexVector hub_ids;
-            hub_query(points[i], ghost_radius, hub2vtx, hub_ids);
-
-            for (Index hub_id : hub_ids)
+            #pragma omp for nowait schedule(dynamic)
+            for (Index i = 0; i < size; ++i)
             {
-                ghost_trees[hub_slots.at(hub_id)].add_point(points[i], i);
+                if (pt2hub[i] < 0) continue;
+
+                IndexVector hub_ids;
+                hub_query(points[i], ghost_radius, hub2vtx, hub_ids);
+
+                for (Index hub_id : hub_ids)
+                {
+                    my_ghost_hub_points[hub_slots.at(hub_id)].push_back(i);
+                }
+            }
+
+            #pragma omp critical
+            {
+                for (Index i = 0; i < hubs.size(); ++i)
+                {
+                    for (Index id : my_ghost_hub_points[i])
+                    {
+                        ghost_trees[i].add_point(points[id], id);
+                    }
+                }
             }
         }
+
+        /* for (Index i = 0; i < size; ++i) */
+        /* { */
+            /* if (pt2hub[i] < 0) continue; */
+
+            /* IndexVector hub_ids; */
+            /* hub_query(points[i], ghost_radius, hub2vtx, hub_ids); */
+
+            /* for (Index hub_id : hub_ids) */
+            /* { */
+                /* ghost_trees[hub_slots.at(hub_id)].add_point(points[i], i); */
+            /* } */
+        /* } */
 
         t += omp_get_wtime();
         elapsed += t;
