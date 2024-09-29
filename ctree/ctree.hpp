@@ -107,6 +107,24 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
         std::cout << std::flush;
     }
 
+#ifdef LOG
+
+    auto itemizer = [] (const PointBall& ptball) -> json
+    {
+        json item;
+        item["point"] = ptball.id;
+        item["radius"] = ptball.radius;
+        return item;
+    };
+
+    json tree_repr;
+    tree.get_json_repr(tree_repr, itemizer);
+    std::ofstream os("tree_repr.json");
+    os << std::setw(4) << tree_repr << std::endl;
+    os.close();
+
+#endif
+
     if (leaf_count < size) // need ghost trees
     {
         assert((!has_globids()));

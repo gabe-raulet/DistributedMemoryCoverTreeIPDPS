@@ -3,6 +3,11 @@
 
 #include "mytypeinfo.h"
 #include <vector>
+#include <string>
+#include <sstream>
+#include "json.hpp"
+
+using json = nlohmann::json;
 
 template <class Item_, index_type Index_>
 struct InsertTree
@@ -30,6 +35,19 @@ struct InsertTree
 
     using ItemVector = std::vector<Item>;
     using IndexVectorVector = std::vector<IndexVector>;
+
+    template <class Itemizer>
+    void get_json_repr(json& json_repr, Itemizer itemizer) const;
+
+    template <class Itemizer>
+    std::string get_json_repr(Itemizer itemizer) const
+    {
+        json json_repr;
+        get_json_repr(json_repr, itemizer);
+        std::stringstream ss;
+        ss << std::setw(4) << json_repr << std::endl;
+        return ss.str();
+    }
 
     ItemVector vertices;
     IndexVector levels;
