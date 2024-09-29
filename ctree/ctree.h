@@ -36,6 +36,7 @@ class CoverTree
         using IndexSet = std::unordered_set<Index>;
         using IndexMap = std::unordered_map<Index, Index>;
 
+        CoverTree() : size(0) {}
         CoverTree(const PointVector& points) : points(points), size(points.size()) {}
         CoverTree(const PointVector& points, const IndexVector& globids) : points(points), globids(globids), size(points.size()) {}
 
@@ -67,8 +68,10 @@ class CoverTree
 
         bool has_ghost_trees() const { return !ghost_trees.empty(); }
         bool has_globids() const { return globids.size() == size; }
+        void add_point(Point pt, Index globid) { points.push_back(pt); globids.push_back(globid); }
 
         void hub_query(const Point& query, Real ghost_radius, const IndexVector& hub2vtx, IndexVector& hub_ids) const;
+
 };
 
 #include "ctree.hpp"
