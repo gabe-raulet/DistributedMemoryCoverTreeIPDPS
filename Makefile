@@ -1,4 +1,5 @@
 DEBUG?=0
+LOG?=0
 D?=3
 FP?=64
 FLAGS=-std=c++20 -fopenmp -DDIM_SIZE=$(D) -DFP_SIZE=$(FP)
@@ -16,6 +17,10 @@ ifeq ($(DEBUG),1)
 FLAGS+=-O0 -g -fsanitize=address -fno-omit-frame-pointer -DDEBUG
 else
 FLAGS+=-O2
+endif
+
+ifeq ($(LOG),1)
+FLAGS+=-DLOG
 endif
 
 all: main ptgen

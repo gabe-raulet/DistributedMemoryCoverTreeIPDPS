@@ -8,6 +8,11 @@
 #include <assert.h>
 #include <omp.h>
 
+#ifdef LOG
+#include "json.hpp"
+using json = nlohmann::json;
+#endif
+
 template <class PointTraits_, class Distance_, index_type Index_>
 class CoverTree
 {
