@@ -107,10 +107,10 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
         std::cout << std::flush;
     }
 
-    using IndexMap = std::unordered_map<Index, Index>;
-
     if (leaf_count < size) // need ghost trees
     {
+        assert((!has_globids()));
+
         IndexMap hub_slots;
 
         t = -omp_get_wtime();
@@ -232,7 +232,24 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
         }
     }
 
-    if (has_globids()) std::for_each(neighbors.begin(), neighbors.end(), [&](Index& id) { id = globids[id]; });
+    if (has_globids())
+    {
+        std::for_each(neighbors.begin(), neighbors.end(), [&](Index& id) { id = globids[id]; });
+    }
+    else if (has_ghost_trees()) // this and has_globids() should be mutually exclusive
+    {
+        //IndexVector ghost_neighbors;
+        //IndexSet all_neighbors(neighbors.begin(), neighbors.end());
+
+        //for (const auto& ghost_tree : ghost_trees)
+        //{
+        //    ghost_neighbors.clear();
+        //    ghost_tree.point_query(query, epsilon, ghost_neighbors);
+        //    all_neighbors.insert(ghost_neighbors.begin(), ghost_neighbors.end());
+        //}
+
+        //neighbors.assign(all_neighbors.begin(), all_neighbors.end());
+    }
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>

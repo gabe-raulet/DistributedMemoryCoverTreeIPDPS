@@ -6,6 +6,8 @@
 #include "fmt/core.h"
 #include "fmt/ranges.h"
 #include <assert.h>
+#include <unordered_set>
+#include <unordered_map>
 #include <omp.h>
 
 #ifdef LOG
@@ -29,6 +31,9 @@ class CoverTree
         using IndexVector = std::vector<Index>;
         using PointVector = std::vector<Point>;
         using CoverTreeVector = std::vector<CoverTree>;
+
+        using IndexSet = std::unordered_set<Index>;
+        using IndexMap = std::unordered_map<Index, Index>;
 
         CoverTree(const PointVector& points) : points(points), size(points.size()) {}
         CoverTree(const PointVector& points, const IndexVector& globids) : points(points), globids(globids), size(points.size()) {}
@@ -55,13 +60,14 @@ class CoverTree
         Index size;
         PointVector points;
         PointBallTree tree;
-        IndexVector globids;
 
         void fill_point_ball_tree(const BallTree& balltree, const PointVector& points);
+
+        IndexVector globids;
+        CoverTreeVector ghost_trees;
+
         bool has_ghost_trees() const { return !ghost_trees.empty(); }
         bool has_globids() const { return globids.size() == size; }
-
-        CoverTreeVector ghost_trees;
 };
 
 #include "ctree.hpp"
