@@ -28,6 +28,7 @@ class CoverTree
         using RealVector = std::vector<Real>;
         using IndexVector = std::vector<Index>;
         using PointVector = std::vector<Point>;
+        using CoverTreeVector = std::vector<CoverTree>;
 
         CoverTree(const PointVector& points) : points(points), size(points.size()) {}
 
@@ -53,9 +54,11 @@ class CoverTree
         Index size;
         PointVector points;
         PointBallTree tree;
-        bool ghost_trees;
 
         void fill_point_ball_tree(const BallTree& balltree, const PointVector& points);
+        bool has_ghost_trees() const { return !ghost_trees.empty(); }
+
+        CoverTreeVector ghost_trees;
 };
 
 #include "ctree.hpp"

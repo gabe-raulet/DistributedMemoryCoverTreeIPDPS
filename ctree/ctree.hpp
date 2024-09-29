@@ -101,12 +101,15 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
     t += omp_get_wtime();
     elapsed += t;
 
-    ghost_trees = (leaf_count < size);
-
     if (verbose)
     {
         fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] added points to tree\n", __func__, elapsed, t);
         std::cout << std::flush;
+    }
+
+    if (leaf_count < size) // need ghost trees
+    {
+
     }
 }
 
