@@ -52,12 +52,13 @@ class Hub
         bool is_split(Real split_ratio) const { return sep() <= split_ratio*radius(); }
         PointBall get_cand_ball() const { return {candidate_point, candidate, hub_sep}; }
         const HubPointVector& get_hub_points() const { return hub_points; }
+        const IndexVector& get_leaves() const { return leaves; }
 
         void add_new_leader(const PointVector& points);
         void split_leaders(const PointVector& points);
         void find_leaves(Index min_hub_size);
         Index add_hub_leaves(BallTree& tree, HubVector& next_hubs);
-        void add_hub_vertex(BallTree& tree, IndexVector& hub_map);
+        Index add_hub_vertex(BallTree& tree);
 
     protected:
 

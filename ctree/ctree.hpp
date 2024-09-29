@@ -8,7 +8,6 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
     Real avg_hub_size;
     BallTree balltree;
     Index leaf_count, iter, num_hubs;
-    IndexVector hub_map;
     HubVector hubs;
 
     tree.clear();
@@ -26,7 +25,6 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
     iter = 1;
     leaf_count = 0;
-    hub_map.resize(size, -1);
 
     do
     {
@@ -70,7 +68,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         for (Hub& split_hub : split_hubs)
         {
-            split_hub.add_hub_vertex(balltree, hub_map);
+            split_hub.add_hub_vertex(balltree);
         }
 
         for (Hub& split_hub : split_hubs)
