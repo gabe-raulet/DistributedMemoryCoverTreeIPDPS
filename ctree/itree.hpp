@@ -54,10 +54,10 @@ void InsertTree<Item_, Index_>::get_json_repr(json& json_repr, Itemizer itemizer
         json& vertex_repr = vertex_reprs.back();
 
         vertex_repr["vertex"] = v;
-        vertex_repr["item"] = itemizer(vertices[v]);
         vertex_repr["level"] = levels[v];
         vertex_repr["parent"] = parents[v];
         vertex_repr["children"] = children[v];
+        itemizer(vertex_repr, vertices[v]);
     }
 
     json_repr["vertices"] = vertex_reprs;

@@ -28,6 +28,10 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
     iter = 1;
     leaf_count = 0;
 
+    IndexVector pt2hub(size, 0);
+    IndexVector hub2vtx(size, -1);
+    std::vector<bool> is_leaf(size, false);
+
     do
     {
         t = -omp_get_wtime();
@@ -70,12 +74,24 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         for (Hub& split_hub : split_hubs)
         {
-            split_hub.add_hub_vertex(balltree);
+            hub2vtx[split_hub.repr()] = split_hub.add_hub_vertex(balltree);
+
+            for (const auto& hub_point : split_hub.get_hub_points())
+                pt2hub[hub_point.id] = split_hub.repr();
         }
 
         for (Hub& split_hub : split_hubs)
         {
-            leaf_count += split_hub.add_hub_leaves(balltree, next_hubs);
+            Index num_leaves = split_hub.add_hub_leaves(balltree, next_hubs);
+            leaf_count += num_leaves;
+
+            for (Index leaf : split_hub.get_leaves())
+                is_leaf[leaf] = true;
+
+            /* if (num_leaves > 0) */
+            /* { */
+                /* hub2vtx[split_hub.repr()] = -1; */
+            /* } */
         }
 
         std::swap(hubs, next_hubs);
@@ -109,19 +125,22 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
 #ifdef LOG
 
-    auto itemizer = [] (const PointBall& ptball) -> json
+    auto itemizer = [&] (json& vertex_repr, const PointBall& ptball)// -> json
     {
-        json item;
-        item["point"] = ptball.id;
-        item["radius"] = ptball.radius;
-        return item;
+        vertex_repr["point"] = ptball.id;
+        vertex_repr["radius"] = ptball.radius;
+        vertex_repr["is_leaf"] = vertex_repr["children"].empty() && is_leaf[ptball.id];
+        vertex_repr["hub"] = pt2hub[ptball.id];
     };
 
-    json tree_repr;
-    tree.get_json_repr(tree_repr, itemizer);
-    std::ofstream os("tree_repr.json");
-    os << std::setw(4) << tree_repr << std::endl;
-    os.close();
+    if (!has_globids())
+    {
+        json tree_repr;
+        tree.get_json_repr(tree_repr, itemizer);
+        std::ofstream os("tree_repr.json");
+        os << std::setw(4) << tree_repr << std::endl;
+        os.close();
+    }
 
 #endif
 
