@@ -33,12 +33,13 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
     std::vector<bool> is_leaf(size, false);
 
 #ifdef LOG
-    auto itemizer = [&] (json& vertex_repr, const Ball& ball)
+    auto itemizer = [&] (json& vertex_repr, const Ball& ball, const BallTree& balltree)
     {
         vertex_repr["point"] = ball.id;
         vertex_repr["radius"] = ball.radius;
         vertex_repr["is_leaf"] = vertex_repr["children"].empty() && is_leaf[ball.id];
         vertex_repr["hub"] = pt2hub[ball.id];
+        vertex_repr["nested"] = balltree.vertices[vertex_repr["parent"]].id == ball.id;
     };
 
     std::vector<json> iterations;
@@ -144,6 +145,8 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
         std::cout << std::flush;
     }
 
+#ifdef LOG
+
     if (!has_globids())
     {
         json tree_repr;
@@ -152,6 +155,8 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
         os << std::setw(4) << tree_repr << std::endl;
         os.close();
     }
+
+#endif
 
     if (leaf_count < size) // need ghost trees
     {
