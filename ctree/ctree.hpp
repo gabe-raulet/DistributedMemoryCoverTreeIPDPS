@@ -107,9 +107,70 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
         std::cout << std::flush;
     }
 
+    using IndexMap = std::unordered_map<Index, Index>;
+
     if (leaf_count < size) // need ghost trees
     {
+        IndexMap hub_slots;
 
+        t = -omp_get_wtime();
+
+        for (const Hub& hub : hubs)
+        {
+            hub_slots[hub.repr()] = hub_slots.size();
+
+            Index relroot = -1;
+            PointVector hub_points;
+            IndexVector hub_point_ids;
+            hub_point_ids.reserve(hub.size());
+
+            for (const auto& hub_point : hub.get_hub_points())
+            {
+                if (hub_point.id == hub.repr())
+                {
+                    relroot = hub_point_ids.size();
+                }
+
+                hub_point_ids.push_back(hub_point.id);
+                hub_points.push_back(points[hub_point.id]);
+            }
+
+            assert((relroot >= 0 && relroot < hub.size()));
+
+            if (relroot != 0)
+            {
+                std::swap(hub_point_ids.front(), hub_point_ids[relroot]);
+                std::swap(hub_points.front(), hub_points[relroot]);
+            }
+
+            ghost_trees.emplace_back(hub_points, hub_point_ids);
+        }
+
+        t += omp_get_wtime();
+        elapsed += t;
+
+        if (verbose)
+        {
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] setup {} ghost trees\n", __func__, elapsed, t, ghost_trees.size());
+            std::cout << std::flush;
+        }
+
+        t = -omp_get_wtime();
+
+        #pragma omp parallel for
+        for (Index i = 0; i < ghost_trees.size(); ++i)
+        {
+            ghost_trees[i].build(0.0, split_ratio, 100.0, min_hub_size, true, false, false);
+        }
+
+        t += omp_get_wtime();
+        elapsed += t;
+
+        if (verbose)
+        {
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] built {} ghost trees\n", __func__, elapsed, t, ghost_trees.size());
+            std::cout << std::flush;
+        }
     }
 }
 
