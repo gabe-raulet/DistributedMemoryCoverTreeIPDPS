@@ -94,7 +94,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         iter++;
 
-    } while (static_cast<Real>(leaf_count) < switch_size);
+    } while (static_cast<Real>(leaf_count) < switch_size && leaf_count < size);
 
     t = -omp_get_wtime();
     fill_point_ball_tree(balltree, points);
