@@ -1,5 +1,5 @@
 template <class PointTraits_, class Distance_, index_type Index_>
-void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real split_ratio, Real switch_size, Index min_hub_size, bool level_synch, bool threaded, bool verbose)
+void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool level_synch, bool threaded, bool verbose)
 {
     using Hub = Hub<CoverTree>;
     using HubVector = typename Hub::HubVector;
@@ -9,6 +9,8 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
     BallTree balltree;
     Index leaf_count, iter, num_hubs;
     HubVector hubs;
+
+    Real switch_size = (switch_percent/100.0) * size;
 
     tree.clear();
 
@@ -92,7 +94,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         iter++;
 
-    } while (avg_hub_size > switch_size && leaf_count < size);
+    } while (static_cast<Real>(leaf_count) < switch_size);
 
     t = -omp_get_wtime();
     fill_point_ball_tree(balltree, points);
@@ -106,12 +108,6 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
         fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] added points to tree\n", __func__, elapsed, t);
         std::cout << std::flush;
     }
-
-    if (ghost_trees)
-    {
-
-    }
-
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>

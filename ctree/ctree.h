@@ -31,7 +31,7 @@ class CoverTree
 
         CoverTree(const PointVector& points) : points(points), size(points.size()) {}
 
-        void build(Real ghost_radius, Real split_ratio, Real switch_size, Index min_hub_size, bool level_synch, bool threaded, bool verbose = false);
+        void build(Real ghost_radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool level_synch, bool threaded, bool verbose = false);
         void point_query(const Point& query, Real epsilon, IndexVector& neighbors) const;
         void write_tree_file(const char *fname) const;
         bool is_correct(Real split_ratio) const;

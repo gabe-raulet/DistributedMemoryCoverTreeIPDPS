@@ -43,7 +43,7 @@ const char *tree_fname = NULL; /* output tree filename */
 
 Real radius = 0.; /* epsilon graph radius (radius <= 0 means that we don't build epsilon graph) */
 Real split_ratio = 0.5; /* split hubs distance ratio */
-Real switch_size = 0.0; /* switch to ghost hub/tree task parallelism average hub size */
+Real switch_percent = 100.0; /* switch to ghost hub/tree task parallelism when we reach this percentage of leaves */
 Index min_hub_size = 10; /* hubs below this size automatically become all leaves */
 
 bool level_synch = true; /* level synchronous construction */
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 
     t = -omp_get_wtime();
     CoverTree<PointTraits, Distance, Index> ctree(points);
-    ctree.build(radius, split_ratio, switch_size, min_hub_size, level_synch, true, verbose);
+    ctree.build(radius, split_ratio, switch_percent, min_hub_size, level_synch, true, verbose);
     t += omp_get_wtime();
 
     fmt::print("[msg::{},time={:.3f}] constructed cover tree [vertices={},levels={},avg_nesting={:.3f}]\n", __func__, t, ctree.num_vertices(), ctree.num_levels(), (ctree.num_vertices()+0.0)/size);
@@ -132,7 +132,7 @@ void parse_arguments(int argc, char *argv[])
         fprintf(stderr, "Usage: %s [options] <filename>\n", argv[0]);
         fprintf(stderr, "Options: -r FLOAT  graph radius [optional]\n");
         fprintf(stderr, "         -S FLOAT  hub split ratio [%.2f]\n", split_ratio);
-        fprintf(stderr, "         -s FLOAT  switch size [%.2f]\n", switch_size);
+        fprintf(stderr, "         -s FLOAT  switch percent [%.2f]\n", switch_percent);
         fprintf(stderr, "         -l INT    minimum hub size [%lu]\n", (size_t)min_hub_size);
         fprintf(stderr, "         -t INT    number of threads [%d]\n", nthreads);
         fprintf(stderr, "         -o FILE   output tree representation\n");
@@ -149,7 +149,7 @@ void parse_arguments(int argc, char *argv[])
     {
         if      (c == 'r') radius = atof(optarg);
         else if (c == 'S') split_ratio = atof(optarg);
-        else if (c == 's') switch_size = atof(optarg);
+        else if (c == 's') switch_percent = atof(optarg);
         else if (c == 'l') min_hub_size = atoi(optarg);
         else if (c == 't') nthreads = atoi(optarg);
         else if (c == 'o') tree_fname = optarg;
@@ -178,7 +178,7 @@ void parse_arguments(int argc, char *argv[])
     for (int i = 0; i < argc-1; ++i) ss << argv[i] << " "; ss << argv[argc-1];
     fmt::print("[msg::{}] cmd: {} [omp_num_threads={},commit={},when='{}']\n", __func__, ss.str(), nthreads, GIT_COMMIT, return_current_date_and_time());
     fmt::print("[msg::{}] point parameters: [file='{}',dim={},fp={}]\n", __func__, fname, DIM_SIZE, sizeof(Real)<<3);
-    fmt::print("[msg::{}] ctree parameters: [split_ratio={:.2f},switch_size={:.2f},min_hub_size={},level_synch={},verify_tree={},verbose={}]\n", __func__, split_ratio, switch_size, min_hub_size, level_synch, verify_tree, verbose);
+    fmt::print("[msg::{}] ctree parameters: [split_ratio={:.2f},switch_percent={:.2f},min_hub_size={},level_synch={},verify_tree={},verbose={}]\n", __func__, split_ratio, switch_percent, min_hub_size, level_synch, verify_tree, verbose);
     if (build_graph) fmt::print("[msg::{}] graph parameters: [radius={:.3f},verify_graph={}]\n", __func__, radius, verify_graph);
 }
 
