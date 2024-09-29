@@ -109,6 +109,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
         {
             hub2vtx[hub.repr()] = hub.add_hub_vertex(tree);
             hub_slots[hub.repr()] = hub_slots.size();
+            ghost_trees.emplace_back();
         }
 
         t += omp_get_wtime();
@@ -122,34 +123,18 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         t = -omp_get_wtime();
 
-        /* for (const Hub& hub : hubs) */
-        /* { */
-            /* Index relroot = -1; */
-            /* PointVector hub_points; */
-            /* IndexVector hub_point_ids; */
-            /* hub_point_ids.reserve(hub.size()); */
+        for (Index i = 0; i < size; ++i)
+        {
+            if (pt2hub[i] < 0) continue;
 
-            /* for (const auto& hub_point : hub.get_hub_points()) */
-            /* { */
-                /* if (hub_point.id == hub.repr()) */
-                /* { */
-                    /* relroot = hub_point_ids.size(); */
-                /* } */
+            IndexVector hub_ids;
+            hub_query(points[i], ghost_radius, hub2vtx, hub_ids);
 
-                /* hub_point_ids.push_back(hub_point.id); */
-                /* hub_points.push_back(points[hub_point.id]); */
-            /* } */
-
-            /* assert((relroot >= 0 && relroot < hub.size())); */
-
-            /* if (relroot != 0) */
-            /* { */
-                /* std::swap(hub_point_ids.front(), hub_point_ids[relroot]); */
-                /* std::swap(hub_points.front(), hub_points[relroot]); */
-            /* } */
-
-            /* ghost_trees.emplace_back(hub_points, hub_point_ids); */
-        /* } */
+            for (Index hub_id : hub_ids)
+            {
+                ghost_trees[hub_slots.at(hub_id)].add_point(points[i], i);
+            }
+        }
 
         t += omp_get_wtime();
         elapsed += t;
@@ -162,9 +147,10 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         t = -omp_get_wtime();
 
-        #pragma omp parallel for
+        #pragma omp parallel for schedule(dynamic)
         for (Index i = 0; i < ghost_trees.size(); ++i)
         {
+            ghost_trees[i].set_new_root(hubs[i].repr());
             ghost_trees[i].build(0.0, split_ratio, 100.0, min_hub_size, true, false, false);
         }
 

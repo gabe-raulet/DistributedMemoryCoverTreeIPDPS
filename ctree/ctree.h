@@ -67,10 +67,31 @@ class CoverTree
         CoverTreeVector ghost_trees;
 
         bool has_ghost_trees() const { return !ghost_trees.empty(); }
-        bool has_globids() const { return globids.size() == size; }
-        void add_point(Point pt, Index globid) { points.push_back(pt); globids.push_back(globid); }
-
+        bool has_globids() const { return !globids.empty(); }
         void hub_query(const Point& query, Real ghost_radius, const IndexVector& hub2vtx, IndexVector& hub_ids) const;
+
+        void add_point(Point pt, Index globid)
+        {
+            points.push_back(pt);
+            globids.push_back(globid);
+            size++;
+        }
+
+        void set_new_root(Index root)
+        {
+            if (has_globids())
+            {
+                Index where = std::find(globids.begin(), globids.end(), root) - globids.begin();
+
+                if (where != 0)
+                {
+                    std::swap(globids[0], globids[where]);
+                    std::swap(points[0], points[where]);
+                }
+            }
+            else if (root != 0) std::swap(points[0], points[root]);
+        }
+
 
 };
 
