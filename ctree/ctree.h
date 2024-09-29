@@ -67,6 +67,8 @@ class CoverTree
 
         bool has_ghost_trees() const { return !ghost_trees.empty(); }
         bool has_globids() const { return globids.size() == size; }
+
+        void hub_query(const Point& query, Real ghost_radius, const IndexVector& hub2vtx, IndexVector& hub_ids) const;
 };
 
 #include "ctree.hpp"

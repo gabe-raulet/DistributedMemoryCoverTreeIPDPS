@@ -26,6 +26,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
     iter = 1;
     leaf_count = 0;
+    IndexVector pt2hub(size, 0);
 
     do
     {
@@ -74,8 +75,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         for (Hub& split_hub : split_hubs)
         {
-            Index num_leaves = split_hub.add_hub_leaves(tree, next_hubs);
-            leaf_count += num_leaves;
+            leaf_count += split_hub.add_hub_leaves(tree, next_hubs, pt2hub);
         }
 
         std::swap(hubs, next_hubs);
@@ -101,39 +101,55 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
         assert((!has_globids()));
 
         IndexMap hub_slots;
+        IndexVector hub2vtx(size, -1);
 
         t = -omp_get_wtime();
 
-        for (const Hub& hub : hubs)
+        for (Hub& hub : hubs)
         {
+            hub2vtx[hub.repr()] = hub.add_hub_vertex(tree);
             hub_slots[hub.repr()] = hub_slots.size();
-
-            Index relroot = -1;
-            PointVector hub_points;
-            IndexVector hub_point_ids;
-            hub_point_ids.reserve(hub.size());
-
-            for (const auto& hub_point : hub.get_hub_points())
-            {
-                if (hub_point.id == hub.repr())
-                {
-                    relroot = hub_point_ids.size();
-                }
-
-                hub_point_ids.push_back(hub_point.id);
-                hub_points.push_back(points[hub_point.id]);
-            }
-
-            assert((relroot >= 0 && relroot < hub.size()));
-
-            if (relroot != 0)
-            {
-                std::swap(hub_point_ids.front(), hub_point_ids[relroot]);
-                std::swap(hub_points.front(), hub_points[relroot]);
-            }
-
-            ghost_trees.emplace_back(hub_points, hub_point_ids);
         }
+
+        t += omp_get_wtime();
+        elapsed += t;
+
+        if (verbose)
+        {
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] added {} remaining hub vertices to replication tree\n", __func__, elapsed, t, hubs.size());
+            std::cout << std::flush;
+        }
+
+        t = -omp_get_wtime();
+
+        /* for (const Hub& hub : hubs) */
+        /* { */
+            /* Index relroot = -1; */
+            /* PointVector hub_points; */
+            /* IndexVector hub_point_ids; */
+            /* hub_point_ids.reserve(hub.size()); */
+
+            /* for (const auto& hub_point : hub.get_hub_points()) */
+            /* { */
+                /* if (hub_point.id == hub.repr()) */
+                /* { */
+                    /* relroot = hub_point_ids.size(); */
+                /* } */
+
+                /* hub_point_ids.push_back(hub_point.id); */
+                /* hub_points.push_back(points[hub_point.id]); */
+            /* } */
+
+            /* assert((relroot >= 0 && relroot < hub.size())); */
+
+            /* if (relroot != 0) */
+            /* { */
+                /* std::swap(hub_point_ids.front(), hub_point_ids[relroot]); */
+                /* std::swap(hub_points.front(), hub_points[relroot]); */
+            /* } */
+
+            /* ghost_trees.emplace_back(hub_points, hub_point_ids); */
+        /* } */
 
         t += omp_get_wtime();
         elapsed += t;
@@ -238,6 +254,34 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
         //}
 
         //neighbors.assign(all_neighbors.begin(), all_neighbors.end());
+    }
+}
+
+template <class PointTraits_, class Distance_, index_type Index_>
+void CoverTree<PointTraits_, Distance_, Index_>::hub_query(const Point& query, Real ghost_radius, const IndexVector& hub2vtx, IndexVector& hub_ids) const
+{
+    IndexVector stack = {0};
+
+    while (!stack.empty())
+    {
+        Index u = stack.back(); stack.pop_back();
+        const auto& [uid, uradius] = tree[u];
+
+        IndexVector children;
+        tree.get_children(u, children);
+
+        if (u == hub2vtx[uid] && distance(query, points[uid]) <= uradius + ghost_radius)
+        {
+            hub_ids.push_back(uid);
+        }
+
+        for (Index v : children)
+        {
+            const auto& [vid, vradius] = tree[v];
+
+            if (distance(query, points[vid]) <= vradius + ghost_radius)
+                stack.push_back(v);
+        }
     }
 }
 
