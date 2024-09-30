@@ -96,6 +96,8 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
     } while (static_cast<Real>(leaf_count) < switch_size && leaf_count < size);
 
+    tree.fill_child_vals();
+
     if (leaf_count < size) // need ghost trees
     {
         assert((!has_globids()));
