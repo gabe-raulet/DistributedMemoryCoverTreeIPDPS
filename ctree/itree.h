@@ -23,8 +23,8 @@ struct InsertTree
     Index add_vertex(Item item, Index parent);
 
     Index get_children(Index parent, IndexVector& ids) const;
-    Index num_children(Index parent) const { return child_displs[parent+1]-child_displs[parent]; }
-    bool is_leaf(Index id) const { return num_children(id)==0; }
+    Index num_children(Index parent) const { return children[parent].size(); }
+    bool is_leaf(Index id) const { return children[id].empty(); }
 
     Item operator[](Index id) const { return vertices[id]; }
     Item& operator[](Index id) { return vertices[id]; }
@@ -53,32 +53,8 @@ struct InsertTree
     ItemVector vertices;
     IndexVector levels;
     IndexVector parents;
-    IndexVector child_displs;
-    IndexVector child_counts;
-    IndexVector child_vals;
+    IndexVectorVector children;
     Index nlevels;
-
-    void fill_child_vals()
-    {
-        Index n = num_vertices();
-        child_displs.resize(n+1, 0);
-
-        for (Index i = 1; i <= n; ++i)
-        {
-            child_displs[i] = child_displs[i-1] + child_counts[i-1];
-        }
-
-        IndexVector child_ptrs = child_displs;
-
-        child_vals.resize(child_displs.back());
-
-        for (Index i = 1; i < n; ++i)
-        {
-            Index parent = parents[i];
-            Index loc = child_ptrs[parent]++;
-            child_vals[loc] = i;
-        }
-    }
 };
 
 #include "itree.hpp"

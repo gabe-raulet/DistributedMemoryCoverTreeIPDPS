@@ -7,12 +7,12 @@ InsertTree<Item_, Index_>::add_vertex(Item item, Index parent)
 
     vertices.push_back(item);
     parents.push_back(parent);
-    child_counts.push_back(0);
+    children.emplace_back();
 
     if (parent >= 0)
     {
         level = levels[parent] + 1;
-        child_counts[parent]++;
+        children[parent].push_back(vertex);
     }
     else level = 0;
 
@@ -26,20 +26,17 @@ template <class Item_, index_type Index_>
 typename InsertTree<Item_, Index_>::Index
 InsertTree<Item_, Index_>::get_children(Index parent, IndexVector& ids) const
 {
-    auto first = child_vals.begin() + child_displs[parent];
-    auto last = first + child_counts[parent];
-    ids.assign(first, last);
+    ids = children[parent];
     return ids.size();
 }
 
 template <class Item_, index_type Index_>
 void InsertTree<Item_, Index_>::clear()
 {
+    parents.clear();
     vertices.clear();
     levels.clear();
-    child_displs.clear();
-    child_counts.clear();
-    child_vals.clear();
+    children.clear();
     nlevels = 0;
 }
 
@@ -60,7 +57,7 @@ void InsertTree<Item_, Index_>::get_json_repr(json& json_repr, Itemizer itemizer
         vertex_repr["vertex"] = v;
         vertex_repr["level"] = levels[v];
         vertex_repr["parent"] = parents[v];
-        /* vertex_repr["children"] = children[v]; */
+        vertex_repr["children"] = children[v];
         itemizer(vertex_repr, vertices[v], *this);
     }
 
