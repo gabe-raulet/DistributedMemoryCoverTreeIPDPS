@@ -276,3 +276,27 @@ void DistHub<DistCoverTree>::synchronize_split_hubs(DistHubVector& split_hubs, I
         split_hubs[slot].leaves.push_back(leaf);
     }
 }
+
+template <class DistCoverTree>
+typename DistHub<DistCoverTree>::Index
+DistHub<DistCoverTree>::update_tree(BallTree& tree, DistHubVector& next_hubs, std::vector<bool>& leaf_flags)
+{
+    assert((BaseHub::active));
+    BaseHub::add_hub_vertex(tree);
+    BaseHub::active = false;
+
+    for (Index i = 0; BaseHub& new_hub : BaseHub::new_hubs)
+    {
+        new_hub.hub_parent = BaseHub::hub_vertex; // TODO: see if this is necessary
+        next_hubs.emplace_back(new_hub, BaseHub::hub_vertex, new_hub_sizes[i], myoffset);
+        i++;
+    }
+
+    for (Index leaf : BaseHub::leaves)
+    {
+        tree.add_vertex({leaf, 0.}, BaseHub::hub_vertex);
+        leaf_flags[leaf] = true;
+    }
+
+    return BaseHub::leaves.size();
+}
