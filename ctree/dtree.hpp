@@ -152,6 +152,40 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
     DistHub::free_mpi_argmax_op();
 }
 
+template <class PointTraits_, class Distance_, index_type Index_>
+void DistCoverTree<PointTraits_, Distance_, Index_>::hub_query(const Point& query, Real ghost_radius, IndexVector& hub_ids) const
+{
+    IndexVector stack = {0};
+
+    while (!stack.empty())
+    {
+        Index u = stack.back(); stack.pop_back();
+        const auto& [upt, uid, uradius] = reptree[u];
+
+        IndexVector children;
+        reptree.get_children(u, children);
+
+        auto it = ghost_map.find(uid);
+
+        if (it != ghost_map.end())
+        {
+            const auto& [_, vtx] = it->second;
+
+            if (u == vtx && distance(query, upt) <= uradius + ghost_radius)
+                hub_ids.push_back(uid);
+        }
+
+
+        for (Index v : children)
+        {
+            const auto& [vpt, vid, vradius] = reptree[v];
+
+            if (distance(query, vpt) <= vradius + ghost_radius)
+                stack.push_back(v);
+        }
+    }
+}
+
 
 template <class PointTraits_, class Distance_, index_type Index_>
 typename DistCoverTree<PointTraits_, Distance_, Index_>::Index

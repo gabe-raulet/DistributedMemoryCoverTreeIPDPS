@@ -73,6 +73,7 @@ class DistCoverTree
 
         void collect_point_map(const IndexVector& globids, PointMap& point_map) const;
         Index build_replication_tree(const BallTree& repballtree);
+        void hub_query(const Point& query, Real ghost_radius, IndexVector& hub_ids) const;
 };
 
 #include "dtree.hpp"
