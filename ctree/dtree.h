@@ -33,6 +33,7 @@ class DistCoverTree
 
         using BallTree = CoverTree::BallTree;
         using PointBallTree = CoverTree::PointBallTree;
+        using IndexSet = CoverTree::IndexSet;
 
         using Comm = MPIEnv::Comm;
         using CoverTreeVector = std::vector<CoverTree>;
@@ -54,6 +55,7 @@ class DistCoverTree
         Comm comm;
         Index mysize, myoffset, totsize;
         PointVector mypoints;
+        BallTree reptree;
 };
 
 #include "dtree.hpp"

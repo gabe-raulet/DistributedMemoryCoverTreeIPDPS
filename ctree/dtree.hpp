@@ -34,10 +34,12 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
     using DistHubVector = typename DistHub::DistHubVector;
 
     auto timer = comm.get_timer();
-    double elapsed;
+    double elapsed,  t;
     Real avg_hub_size;
     Index leaf_count, iter, num_hubs;
     DistHubVector hubs;
+
+    Real switch_size = (switch_percent/100.0) * totsize;
 
     timer.start_timer();
 
@@ -49,13 +51,19 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
     hubs.emplace_back(mypoints, root_pt, *this);
 
     timer.stop_timer();
+    t = elapsed = timer.get_max_time();
 
     if (verbose && !comm.rank())
     {
-        fmt::print("[msg::{},time={:.3f}] initialized root hub [farthest_point={},root_hub_radius={:.3f}]\n", __func__, timer.get_max_time(), hubs.back().cand(), hubs.back().radius());
+        fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] initialized root hub [farthest_point={},root_hub_radius={:.3f}]\n", __func__, elapsed, t, hubs.back().cand(), hubs.back().radius());
         std::cout << std::flush;
     }
 
+    iter = 1;
+    leaf_count = 0;
+    IndexSet leaf_pts;
+
+    do
     {
         timer.start_timer();
 
@@ -82,13 +90,29 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
         DistHub::synchronize_split_hubs(split_hubs, min_hub_size, comm);
 
-        /* for (DistHub& split_hub : split_hubs)                                   */
-        /* {                                                                       */
-        /*     leaf_count += split_hub.update_tree(balltree, next_hubs, mypoints); */
-        /* }                                                                       */
+        for (DistHub& split_hub : split_hubs)
+        {
+            leaf_count += split_hub.update_tree(reptree, next_hubs, leaf_pts);
+        }
+
+        std::swap(hubs, next_hubs);
 
         timer.stop_timer();
-    }
+        t = timer.get_max_time();
+        elapsed += t;
+
+        avg_hub_size = (totsize - leaf_count + 0.0) / hubs.size();
+
+        if (verbose && !comm.rank())
+        {
+            double leaf_percent = (100.0*leaf_count)/totsize;
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] {:.2f} percent leaves reached [iter={},levels={},vertices={},hubs={},avg_hub_size={:.3f}]\n", __func__, elapsed, t, leaf_percent, iter, reptree.num_levels(), reptree.num_vertices(), hubs.size(), avg_hub_size);
+            std::cout << std::flush;
+        }
+
+        iter++;
+
+    } while (static_cast<Real>(leaf_count) < switch_size && leaf_count < totsize);
 
     DistHub::free_mpi_argmax_op();
 }

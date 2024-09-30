@@ -23,6 +23,7 @@ class Hub
         using PointVector = typename CoverTree::PointVector;
         using BallTree = typename CoverTree::BallTree;
         using PointBallTree = typename CoverTree::PointBallTree;
+        using IndexSet = typename CoverTree::IndexSet;
 
         using BallVector = std::vector<Ball>;
         using PointBallVector = std::vector<PointBall>;
@@ -112,6 +113,7 @@ class DistHub : public Hub<DistCoverTree>
         using typename BaseHub::HubVector;
         using typename BaseHub::BallVector;
         using typename BaseHub::PointBallVector;
+        using typename BaseHub::IndexSet;
 
         using DistHubVector = std::vector<DistHub>;
         using Comm = MPIEnv::Comm;
@@ -119,7 +121,7 @@ class DistHub : public Hub<DistCoverTree>
         inline static MPI_Op MPI_ARGMAX;
 
         DistHub(const PointVector& mypoints, Point repr_pt, const DistCoverTree& dtree);
-        /* DistHub(const BaseHub& hub, Index hub_parent, Index hub_size, Index myoffset); */
+        DistHub(const BaseHub& hub, Index hub_parent, Index hub_size, Index myoffset);
 
         static void mpi_argmax(void *_in, void *_inout, int *len, MPI_Datatype *dtype);
 
@@ -132,7 +134,7 @@ class DistHub : public Hub<DistCoverTree>
         static void synchronize_hubs(DistHubVector& hubs, const Comm& comm);
         static void synchronize_split_hubs(DistHubVector& split_hubs, Index min_hub_size, const Comm& comm);
 
-        Index update_tree(BallTree& tree, DistHubVector& next_hubs, std::vector<bool>& leaf_flags);
+        Index update_tree(BallTree& tree, DistHubVector& next_hubs, IndexSet& leaf_pts);
 
     private:
 

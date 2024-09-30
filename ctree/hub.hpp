@@ -194,6 +194,15 @@ DistHub<DistCoverTree>::DistHub(const PointVector& mypoints, Point repr_pt, cons
 }
 
 template <class DistCoverTree>
+DistHub<DistCoverTree>::DistHub(const BaseHub& hub, Index hub_parent, Index hub_size, Index myoffset) : BaseHub(hub)
+{
+    my_hub_size = hub.size();
+    BaseHub::hub_size = hub_size;
+    BaseHub::hub_parent = hub_parent;
+    this->myoffset = myoffset;
+}
+
+template <class DistCoverTree>
 void DistHub<DistCoverTree>::synchronize_hubs(DistHubVector& hubs, const Comm& comm)
 {
     PointBallVector cand_balls(hubs.size());
@@ -279,7 +288,7 @@ void DistHub<DistCoverTree>::synchronize_split_hubs(DistHubVector& split_hubs, I
 
 template <class DistCoverTree>
 typename DistHub<DistCoverTree>::Index
-DistHub<DistCoverTree>::update_tree(BallTree& tree, DistHubVector& next_hubs, std::vector<bool>& leaf_flags)
+DistHub<DistCoverTree>::update_tree(BallTree& tree, DistHubVector& next_hubs, IndexSet& leaf_pts)
 {
     assert((BaseHub::active));
     BaseHub::add_hub_vertex(tree);
@@ -287,7 +296,7 @@ DistHub<DistCoverTree>::update_tree(BallTree& tree, DistHubVector& next_hubs, st
 
     for (Index i = 0; BaseHub& new_hub : BaseHub::new_hubs)
     {
-        new_hub.hub_parent = BaseHub::hub_vertex; // TODO: see if this is necessary
+        //new_hub.hub_parent = BaseHub::hub_vertex; // TODO: see if this is necessary
         next_hubs.emplace_back(new_hub, BaseHub::hub_vertex, new_hub_sizes[i], myoffset);
         i++;
     }
@@ -295,7 +304,7 @@ DistHub<DistCoverTree>::update_tree(BallTree& tree, DistHubVector& next_hubs, st
     for (Index leaf : BaseHub::leaves)
     {
         tree.add_vertex({leaf, 0.}, BaseHub::hub_vertex);
-        leaf_flags[leaf] = true;
+        leaf_pts.insert(leaf);
     }
 
     return BaseHub::leaves.size();
