@@ -131,18 +131,10 @@ void Hub<CoverTree>::find_leaves(Index min_hub_size)
 
 template <class CoverTree>
 typename Hub<CoverTree>::Index
-Hub<CoverTree>::add_hub_vertex(BallTree& tree)
+Hub<CoverTree>::update_tree(BallTree& tree, HubVector& next_hubs, IndexVector& pt_hub_map)
 {
     assert((active));
-    hub_vertex = tree.add_vertex({repr(), radius()}, parent());
-    return hub_vertex;
-}
-
-template <class CoverTree>
-typename Hub<CoverTree>::Index
-Hub<CoverTree>::add_hub_leaves(BallTree& tree, HubVector& next_hubs, IndexVector& pt_hub_map)
-{
-    assert((active));
+    add_hub_vertex(tree);
     active = false;
 
     for (Hub& new_hub : new_hubs)
@@ -161,4 +153,13 @@ Hub<CoverTree>::add_hub_leaves(BallTree& tree, HubVector& next_hubs, IndexVector
     }
 
     return leaves.size();
+}
+
+template <class CoverTree>
+typename Hub<CoverTree>::Index
+Hub<CoverTree>::add_hub_vertex(BallTree& tree)
+{
+    assert((active));
+    hub_vertex = tree.add_vertex({repr(), radius()}, parent());
+    return hub_vertex;
 }
