@@ -38,12 +38,14 @@ class DistCoverTree
         using CoverTreeVector = std::vector<CoverTree>;
 
         DistCoverTree(const Comm& comm) : comm(comm), mysize(0), myoffset(0), totsize(0) {}
+        DistCoverTree(const PointVector& points, int root, const Comm& comm);
         DistCoverTree(const PointVector& mypoints, const Comm& comm);
 
         Index getmysize() const { return mysize; }
         Index getmyoffset() const { return myoffset; }
         Index gettotsize() const { return totsize; }
         Comm getcomm() const { return comm; }
+        const Point* my_point_data() const { return mypoints.data(); }
 
     private:
 
