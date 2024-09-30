@@ -34,7 +34,7 @@ main_mpi: src/main_mpi.cpp misc ptraits ctree version.h
 	$(MPI_COMPILER) -o $@ $(FLAGS) $(INCS) -I./ctree $<
 
 main: src/main.cpp misc ptraits ctree version.h
-	$(COMPILER) -o $@ $(FLAGS) $(INCS) -I./ctree $<
+	$(MPI_COMPILER) -o $@ $(FLAGS) $(INCS) -I./ctree $<
 
 ptgen: src/ptgen.cpp misc ptraits version.h
 	$(COMPILER) -o $@ $(FLAGS) $(INCS) $<

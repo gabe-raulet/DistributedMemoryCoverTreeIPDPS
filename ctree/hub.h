@@ -1,6 +1,7 @@
 #ifndef HUB_H_
 #define HUB_H_
 
+#include "mpienv.h"
 #include "fmt/core.h"
 #include "fmt/ranges.h"
 #include <assert.h>
@@ -85,6 +86,52 @@ class Hub
 
         virtual Index localsize() const { return hub_size; }
         virtual Index localoffset() const { return 0; }
+};
+
+template <class DistCoverTree>
+class DistHub : public Hub<DistCoverTree>
+{
+    public:
+
+        using BaseHub = Hub<DistCoverTree>;
+
+        using typename BaseHub::PointTraits;
+        using typename BaseHub::Distance;
+        using typename BaseHub::Index;
+        using typename BaseHub::Real;
+        using typename BaseHub::Point;
+        using typename BaseHub::Ball;
+        using typename BaseHub::PointBall;
+        using typename BaseHub::RealVector;
+        using typename BaseHub::IndexVector;
+        using typename BaseHub::PointVector;
+        using typename BaseHub::BallTree;
+        using typename BaseHub::PointBallTree;
+        using typename BaseHub::HubPoint;
+        using typename BaseHub::HubPointVector;
+        using typename BaseHub::HubVector;
+        using typename BaseHub::BallVector;
+        using typename BaseHub::PointBallVector;
+
+        using DistHubVector = std::vector<DistHub>;
+        using Comm = MPIEnv::Comm;
+
+        inline static MPI_Op MPI_ARGMAX;
+
+        DistHub(const PointVector& mypoints, Point repr_pt, const DistCoverTree& dtree);
+        /* DistHub(const BaseHub& hub, Index hub_parent, Index hub_size, Index myoffset); */
+
+        static void mpi_argmax(void *_in, void *_inout, int *len, MPI_Datatype *dtype);
+
+        static void init_mpi_argmax_op() { MPI_Op_create(&mpi_argmax, 1, &MPI_ARGMAX); }
+        static void free_mpi_argmax_op() { MPI_Op_free(&MPI_ARGMAX); }
+
+    private:
+
+        Index my_hub_size;
+        Index myoffset;
+        IndexVector new_hub_sizes; // global sizes of child hubs
+
 };
 
 #include "hub.hpp"

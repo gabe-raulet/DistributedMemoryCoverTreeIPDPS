@@ -163,3 +163,36 @@ Hub<CoverTree>::add_hub_vertex(BallTree& tree)
     hub_vertex = tree.add_vertex({repr(), radius()}, parent());
     return hub_vertex;
 }
+
+
+template <class DistCoverTree>
+void DistHub<DistCoverTree>::mpi_argmax(void *_in, void *_inout, int *len, MPI_Datatype *dtype)
+{
+    PointBall *in = (PointBall *)_in;
+    PointBall *inout = (PointBall *)_inout;
+
+    for (int i = 0; i < *len; ++i)
+        if (in[i].radius > inout[i].radius)
+            inout[i] = in[i];
+}
+
+template <class DistCoverTree>
+DistHub<DistCoverTree>::DistHub(const PointVector& mypoints, Point repr_pt, const DistCoverTree& dtree) : BaseHub(mypoints, dtree.getmyoffset(), repr_pt)
+{
+    auto comm = dtree.getcomm();
+
+    assert((mypoints.size() == BaseHub::size() && mypoints.size() == dtree.getmysize()));
+
+    this->myoffset = dtree.getmyoffset();
+    this->my_hub_size = mypoints.size();
+
+    BaseHub::hub_size = dtree.num_points();
+
+    PointBall cand_ball = BaseHub::get_cand_ball();
+
+    comm.allreduce(cand_ball, MPI_ARGMAX);
+
+    BaseHub::candidate_point = cand_ball.pt;
+    BaseHub::candidate = cand_ball.id;
+    BaseHub::hub_radius = BaseHub::hub_sep = cand_ball.radius;
+}
