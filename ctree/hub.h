@@ -126,6 +126,14 @@ class DistHub : public Hub<DistCoverTree>
         static void init_mpi_argmax_op() { MPI_Op_create(&mpi_argmax, 1, &MPI_ARGMAX); }
         static void free_mpi_argmax_op() { MPI_Op_free(&MPI_ARGMAX); }
 
+        virtual Index localsize() const override { return my_hub_size; }
+        virtual Index localoffset() const override { return myoffset; }
+
+        static void synchronize_hubs(DistHubVector& hubs, const Comm& comm);
+        static void synchronize_split_hubs(DistHubVector& split_hubs, Index min_hub_size, const Comm& comm);
+
+        Index update_tree(BallTree& tree, DistHubVector& next_hubs, std::vector<bool>& leaf_flags);
+
     private:
 
         Index my_hub_size;

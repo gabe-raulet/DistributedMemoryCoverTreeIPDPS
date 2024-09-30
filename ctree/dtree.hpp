@@ -52,8 +52,20 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
     if (verbose && !comm.rank())
     {
-        fmt::print("[time={:.3f},msg::{}] initialized root hub [farthest_point={},root_hub_radius={:.3f}]\n", timer.get_max_time(), __func__, hubs.back().cand(), hubs.back().radius());
+        fmt::print("[msg::{},time={:.3f}] initialized root hub [farthest_point={},root_hub_radius={:.3f}]\n", __func__, timer.get_max_time(), hubs.back().cand(), hubs.back().radius());
         std::cout << std::flush;
+    }
+
+    {
+        timer.start_timer();
+
+        DistHubVector split_hubs, next_hubs;
+        num_hubs = hubs.size();
+
+        for (Index i = 0; i < num_hubs; ++i)
+            hubs[i].add_new_leader(mypoints);
+
+        timer.stop_timer();
     }
 
     DistHub::free_mpi_argmax_op();
