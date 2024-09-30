@@ -40,6 +40,7 @@ class DistCoverTree
 
         using IndexPair = std::pair<Index, Index>;
         using IndexPairMap = std::unordered_map<Index, IndexPair>;
+        using IndexVectorVector = std::vector<IndexVector>;
 
         DistCoverTree(const Comm& comm) : comm(comm), mysize(0), myoffset(0), totsize(0) {}
         DistCoverTree(const PointVector& points, int root, const Comm& comm);
