@@ -100,15 +100,11 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
     {
         assert((!has_globids()));
 
-        IndexMap hub_slots;
-        IndexVector hub2vtx(size, -1);
-
         t = -omp_get_wtime();
 
         for (Hub& hub : hubs)
         {
-            hub2vtx[hub.repr()] = hub.add_hub_vertex(tree);
-            hub_slots[hub.repr()] = hub_slots.size();
+            ghost_map[hub.repr()] = {ghost_map.size(), hub.add_hub_vertex(tree)};
             ghost_trees.emplace_back();
         }
 
@@ -124,7 +120,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
         t = -omp_get_wtime();
 
 
-        #pragma omp parallel
+        #pragma omp parallel if (threaded)
         {
             IndexVectorVector my_ghost_hub_points(hubs.size());
 
@@ -134,11 +130,11 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
                 if (pt2hub[i] < 0) continue;
 
                 IndexVector hub_ids;
-                hub_query(points[i], ghost_radius, hub2vtx, hub_ids);
+                hub_query(points[i], ghost_radius, hub_ids);
 
                 for (Index hub_id : hub_ids)
                 {
-                    my_ghost_hub_points[hub_slots.at(hub_id)].push_back(i);
+                    my_ghost_hub_points[ghost_map.at(hub_id).first].push_back(i);
                 }
             }
 
@@ -159,7 +155,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
             /* if (pt2hub[i] < 0) continue; */
 
             /* IndexVector hub_ids; */
-            /* hub_query(points[i], ghost_radius, hub2vtx, hub_ids); */
+            /* hub_query(points[i], ghost_radius, hub_ids); */
 
             /* for (Index hub_id : hub_ids) */
             /* { */
@@ -178,7 +174,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         t = -omp_get_wtime();
 
-        #pragma omp parallel for schedule(dynamic)
+        #pragma omp parallel for if (threaded) schedule(dynamic)
         for (Index i = 0; i < ghost_trees.size(); ++i)
         {
             ghost_trees[i].set_new_root(hubs[i].repr());
@@ -275,7 +271,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
-void CoverTree<PointTraits_, Distance_, Index_>::hub_query(const Point& query, Real ghost_radius, const IndexVector& hub2vtx, IndexVector& hub_ids) const
+void CoverTree<PointTraits_, Distance_, Index_>::hub_query(const Point& query, Real ghost_radius, IndexVector& hub_ids) const
 {
     IndexVector stack = {0};
 
@@ -287,10 +283,16 @@ void CoverTree<PointTraits_, Distance_, Index_>::hub_query(const Point& query, R
         IndexVector children;
         tree.get_children(u, children);
 
-        if (u == hub2vtx[uid] && distance(query, points[uid]) <= uradius + ghost_radius)
+        auto it = ghost_map.find(uid);
+
+        if (it != ghost_map.end())
         {
-            hub_ids.push_back(uid);
+            const auto& [_, vtx] = it->second;
+
+            if (u == vtx && distance(query, points[uid]) <= uradius + ghost_radius)
+                hub_ids.push_back(uid);
         }
+
 
         for (Index v : children)
         {
