@@ -64,7 +64,7 @@ class CoverTree
 
         PointVector points;
         IndexVector globids;
-        BallTree tree;
+        PointBallTree tree;
 
         bool has_globids() const { return !globids.empty(); }
 

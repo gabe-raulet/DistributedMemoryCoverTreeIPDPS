@@ -39,27 +39,3 @@ void InsertTree<Item_, Index_>::clear()
     children.clear();
     nlevels = 0;
 }
-
-template <class Item_, index_type Index_>
-template <class Itemizer>
-void InsertTree<Item_, Index_>::get_json_repr(json& json_repr, Itemizer itemizer) const
-{
-    json_repr["num_vertices"] = num_vertices();
-    json_repr["num_levels"] = num_levels();
-
-    std::vector<json> vertex_reprs;
-
-    for (Index v = 0; v < num_vertices(); ++v)
-    {
-        vertex_reprs.emplace_back();
-        json& vertex_repr = vertex_reprs.back();
-
-        vertex_repr["vertex"] = v;
-        vertex_repr["level"] = levels[v];
-        vertex_repr["parent"] = parents[v];
-        vertex_repr["children"] = children[v];
-        itemizer(vertex_repr, vertices[v], *this);
-    }
-
-    json_repr["vertices"] = vertex_reprs;
-}

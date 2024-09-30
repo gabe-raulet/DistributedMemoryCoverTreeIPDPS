@@ -11,7 +11,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index m
     Index leaf_count, iter, num_hubs;
     HubVector hubs;
 
-    tree.clear();
+    BallTree balltree;
 
     t = -omp_get_wtime();
     hubs.emplace_back(points);
@@ -70,7 +70,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index m
 
         for (Hub& split_hub : split_hubs)
         {
-            leaf_count += split_hub.update_tree(tree, next_hubs, leaf_flags);
+            leaf_count += split_hub.update_tree(balltree, next_hubs, leaf_flags);
         }
 
         std::swap(hubs, next_hubs);
@@ -83,13 +83,28 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index m
         if (verbose)
         {
             double leaf_percent = (100.0*leaf_count)/size;
-            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] {:.2f} percent leaves reached [iter={},levels={},vertices={},hubs={},avg_hub_size={:.3f}]\n", __func__, elapsed, t, leaf_percent, iter, tree.num_levels(), tree.num_vertices(), hubs.size(), avg_hub_size);
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] {:.2f} percent leaves reached [iter={},levels={},vertices={},hubs={},avg_hub_size={:.3f}]\n", __func__, elapsed, t, leaf_percent, iter, balltree.num_levels(), balltree.num_vertices(), hubs.size(), avg_hub_size);
             std::cout << std::flush;
         }
 
         iter++;
 
     } while (leaf_count < size);
+
+    t = -omp_get_wtime();
+
+    auto itemizer = [&](const Ball& ball) -> PointBall { return {points[ball.id], ball.id, ball.radius}; };
+
+    balltree.itemize_new_tree(tree, itemizer);
+
+    t += omp_get_wtime();
+    elapsed += t;
+
+    if (verbose)
+    {
+        fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] added points to tree\n", __func__, elapsed, t);
+        std::cout << std::flush;
+    }
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
@@ -108,20 +123,20 @@ bool CoverTree<PointTraits_, Distance_, Index_>::is_correct(Real split_ratio) co
         IndexVector children;
         tree.get_children(u, children);
 
-        const auto& [uid, urad] = tree[u];
+        const auto& [upt, uid, urad] = tree[u];
 
         if (!ptflags[uid]) ptflags[uid] = true, found++;
 
         for (Index v : children)
         {
-            const auto& [vid, vrad] = tree[v];
+            const auto& [vpt, vid, vrad] = tree[v];
 
             /*
              * Child point must be within the ball of the parent
              * or we fail the covering condition
              */
 
-            if (distance(points[uid], points[vid]) > urad)
+            if (distance(upt, vpt) > urad)
             {
                 fmt::print(stderr, "[err::{}] failed covering condition!\n", __func__);
                 return false;
@@ -137,14 +152,14 @@ bool CoverTree<PointTraits_, Distance_, Index_>::is_correct(Real split_ratio) co
                 if (p1 == p2 || tree.is_leaf(p1) || tree.is_leaf(p2))
                     continue;
 
-                const auto& [id1, rad1] = tree[p1];
-                const auto& [id2, rad2] = tree[p2];
+                const auto& [pt1, id1, rad1] = tree[p1];
+                const auto& [pt2, id2, rad2] = tree[p2];
 
                 /*
                  * Sibling points must be separated by a constant
                  * ratio (split_ratio) of their parent's ball radius
                  */
-                if (distance(points[id1], points[id2]) <= urad*split_ratio)
+                if (distance(pt1, pt2) <= urad*split_ratio)
                 {
                     fmt::print(stderr, "[err::{}] failed sibling separation condition!\n", __func__);
                     return false;
@@ -164,9 +179,9 @@ bool CoverTree<PointTraits_, Distance_, Index_>::is_correct(Real split_ratio) co
 template <class PointTraits_, class Distance_, index_type Index_>
 void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query, Real epsilon, IndexVector& neighbors) const
 {
-    const auto& [root_id, root_radius] = tree[0];
+    const auto& [root_pt, root_id, root_radius] = tree[0];
 
-    if (distance(query, points[root_id]) > root_radius + epsilon)
+    if (distance(query, root_pt) > root_radius + epsilon)
         return;
 
     IndexVector stack = {0};
@@ -174,12 +189,12 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
     while (!stack.empty())
     {
         Index u = stack.back(); stack.pop_back();
-        const auto& [uid, uradius] = tree[u];
+        const auto& [upt, uid, uradius] = tree[u];
 
         IndexVector children;
         tree.get_children(u, children);
 
-        if (children.empty() && distance(query, points[uid]) <= epsilon)
+        if (children.empty() && distance(query, upt) <= epsilon)
         {
             neighbors.push_back(uid);
         }
@@ -187,9 +202,9 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
         {
             for (Index v : children)
             {
-                const auto& [vid, vradius] = tree[v];
+                const auto& [vpt, vid, vradius] = tree[v];
 
-                if (distance(query, points[vid]) <= vradius + epsilon)
+                if (distance(query, vpt) <= vradius + epsilon)
                     stack.push_back(v);
             }
         }

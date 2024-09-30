@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <omp.h>
 #include "json.hpp"
 
 using json = nlohmann::json;
@@ -37,17 +38,28 @@ struct InsertTree
     using ItemVector = std::vector<Item>;
     using IndexVectorVector = std::vector<IndexVector>;
 
-    template <class Itemizer>
-    void get_json_repr(json& json_repr, Itemizer itemizer) const;
-
-    template <class Itemizer>
-    std::string get_json_repr(Itemizer itemizer) const
+    template <class Itemizer, class NewItem>
+    void itemize_new_tree(InsertTree<NewItem, Index>& new_tree, Itemizer itemizer)
     {
-        json json_repr;
-        get_json_repr(json_repr, itemizer);
-        std::stringstream ss;
-        ss << std::setw(4) << json_repr << std::endl;
-        return ss.str();
+        new_tree.clear();
+        new_tree.levels = levels;
+        new_tree.parents = parents;
+        new_tree.children = children;
+        new_tree.nlevels = nlevels;
+
+        Index n = num_vertices();
+        new_tree.vertices.resize(n);
+
+        #pragma omp parallel for
+        for (Index i = 0; i < n; ++i)
+        {
+            new_tree.vertices[i] = itemizer(vertices[i]);
+        }
+
+        /* for (const Item& item : vertices) */
+        /* { */
+            /* new_tree.vertices.push_back(itemizer(item)); */
+        /* } */
     }
 
     ItemVector vertices;
