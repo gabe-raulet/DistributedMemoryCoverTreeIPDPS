@@ -223,6 +223,11 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
             ghost_trees[repr].add_point(pt, id);
         }
 
+        for (auto& [repr, ghost_tree] : ghost_trees)
+        {
+            ghost_tree.set_new_root(repr);
+        }
+
         timer.stop_timer();
         t = timer.get_max_time();
         elapsed += t;
@@ -231,6 +236,28 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
         {
             fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] constructed local ghost hubs via alltoall\n", __func__, elapsed, t);
             std::cout << std::flush;
+        }
+
+        timer.start_timer();
+
+        for (auto& [_, ghost_tree] : ghost_trees)
+        {
+            ghost_tree.build(split_ratio, min_hub_size, false, false);
+        }
+
+        if (verbose)
+        {
+            fmt::print("[msg::{}] rank {} finished building its {} ghost trees\n", __func__, comm.rank(), ghost_trees.size());
+            std::cout << std::flush;
+        }
+
+        timer.stop_timer();
+        t = timer.get_max_time();
+        elapsed += t;
+
+        if (verbose && !comm.rank())
+        {
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] completed ghost tree construction\n", __func__, elapsed, t);
         }
     }
 
