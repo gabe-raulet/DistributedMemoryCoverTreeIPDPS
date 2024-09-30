@@ -26,3 +26,9 @@ DistCoverTree<PointTraits_, Distance_, Index_>::DistCoverTree(const PointVector&
     totsize = myoffset + mysize;
     comm.bcast(totsize, comm.size()-1);
 }
+
+template <class PointTraits_, class Distance_, index_type Index_>
+void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool verbose)
+{
+
+}

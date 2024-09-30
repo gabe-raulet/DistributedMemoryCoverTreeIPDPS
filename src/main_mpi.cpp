@@ -99,6 +99,12 @@ int main_mpi(int argc, char *argv[])
 
     if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] initialized distributed cover tree\n", __func__, timer.get_max_time());
 
+    timer.start_timer();
+    dtree.build(radius, split_ratio, switch_percent, min_hub_size, verbose);
+    timer.stop_timer();
+
+    if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed distributed cover tree\n", __func__, timer.get_max_time());
+
     return 0;
 }
 

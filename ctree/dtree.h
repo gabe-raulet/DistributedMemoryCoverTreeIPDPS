@@ -47,6 +47,8 @@ class DistCoverTree
         Comm getcomm() const { return comm; }
         const Point* my_point_data() const { return mypoints.data(); }
 
+        void build(Real ghost_radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool verbose = false);
+
     private:
 
         Comm comm;
