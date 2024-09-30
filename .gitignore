@@ -1,6 +1,7 @@
 *.dSYM
 *.swp
 version.h
+main_mpi
 main
 ptgen
 points
