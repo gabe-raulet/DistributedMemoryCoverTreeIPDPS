@@ -150,19 +150,6 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
             }
         }
 
-        /* for (Index i = 0; i < size; ++i) */
-        /* { */
-            /* if (pt2hub[i] < 0) continue; */
-
-            /* IndexVector hub_ids; */
-            /* hub_query(points[i], ghost_radius, hub_ids); */
-
-            /* for (Index hub_id : hub_ids) */
-            /* { */
-                /* ghost_trees[hub_slots.at(hub_id)].add_point(points[i], i); */
-            /* } */
-        /* } */
-
         t += omp_get_wtime();
         elapsed += t;
 
@@ -195,6 +182,33 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 template <class PointTraits_, class Distance_, index_type Index_>
 void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query, Real epsilon, IndexVector& neighbors) const
 {
+    if (!has_ghost_trees()) reptree_point_query(query, epsilon, neighbors);
+    else ghost_point_query(query, epsilon, neighbors);
+}
+
+template <class PointTraits_, class Distance_, index_type Index_>
+void CoverTree<PointTraits_, Distance_, Index_>::ghost_point_query(const Point& query, Real epsilon, IndexVector& neighbors) const
+{
+    IndexVector hub_ids, es;
+
+    hub_query(query, epsilon, hub_ids);
+    reptree_point_query(query, epsilon, es);
+
+    for (Index hub_id : hub_ids)
+    {
+        Index tree_slot = ghost_map.at(hub_id).first;
+        ghost_trees[tree_slot].reptree_point_query(query, epsilon, es);
+    }
+
+    IndexSet allids(es.begin(), es.end());
+    neighbors.assign(allids.begin(), allids.end());
+}
+
+template <class PointTraits_, class Distance_, index_type Index_>
+void CoverTree<PointTraits_, Distance_, Index_>::reptree_point_query(const Point& query, Real epsilon, IndexVector& neighbors) const
+{
+    Index prev_size = neighbors.size();
+
     /*
      * Finds all points in tree that are in the `epsilon`-ball
      * centered at the query point.
@@ -250,24 +264,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
         }
     }
 
-    if (has_globids())
-    {
-        std::for_each(neighbors.begin(), neighbors.end(), [&](Index& id) { id = globids[id]; });
-    }
-    else if (has_ghost_trees()) // this and has_globids() should be mutually exclusive
-    {
-        //IndexVector ghost_neighbors;
-        //IndexSet all_neighbors(neighbors.begin(), neighbors.end());
-
-        //for (const auto& ghost_tree : ghost_trees)
-        //{
-        //    ghost_neighbors.clear();
-        //    ghost_tree.point_query(query, epsilon, ghost_neighbors);
-        //    all_neighbors.insert(ghost_neighbors.begin(), ghost_neighbors.end());
-        //}
-
-        //neighbors.assign(all_neighbors.begin(), all_neighbors.end());
-    }
+    if (has_globids()) std::for_each(neighbors.begin() + prev_size, neighbors.end(), [&](Index& id) { id = globids[id]; });
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
