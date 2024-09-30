@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include "misc.h"
 #include "timer.h"
-/* #include "dtree.h" */
+#include "dtree.h"
 #include "vptraits.h"
 #include "metrics.h"
 #include "mpienv.h"
@@ -91,16 +91,13 @@ int main_mpi(int argc, char *argv[])
 
     timer.stop_timer();
 
-    if (!comm.rank()) fmt::print("[time={:.3f},msg::{}] read {} points from file '{}'\n", timer.get_max_time(), __func__, totsize, fname);
+    if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] read {} points from file '{}'\n", __func__, timer.get_max_time(), totsize, fname);
 
-    //timer.start_timer();
+    timer.start_timer();
+    DistCoverTree<PointTraits, Distance, Index> dtree(mypoints, comm);
+    timer.stop_timer();
 
-    //DistCoverTree<PointTraits, Distance, Index> dtree(comm);
-    //dtree.build(mypoints, split_ratio, switch_percent, min_hub_size, verbose);
-
-    //timer.stop_timer();
-
-    //if (!comm.rank()) fmt::print("[time={:.3f},msg::{}] built cover tree [num_vertices={},num_levels={},avg_nesting={:.3f}]\n", timer.get_max_time(), __func__, dtree.num_vertices(), dtree.num_levels(), (dtree.num_vertices()+0.0)/totsize);
+    if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] initialized distributed cover tree\n", __func__, timer.get_max_time());
 
     return 0;
 }

@@ -1,0 +1,57 @@
+#ifndef DIST_COVER_TREE_H_
+#define DIST_COVER_TREE_H_
+
+#include "hub.h"
+#include "ctree.h"
+#include "itree.h"
+#include "fmt/core.h"
+#include "fmt/ranges.h"
+#include "mpienv.h"
+#include <assert.h>
+#include <unordered_map>
+
+template <class PointTraits_, class Distance_, index_type Index_>
+class DistCoverTree
+{
+    public:
+
+        using CoverTree = CoverTree<PointTraits_, Distance_, Index_>;
+
+        using PointTraits = CoverTree::PointTraits;
+        using Distance = CoverTree::Distance;
+        using Index = CoverTree::Index;
+
+        using Real = CoverTree::Real;
+        using Point = CoverTree::Point;
+
+        using RealVector = CoverTree::RealVector;
+        using IndexVector = CoverTree::IndexVector;
+        using PointVector = CoverTree::PointVector;
+
+        using Ball = CoverTree::Ball;
+        using PointBall = CoverTree::PointBall;
+
+        using BallTree = CoverTree::BallTree;
+        using PointBallTree = CoverTree::PointBallTree;
+
+        using Comm = MPIEnv::Comm;
+        using CoverTreeVector = std::vector<CoverTree>;
+
+        DistCoverTree(const Comm& comm) : comm(comm), mysize(0), myoffset(0), totsize(0) {}
+        DistCoverTree(const PointVector& mypoints, const Comm& comm);
+
+        Index getmysize() const { return mysize; }
+        Index getmyoffset() const { return myoffset; }
+        Index gettotsize() const { return totsize; }
+        Comm getcomm() const { return comm; }
+
+    private:
+
+        Comm comm;
+        Index mysize, myoffset, totsize;
+        PointVector mypoints;
+};
+
+#include "dtree.hpp"
+
+#endif
