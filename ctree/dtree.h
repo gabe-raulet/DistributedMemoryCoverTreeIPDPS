@@ -41,6 +41,7 @@ class DistCoverTree
 
         using Comm = MPIEnv::Comm;
         using CoverTreeVector = std::vector<CoverTree>;
+        using CoverTreeMap = std::unordered_map<Index, CoverTree>;
 
         using IndexPair = std::pair<Index, Index>;
         using IndexPairMap = std::unordered_map<Index, IndexPair>;
@@ -72,8 +73,8 @@ class DistCoverTree
         PointVector mypoints;
         PointBallTree reptree;
 
-        IndexPairMap ghost_map; /* maps hub representative to (slot, vertex) */
-        CoverTreeVector ghost_trees;
+        IndexPairMap ghost_map; /* maps hub representative to (global slot, vertex) */
+        CoverTreeMap ghost_trees;
 
         void collect_point_map(const IndexVector& globids, PointMap& point_map) const;
         Index build_replication_tree(const BallTree& repballtree);

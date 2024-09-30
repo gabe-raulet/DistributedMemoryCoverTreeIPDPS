@@ -179,30 +179,59 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
             std::cout << std::flush;
         }
 
-        /*
-         * NEED TO MAP HUBS TO PROCESSORS. EVERY PROCESSOR NEEDS THE SAME MAP.
-         */
+        timer.start_timer();
 
         IndexVector offsets(comm.size());
         offsets[comm.rank()] = myoffset;
         comm.allgather(offsets);
 
-        IndexMap hub_to_proc_map;
+        IndexMap hub_to_proc_map; /* (global) maps hub representatives to their processor owners */
 
+         // go through each hub
         for (const auto& hub : hubs)
         {
             Index repr = hub.repr();
             Index where = (std::upper_bound(offsets.begin(), offsets.end(), repr) - offsets.begin()) - 1;
-            hub_to_proc_map.insert({repr, where});
+            hub_to_proc_map.insert({repr, where}); // map the hub to its destination processor
+
+            if (myoffset <= repr && repr < myoffset + mysize)
+                ghost_trees.try_emplace(repr); // initialize local hub ghost tree
         }
 
-        /* for (Index i = 0; i < hubs.size(); ++i) */
-        /* { */
-            /* for (Index id : my_ghost_hub_points[i]) */
-            /* { */
-                /* ghost_trees[i].add_point(points[id], id); */
-            /* } */
-        /* } */
+        using PointTriple = std::tuple<Index, Index, Point>; /* point id, hub repr, point */
+        using PointTripleVector = std::vector<PointTriple>;
+
+        std::vector<PointTripleVector> sendbufs(comm.size());
+        PointTripleVector recvbuf;
+
+        // go through each hub
+        for (Index slot = 0; slot < hubs.size(); ++slot)
+        {
+            // go through each local hub point that belongs to the augmented ghost hub
+            for (Index id : my_ghost_hub_points[slot])
+            {
+                // determine where that hub is supposed to belong
+                int where = hub_to_proc_map.at(hubs[slot].repr());
+                sendbufs[where].emplace_back(id, hubs[slot].repr(), mypoints[id-myoffset]); // send point to its destination
+            }
+        }
+
+        comm.alltoallv(sendbufs, recvbuf);
+
+        for (const auto& [id, repr, pt] : recvbuf)
+        {
+            ghost_trees[repr].add_point(pt, id);
+        }
+
+        timer.stop_timer();
+        t = timer.get_max_time();
+        elapsed += t;
+
+        if (verbose && !comm.rank())
+        {
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] constructed local ghost hubs via alltoall\n", __func__, elapsed, t);
+            std::cout << std::flush;
+        }
     }
 
     DistHub::free_mpi_argmax_op();

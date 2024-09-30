@@ -214,6 +214,29 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
+void CoverTree<PointTraits_, Distance_, Index_>::add_point(Point pt, Index globid)
+{
+    points.push_back(pt);
+    globids.push_back(globid);
+}
+
+template <class PointTraits_, class Distance_, index_type Index_>
+void CoverTree<PointTraits_, Distance_, Index_>::set_new_root(Index root)
+{
+    if (has_globids())
+    {
+        Index where = std::find(globids.begin(), globids.end(), root) - globids.begin();
+
+        if (where != 0)
+        {
+            std::swap(globids[0], globids[where]);
+            std::swap(points[0], points[where]);
+        }
+    }
+    else if (root != 0) std::swap(points[0], points[root]);
+}
+
+template <class PointTraits_, class Distance_, index_type Index_>
 void GhostTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool level_synch, bool threaded, bool verbose)
 {
     using Hub = Hub<GhostTree>;

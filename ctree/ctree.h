@@ -60,6 +60,9 @@ class CoverTree
 
         static inline constexpr Distance distance = Distance();
 
+        void add_point(Point pt, Index globid);
+        void set_new_root(Index root);
+
     private:
 
         PointVector points;
@@ -67,27 +70,6 @@ class CoverTree
         PointBallTree tree;
 
         bool has_globids() const { return !globids.empty(); }
-
-        void add_point(Point pt, Index globid)
-        {
-            points.push_back(pt);
-            globids.push_back(globid);
-        }
-
-        void set_new_root(Index root)
-        {
-            if (has_globids())
-            {
-                Index where = std::find(globids.begin(), globids.end(), root) - globids.begin();
-
-                if (where != 0)
-                {
-                    std::swap(globids[0], globids[where]);
-                    std::swap(points[0], points[where]);
-                }
-            }
-            else if (root != 0) std::swap(points[0], points[root]);
-        }
 };
 
 template <class PointTraits_, class Distance_, index_type Index_>
@@ -172,8 +154,6 @@ class GhostTree
             }
             else if (root != 0) std::swap(points[0], points[root]);
         }
-
-
 };
 
 #include "ctree.hpp"
