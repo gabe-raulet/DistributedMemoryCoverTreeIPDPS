@@ -140,7 +140,7 @@ Hub<CoverTree>::add_hub_vertex(BallTree& tree)
 
 template <class CoverTree>
 typename Hub<CoverTree>::Index
-Hub<CoverTree>::add_hub_leaves(BallTree& tree, HubVector& next_hubs, IndexVector& pt2hub)
+Hub<CoverTree>::add_hub_leaves(BallTree& tree, HubVector& next_hubs, IndexVector& pt_hub_map)
 {
     assert((active));
     active = false;
@@ -151,13 +151,13 @@ Hub<CoverTree>::add_hub_leaves(BallTree& tree, HubVector& next_hubs, IndexVector
         next_hubs.push_back(new_hub);
 
         for (const auto& hub_point : new_hub.hub_points)
-            pt2hub[hub_point.id] = new_hub.repr();
+            pt_hub_map[hub_point.id] = new_hub.repr();
     }
 
     for (Index leaf : leaves)
     {
         tree.add_vertex({leaf, 0.}, hub_vertex);
-        pt2hub[leaf] = -1;
+        pt_hub_map[leaf] = -1;
     }
 
     return leaves.size();
