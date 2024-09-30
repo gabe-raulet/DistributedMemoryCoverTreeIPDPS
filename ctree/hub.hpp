@@ -184,9 +184,8 @@ DistHub<DistCoverTree>::DistHub(const PointVector& mypoints, Point repr_pt, cons
     assert((mypoints.size() == BaseHub::size() && mypoints.size() == dtree.getmysize()));
 
     this->myoffset = dtree.getmyoffset();
-    this->my_hub_size = mypoints.size();
-
-    BaseHub::hub_size = dtree.num_points();
+    this->my_hub_size = dtree.getmysize();
+    BaseHub::hub_size = dtree.gettotsize();
 
     PointBall cand_ball = BaseHub::get_cand_ball();
 
