@@ -39,7 +39,6 @@ using PointVector = std::vector<Point>;
 Index size; /* total number of points */
 PointVector points; /* points */
 const char *fname = NULL; /* input points filename */
-const char *tree_fname = NULL; /* output tree filename */
 
 Real radius = 0.; /* epsilon graph radius (radius <= 0 means that we don't build epsilon graph) */
 Real split_ratio = 0.5; /* split hubs distance ratio */
@@ -72,7 +71,7 @@ int main(int argc, char *argv[])
 
 
     t = -omp_get_wtime();
-    CoverTree<PointTraits, Distance, Index> ctree(points);
+    GhostTree<PointTraits, Distance, Index> ctree(points);
     ctree.build(radius, split_ratio, switch_percent, min_hub_size, level_synch, true, verbose);
     t += omp_get_wtime();
 
@@ -123,15 +122,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (tree_fname)
-    {
-        t = -omp_get_wtime();
-        ctree.write_tree_file(tree_fname);
-        t += omp_get_wtime();
-
-        fmt::print("[msg::{},time={:.3f}] wrote tree file '{}'\n", __func__, t, tree_fname);
-    }
-
     return 0;
 }
 
@@ -145,7 +135,6 @@ void parse_arguments(int argc, char *argv[])
         fprintf(stderr, "         -s FLOAT  switch percent [%.2f]\n", switch_percent);
         fprintf(stderr, "         -l INT    minimum hub size [%lu]\n", (size_t)min_hub_size);
         fprintf(stderr, "         -t INT    number of threads [%d]\n", nthreads);
-        fprintf(stderr, "         -o FILE   output tree representation\n");
         fprintf(stderr, "         -A        asynchronous tree construction\n");
         fprintf(stderr, "         -T        verify tree correctness\n");
         fprintf(stderr, "         -G        verify graph correctness [assumes -r]\n");
@@ -156,14 +145,13 @@ void parse_arguments(int argc, char *argv[])
     };
 
     int c;
-    while ((c = getopt(argc, argv, "r:S:s:Ct:e:l:o:TAGvh")) >= 0)
+    while ((c = getopt(argc, argv, "r:S:s:Ct:e:l:TAGvh")) >= 0)
     {
         if      (c == 'r') radius = atof(optarg);
         else if (c == 'S') split_ratio = atof(optarg);
         else if (c == 's') switch_percent = atof(optarg);
         else if (c == 'l') min_hub_size = atoi(optarg);
         else if (c == 't') nthreads = atoi(optarg);
-        else if (c == 'o') tree_fname = optarg;
         else if (c == 'A') level_synch = false;
         else if (c == 'T') verify_tree = true;
         else if (c == 'G') verify_graph = true;

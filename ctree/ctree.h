@@ -39,9 +39,83 @@ class CoverTree
         using IndexPairMap = std::unordered_map<Index, IndexPair>;
         using IndexVectorVector = std::vector<IndexVector>;
 
-        CoverTree() : size(0) {}
-        CoverTree(const PointVector& points) : points(points), size(points.size()) {}
-        CoverTree(const PointVector& points, const IndexVector& globids) : points(points), globids(globids), size(points.size()) {}
+        CoverTree() {}
+        CoverTree(const PointVector& points) : points(points) {}
+        CoverTree(const PointVector& points, const IndexVector& globids) : points(points), globids(globids) {}
+
+        void build(Real split_ratio, Index min_hub_size, bool threaded, bool verbose = false);
+        void point_query(const Point& query, Real epsilon, IndexVector& neighbors) const;
+        bool is_correct(Real split_ratio) const;
+
+        Index num_levels() const { return tree.num_levels(); }
+        Index num_vertices() const { return tree.num_vertices(); }
+        Index num_points() const { return points.size(); }
+        const Point* point_data() const { return points.data(); }
+
+        struct Ball { Index id; Real radius; };
+        struct PointBall { Point pt; Index id; Real radius; };
+
+        using BallTree = InsertTree<Ball, Index>;
+        using PointBallTree = InsertTree<PointBall, Index>;
+
+        static inline constexpr Distance distance = Distance();
+
+    private:
+
+        PointVector points;
+        IndexVector globids;
+        BallTree tree;
+
+        bool has_globids() const { return !globids.empty(); }
+
+        void add_point(Point pt, Index globid)
+        {
+            points.push_back(pt);
+            globids.push_back(globid);
+        }
+
+        void set_new_root(Index root)
+        {
+            if (has_globids())
+            {
+                Index where = std::find(globids.begin(), globids.end(), root) - globids.begin();
+
+                if (where != 0)
+                {
+                    std::swap(globids[0], globids[where]);
+                    std::swap(points[0], points[where]);
+                }
+            }
+            else if (root != 0) std::swap(points[0], points[root]);
+        }
+};
+
+template <class PointTraits_, class Distance_, index_type Index_>
+class GhostTree
+{
+    public:
+
+        using PointTraits = PointTraits_;
+        using Distance = Distance_;
+        using Index = Index_;
+
+        using Real = typename Distance::Real;
+        using Point = typename PointTraits::Point;
+
+        using RealVector = std::vector<Real>;
+        using IndexVector = std::vector<Index>;
+        using PointVector = std::vector<Point>;
+        using GhostTreeVector = std::vector<GhostTree>;
+
+        using IndexSet = std::unordered_set<Index>;
+        using IndexMap = std::unordered_map<Index, Index>;
+        using IndexPair = std::pair<Index, Index>;
+        using IndexPairMap = std::unordered_map<Index, IndexPair>;
+        using IndexVectorVector = std::vector<IndexVector>;
+
+        GhostTree() : size(0) {}
+        GhostTree(const PointVector& points) : points(points), size(points.size()) {}
+        GhostTree(const PointVector& points, const IndexVector& globids) : points(points), globids(globids), size(points.size()) {}
 
         void build(Real ghost_radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool level_synch, bool threaded, bool verbose = false);
         void point_query(const Point& query, Real epsilon, IndexVector& neighbors) const;
@@ -69,7 +143,7 @@ class CoverTree
 
         IndexVector globids;
         IndexPairMap ghost_map; /* maps hub representative to (slot, vertex) */
-        CoverTreeVector ghost_trees;
+        GhostTreeVector ghost_trees;
 
         bool has_ghost_trees() const { return !ghost_trees.empty(); }
         bool has_globids() const { return !globids.empty(); }
