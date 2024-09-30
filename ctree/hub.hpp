@@ -192,3 +192,87 @@ DistHub<DistCoverTree>::DistHub(const PointVector& mypoints, Point repr_pt, cons
     BaseHub::candidate = cand_ball.id;
     BaseHub::hub_radius = BaseHub::hub_sep = cand_ball.radius;
 }
+
+template <class DistCoverTree>
+void DistHub<DistCoverTree>::synchronize_hubs(DistHubVector& hubs, const Comm& comm)
+{
+    PointBallVector cand_balls(hubs.size());
+    std::transform(hubs.begin(), hubs.end(), cand_balls.begin(), [](const DistHub& hub) { return hub.get_cand_ball(); });
+
+    comm.allreduce(cand_balls, MPI_ARGMAX);
+
+    for (Index i = 0; i < hubs.size(); ++i)
+    {
+        hubs[i].candidate_point = cand_balls[i].pt;
+        hubs[i].candidate = cand_balls[i].id;
+        hubs[i].hub_sep = cand_balls[i].radius;
+    }
+}
+
+template <class DistCoverTree>
+void DistHub<DistCoverTree>::synchronize_split_hubs(DistHubVector& split_hubs, Index min_hub_size, const Comm& comm)
+{
+    using IndexPair = std::pair<Index, Index>;
+    using IndexPairVector = std::vector<IndexPair>;
+
+    PointBallVector cand_balls;
+    IndexPairVector myleaves, leaves;
+    IndexVector my_new_hub_ptrs, new_hub_sizes;
+    Index num_split_hubs = split_hubs.size();
+
+    Index tot_new_hubs = 0;
+
+    for (Index i = 0; i < num_split_hubs; ++i)
+    {
+        tot_new_hubs += split_hubs[i].new_hubs.size();
+    }
+
+    new_hub_sizes.reserve(tot_new_hubs);
+    cand_balls.reserve(tot_new_hubs);
+
+    for (const DistHub& split_hub : split_hubs)
+        for (const BaseHub& new_hub : split_hub.new_hubs)
+        {
+            new_hub_sizes.push_back(new_hub.size());
+            cand_balls.push_back(new_hub.get_cand_ball());
+        }
+
+    comm.allreduce(new_hub_sizes, MPI_SUM);
+    comm.allreduce(cand_balls, MPI_ARGMAX);
+
+    Index ptr = 0;
+
+    for (Index slot = 0; slot < num_split_hubs; ++slot)
+    {
+        DistHub& split_hub = split_hubs[slot];
+
+        HubVector updated_new_hubs;
+        HubVector& new_hubs = split_hub.new_hubs;
+        assert((split_hub.new_hub_sizes.empty()));
+
+        for (Index i = 0; i < new_hubs.size(); ++i, ++ptr)
+        {
+            BaseHub& new_hub = new_hubs[i];
+
+            if (new_hub_sizes[ptr] <= min_hub_size)
+            {
+                for (const HubPoint& p : new_hub.get_hub_points())
+                    myleaves.emplace_back(p.id, slot);
+            }
+            else
+            {
+                updated_new_hubs.emplace_back(new_hub.get_hub_points(), new_hub.repr(), cand_balls[ptr].id, cand_balls[ptr].pt, new_hub.parent(), cand_balls[ptr].radius);
+                split_hub.new_hub_sizes.push_back(new_hub_sizes[ptr]);
+            }
+        }
+
+        std::swap(updated_new_hubs, split_hub.new_hubs);
+    }
+
+    comm.allgatherv(myleaves, leaves);
+
+    for (const auto& [leaf, slot] : leaves)
+    {
+        split_hubs[slot].leaves.push_back(leaf);
+    }
+}

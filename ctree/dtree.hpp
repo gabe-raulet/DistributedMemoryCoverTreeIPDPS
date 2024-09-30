@@ -65,6 +65,28 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
         for (Index i = 0; i < num_hubs; ++i)
             hubs[i].add_new_leader(mypoints);
 
+        DistHub::synchronize_hubs(hubs, comm);
+
+        for (DistHub& hub : hubs)
+        {
+            if (hub.is_split(split_ratio))
+                split_hubs.push_back(hub);
+            else
+                next_hubs.push_back(hub);
+        }
+
+        for (DistHub& hub : split_hubs)
+        {
+            hub.split_leaders(mypoints);
+        }
+
+        DistHub::synchronize_split_hubs(split_hubs, min_hub_size, comm);
+
+        /* for (DistHub& split_hub : split_hubs)                                   */
+        /* {                                                                       */
+        /*     leaf_count += split_hub.update_tree(balltree, next_hubs, mypoints); */
+        /* }                                                                       */
+
         timer.stop_timer();
     }
 
