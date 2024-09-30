@@ -26,7 +26,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
     iter = 1;
     leaf_count = 0;
-    IndexVector pt_hub_map(size, 0); /* maps point ids to their current hub's representative */
+    std::vector<bool> leaf_flags(size, false);
 
     do
     {
@@ -70,7 +70,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
 
         for (Hub& split_hub : split_hubs)
         {
-            leaf_count += split_hub.update_tree(tree, next_hubs, pt_hub_map);
+            leaf_count += split_hub.update_tree(tree, next_hubs, leaf_flags);
         }
 
         std::swap(hubs, next_hubs);
@@ -122,7 +122,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real s
             #pragma omp for nowait schedule(dynamic)
             for (Index i = 0; i < size; ++i)
             {
-                if (pt_hub_map[i] < 0) continue;
+                if (leaf_flags[i]) continue;
 
                 IndexVector hub_ids;
                 hub_query(points[i], ghost_radius, hub_ids);

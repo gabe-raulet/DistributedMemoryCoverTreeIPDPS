@@ -131,7 +131,7 @@ void Hub<CoverTree>::find_leaves(Index min_hub_size)
 
 template <class CoverTree>
 typename Hub<CoverTree>::Index
-Hub<CoverTree>::update_tree(BallTree& tree, HubVector& next_hubs, IndexVector& pt_hub_map)
+Hub<CoverTree>::update_tree(BallTree& tree, HubVector& next_hubs, std::vector<bool>& leaf_flags)
 {
     assert((active));
     add_hub_vertex(tree);
@@ -141,15 +141,12 @@ Hub<CoverTree>::update_tree(BallTree& tree, HubVector& next_hubs, IndexVector& p
     {
         new_hub.hub_parent = hub_vertex;
         next_hubs.push_back(new_hub);
-
-        for (const auto& hub_point : new_hub.hub_points)
-            pt_hub_map[hub_point.id] = new_hub.repr();
     }
 
     for (Index leaf : leaves)
     {
         tree.add_vertex({leaf, 0.}, hub_vertex);
-        pt_hub_map[leaf] = -1;
+        leaf_flags[leaf] = true;
     }
 
     return leaves.size();

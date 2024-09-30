@@ -60,7 +60,7 @@ class Hub
         void find_leaves(Index min_hub_size);
 
         Index add_hub_vertex(BallTree& tree);
-        Index update_tree(BallTree& tree, HubVector& next_hubs, IndexVector& pt_hub_map);
+        Index update_tree(BallTree& tree, HubVector& next_hubs, std::vector<bool>& leaf_flags);
 
     protected:
 
