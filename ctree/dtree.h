@@ -21,6 +21,8 @@ class DistCoverTree
         using Distance = CoverTree::Distance;
         using Index = CoverTree::Index;
 
+        static inline constexpr Distance distance = Distance();
+
         using Real = CoverTree::Real;
         using Point = CoverTree::Point;
 

@@ -147,6 +147,46 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
     if (verbose && !comm.rank())
     {
         fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] built replication tree from skeleton tree [rep_vertices={},rep_levels={},rep_points={},rep_avg_nesting={:.3f}]\n", __func__, elapsed, t, reptree.num_vertices(), reptree.num_levels(), num_rep_points, (reptree.num_vertices()+0.0)/num_rep_points);
+        std::cout << std::flush;
+    }
+
+    if (leaf_count < totsize) // need ghost trees
+    {
+        timer.start_timer();
+
+        IndexVectorVector my_ghost_hub_points(hubs.size());
+
+        for (Index i = 0; i < mysize; ++i)
+        {
+            if (leaf_pts.contains(myoffset+i))
+                continue;
+
+            IndexVector hub_ids;
+            hub_query(mypoints[i], ghost_radius, hub_ids);
+
+            for (Index hub_id : hub_ids)
+            {
+                my_ghost_hub_points[ghost_map.at(hub_id).first].push_back(myoffset+i);
+            }
+        }
+
+        timer.stop_timer();
+        t = timer.get_max_time();
+        elapsed += t;
+
+        if (verbose && !comm.rank())
+        {
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] queried point partitions against replication tree\n", __func__, elapsed, t);
+            std::cout << std::flush;
+        }
+
+        /* for (Index i = 0; i < hubs.size(); ++i) */
+        /* { */
+            /* for (Index id : my_ghost_hub_points[i]) */
+            /* { */
+                /* ghost_trees[i].add_point(points[id], id); */
+            /* } */
+        /* } */
     }
 
     DistHub::free_mpi_argmax_op();
