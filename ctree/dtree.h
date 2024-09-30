@@ -35,7 +35,9 @@ class DistCoverTree
 
         using BallTree = CoverTree::BallTree;
         using PointBallTree = CoverTree::PointBallTree;
+
         using IndexSet = CoverTree::IndexSet;
+        using IndexMap = CoverTree::IndexMap;
 
         using Comm = MPIEnv::Comm;
         using CoverTreeVector = std::vector<CoverTree>;

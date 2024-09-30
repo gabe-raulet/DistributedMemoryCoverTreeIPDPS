@@ -179,6 +179,23 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
             std::cout << std::flush;
         }
 
+        /*
+         * NEED TO MAP HUBS TO PROCESSORS. EVERY PROCESSOR NEEDS THE SAME MAP.
+         */
+
+        IndexVector offsets(comm.size());
+        offsets[comm.rank()] = myoffset;
+        comm.allgather(offsets);
+
+        IndexMap hub_to_proc_map;
+
+        for (const auto& hub : hubs)
+        {
+            Index repr = hub.repr();
+            Index where = (std::upper_bound(offsets.begin(), offsets.end(), repr) - offsets.begin()) - 1;
+            hub_to_proc_map.insert({repr, where});
+        }
+
         /* for (Index i = 0; i < hubs.size(); ++i) */
         /* { */
             /* for (Index id : my_ghost_hub_points[i]) */
