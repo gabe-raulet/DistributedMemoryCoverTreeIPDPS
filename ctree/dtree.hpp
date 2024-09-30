@@ -114,5 +114,26 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
     } while (static_cast<Real>(leaf_count) < switch_size && leaf_count < totsize);
 
+    if (leaf_count < totsize) // need ghost trees
+    {
+        timer.start_timer();
+
+        for (DistHub& hub : hubs)
+        {
+            ghost_map[hub.repr()] = {ghost_map.size(), hub.add_hub_vertex(reptree)};
+            ghost_trees.emplace_back();
+        }
+
+        timer.stop_timer();
+        t = timer.get_max_time();
+        elapsed += t;
+
+        if (verbose && !comm.rank())
+        {
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] added {} remaining hub vertices to replication tree\n", __func__, elapsed, t, hubs.size());
+            std::cout << std::flush;
+        }
+    }
+
     DistHub::free_mpi_argmax_op();
 }
