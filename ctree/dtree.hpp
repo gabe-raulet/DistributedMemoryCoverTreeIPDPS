@@ -122,7 +122,6 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
         for (DistHub& hub : hubs)
         {
             ghost_map[hub.repr()] = {ghost_map.size(), hub.add_hub_vertex(repballtree)};
-            ghost_trees.emplace_back();
         }
 
         timer.stop_timer();
