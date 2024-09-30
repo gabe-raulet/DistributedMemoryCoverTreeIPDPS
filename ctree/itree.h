@@ -39,7 +39,7 @@ struct InsertTree
     using IndexVectorVector = std::vector<IndexVector>;
 
     template <class Itemizer, class NewItem>
-    void itemize_new_tree(InsertTree<NewItem, Index>& new_tree, Itemizer itemizer)
+    void itemize_new_tree(InsertTree<NewItem, Index>& new_tree, Itemizer itemizer, bool threaded=false) const
     {
         new_tree.clear();
         new_tree.levels = levels;
@@ -50,16 +50,11 @@ struct InsertTree
         Index n = num_vertices();
         new_tree.vertices.resize(n);
 
-        #pragma omp parallel for
+        #pragma omp parallel for if (threaded)
         for (Index i = 0; i < n; ++i)
         {
             new_tree.vertices[i] = itemizer(vertices[i]);
         }
-
-        /* for (const Item& item : vertices) */
-        /* { */
-            /* new_tree.vertices.push_back(itemizer(item)); */
-        /* } */
     }
 
     ItemVector vertices;

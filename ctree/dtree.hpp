@@ -38,6 +38,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
     Real avg_hub_size;
     Index leaf_count, iter, num_hubs;
     DistHubVector hubs;
+    BallTree repballtree;
 
     Real switch_size = (switch_percent/100.0) * totsize;
 
@@ -92,7 +93,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
         for (DistHub& split_hub : split_hubs)
         {
-            leaf_count += split_hub.update_tree(reptree, next_hubs, leaf_pts);
+            leaf_count += split_hub.update_tree(repballtree, next_hubs, leaf_pts);
         }
 
         std::swap(hubs, next_hubs);
@@ -106,7 +107,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
         if (verbose && !comm.rank())
         {
             double leaf_percent = (100.0*leaf_count)/totsize;
-            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] {:.2f} percent leaves reached [iter={},levels={},vertices={},hubs={},avg_hub_size={:.3f}]\n", __func__, elapsed, t, leaf_percent, iter, reptree.num_levels(), reptree.num_vertices(), hubs.size(), avg_hub_size);
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] {:.2f} percent leaves reached [iter={},levels={},vertices={},hubs={},avg_hub_size={:.3f}]\n", __func__, elapsed, t, leaf_percent, iter, repballtree.num_levels(), repballtree.num_vertices(), hubs.size(), avg_hub_size);
             std::cout << std::flush;
         }
 
@@ -120,7 +121,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
         for (DistHub& hub : hubs)
         {
-            ghost_map[hub.repr()] = {ghost_map.size(), hub.add_hub_vertex(reptree)};
+            ghost_map[hub.repr()] = {ghost_map.size(), hub.add_hub_vertex(repballtree)};
             ghost_trees.emplace_back();
         }
 
@@ -130,33 +131,48 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
         if (verbose && !comm.rank())
         {
-            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] added {} remaining hub vertices to replication tree\n", __func__, elapsed, t, hubs.size());
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] added {} remaining hub vertices to skeleton tree\n", __func__, elapsed, t, hubs.size());
             std::cout << std::flush;
-        }
-
-        PointMap rep_point_map;
-        IndexSet rep_globids_set;
-
-        timer.start_timer();
-
-        for (Index i = 0; i < reptree.num_vertices(); ++i)
-            rep_globids_set.insert(reptree[i].id);
-
-        IndexVector rep_globids(rep_globids_set.begin(), rep_globids_set.end());
-
-        collect_point_map(rep_globids, rep_point_map);
-
-        timer.stop_timer();
-        t = timer.get_max_time();
-        elapsed += t;
-
-        if (verbose && !comm.rank())
-        {
-            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] collected {} replication points on all processors\n", __func__, elapsed, t, rep_point_map.size());
         }
     }
 
+    timer.start_timer();
+
+    Index num_rep_points = build_replication_tree(repballtree);
+
+    timer.stop_timer();
+    t = timer.get_max_time();
+    elapsed += t;
+
+    if (verbose && !comm.rank())
+    {
+        fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] built replication tree from skeleton tree [rep_vertices={},rep_levels={},rep_points={},rep_avg_nesting={:.3f}]\n", __func__, elapsed, t, reptree.num_vertices(), reptree.num_levels(), num_rep_points, (reptree.num_vertices()+0.0)/num_rep_points);
+    }
+
     DistHub::free_mpi_argmax_op();
+}
+
+
+template <class PointTraits_, class Distance_, index_type Index_>
+typename DistCoverTree<PointTraits_, Distance_, Index_>::Index
+DistCoverTree<PointTraits_, Distance_, Index_>::build_replication_tree(const BallTree& repballtree)
+{
+    PointMap rep_point_map;
+    IndexSet rep_globids_set;
+
+    for (Index i = 0; i < repballtree.num_vertices(); ++i)
+        rep_globids_set.insert(repballtree[i].id);
+
+    IndexVector rep_globids(rep_globids_set.begin(), rep_globids_set.end());
+    Index num_rep_points = rep_globids.size();
+
+    collect_point_map(rep_globids, rep_point_map);
+
+    auto itemizer = [&](const Ball& ball) -> PointBall { return {rep_point_map.at(ball.id), ball.id, ball.radius}; };
+
+    repballtree.itemize_new_tree(reptree, itemizer);
+
+    return num_rep_points;
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
@@ -175,4 +191,4 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::collect_point_map(const Ind
 
         for (const auto& [globid, pt] : point_pairs)
             point_map.insert({globid, pt});
-    }
+}

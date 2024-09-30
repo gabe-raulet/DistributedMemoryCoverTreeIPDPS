@@ -66,12 +66,13 @@ class DistCoverTree
         Comm comm;
         Index mysize, myoffset, totsize;
         PointVector mypoints;
-        BallTree reptree;
+        PointBallTree reptree;
 
         IndexPairMap ghost_map; /* maps hub representative to (slot, vertex) */
         CoverTreeVector ghost_trees;
 
         void collect_point_map(const IndexVector& globids, PointMap& point_map) const;
+        Index build_replication_tree(const BallTree& repballtree);
 };
 
 #include "dtree.hpp"
