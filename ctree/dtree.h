@@ -66,6 +66,8 @@ class DistCoverTree
         Index num_rep_levels() const { return reptree.num_levels(); }
         Index num_rep_vertices() const { return reptree.num_vertices(); }
 
+        Index build_epsilon_graph(Real radius, IndexVectorVector& myneighbors) const;
+
     private:
 
         Comm comm;
@@ -73,8 +75,9 @@ class DistCoverTree
         PointVector mypoints;
         PointBallTree reptree;
 
-        IndexPairMap ghost_map; /* maps hub representative to (global slot, vertex) */
-        CoverTreeMap ghost_trees;
+        CoverTreeMap ghost_trees; /* (local) maps hub representative to local ghost tree (only stores hub reprs that are local) */
+        IndexPairMap ghost_map; /* (global) maps hub representative to (global slot, vertex) */
+        IndexMap hub_to_proc_map; /* (global) maps hub representatives to their processor owners */
 
         void collect_point_map(const IndexVector& globids, PointMap& point_map) const;
         Index build_replication_tree(const BallTree& repballtree);

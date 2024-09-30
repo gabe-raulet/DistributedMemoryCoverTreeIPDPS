@@ -185,7 +185,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
         offsets[comm.rank()] = myoffset;
         comm.allgather(offsets);
 
-        IndexMap hub_to_proc_map; /* (global) maps hub representatives to their processor owners */
+        hub_to_proc_map.clear();
 
          // go through each hub
         for (const auto& hub : hubs)
@@ -337,4 +337,15 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::collect_point_map(const Ind
 
         for (const auto& [globid, pt] : point_pairs)
             point_map.insert({globid, pt});
+}
+
+template <class PointTraits_, class Distance_, index_type Index_>
+typename DistCoverTree<PointTraits_, Distance_, Index_>::Index
+DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius, IndexVectorVector& myneighbors) const
+{
+    myneighbors.resize(mysize, {});
+
+    /*
+     * Step 1:
+     */
 }
