@@ -133,7 +133,46 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
             fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] added {} remaining hub vertices to replication tree\n", __func__, elapsed, t, hubs.size());
             std::cout << std::flush;
         }
+
+        PointMap rep_point_map;
+        IndexSet rep_globids_set;
+
+        timer.start_timer();
+
+        for (Index i = 0; i < reptree.num_vertices(); ++i)
+            rep_globids_set.insert(reptree[i].id);
+
+        IndexVector rep_globids(rep_globids_set.begin(), rep_globids_set.end());
+
+        collect_point_map(rep_globids, rep_point_map);
+
+        timer.stop_timer();
+        t = timer.get_max_time();
+        elapsed += t;
+
+        if (verbose && !comm.rank())
+        {
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] collected {} replication points on all processors\n", __func__, elapsed, t, rep_point_map.size());
+        }
     }
 
     DistHub::free_mpi_argmax_op();
 }
+
+template <class PointTraits_, class Distance_, index_type Index_>
+void DistCoverTree<PointTraits_, Distance_, Index_>::collect_point_map(const IndexVector& globids, PointMap& point_map) const
+{
+        PointPairVector my_point_pairs, point_pairs;
+
+        for (Index globid : globids)
+            if (myoffset <= globid && globid < myoffset + mysize)
+                my_point_pairs.emplace_back(globid, mypoints[globid-myoffset]);
+
+        comm.allgatherv(my_point_pairs, point_pairs);
+
+        point_map.clear();
+        point_map.reserve(point_pairs.size());
+
+        for (const auto& [globid, pt] : point_pairs)
+            point_map.insert({globid, pt});
+    }
