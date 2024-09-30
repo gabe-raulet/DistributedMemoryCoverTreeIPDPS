@@ -50,6 +50,9 @@ class DistCoverTree
 
         void build(Real ghost_radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool verbose = false);
 
+        Index num_rep_levels() const { return reptree.num_levels(); }
+        Index num_rep_vertices() const { return reptree.num_vertices(); }
+
     private:
 
         Comm comm;
