@@ -15,33 +15,33 @@ class DistCoverTree
 {
     public:
 
-        using CoverTree = CoverTree<PointTraits_, Distance_, Index_>;
+        using GhostTree = CoverTree<PointTraits_, Distance_, Index_>;
 
-        using PointTraits = CoverTree::PointTraits;
-        using Distance = CoverTree::Distance;
-        using Index = CoverTree::Index;
+        using PointTraits = GhostTree::PointTraits;
+        using Distance = GhostTree::Distance;
+        using Index = GhostTree::Index;
 
         static inline constexpr Distance distance = Distance();
 
-        using Real = CoverTree::Real;
-        using Point = CoverTree::Point;
+        using Real = GhostTree::Real;
+        using Point = GhostTree::Point;
 
-        using RealVector = CoverTree::RealVector;
-        using IndexVector = CoverTree::IndexVector;
-        using PointVector = CoverTree::PointVector;
+        using RealVector = GhostTree::RealVector;
+        using IndexVector = GhostTree::IndexVector;
+        using PointVector = GhostTree::PointVector;
 
-        using Ball = CoverTree::Ball;
-        using PointBall = CoverTree::PointBall;
+        using Ball = GhostTree::Ball;
+        using PointBall = GhostTree::PointBall;
 
-        using BallTree = CoverTree::BallTree;
-        using PointBallTree = CoverTree::PointBallTree;
+        using BallTree = GhostTree::BallTree;
+        using PointBallTree = GhostTree::PointBallTree;
 
-        using IndexSet = CoverTree::IndexSet;
-        using IndexMap = CoverTree::IndexMap;
+        using IndexSet = GhostTree::IndexSet;
+        using IndexMap = GhostTree::IndexMap;
 
         using Comm = MPIEnv::Comm;
-        using CoverTreeVector = std::vector<CoverTree>;
-        using CoverTreeMap = std::unordered_map<Index, CoverTree>;
+        using GhostTreeVector = std::vector<GhostTree>;
+        using GhostTreeMap = std::unordered_map<Index, GhostTree>;
 
         using IndexPair = std::pair<Index, Index>;
         using IndexPairMap = std::unordered_map<Index, IndexPair>;
@@ -76,7 +76,7 @@ class DistCoverTree
         PointVector mypoints;
         PointBallTree reptree;
 
-        CoverTreeMap ghost_trees; /* (local) maps hub representative to local ghost tree (only stores hub reprs that are local) */
+        GhostTreeMap ghost_trees; /* (local) maps hub representative to local ghost tree (only stores hub reprs that are local) */
         IndexPairMap ghost_map; /* (global) maps hub representative to (global slot, vertex) */
         IndexMap hub_to_proc_map; /* (global) maps hub representatives to their processor owners */
 

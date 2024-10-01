@@ -117,11 +117,11 @@ int main_mpi(int argc, char *argv[])
 
         if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, timer.get_max_time(), totsize, num_edges, (num_edges+0.0)/totsize);
 
-        timer.start_timer();
-        const auto& [missing, total] = count_missing(mypoints, radius, mygraph, comm);
-        timer.stop_timer();
+        //timer.start_timer();
+        //const auto& [missing, total] = count_missing(mypoints, radius, mygraph, comm);
+        //timer.stop_timer();
 
-        if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] {:.3f} percent of edges missing [num_missing={},num_total={}]\n",  __func__, timer.get_max_time(), (100.*missing)/total, missing, total);
+        //if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] {:.3f} percent of edges missing [num_missing={},num_total={}]\n",  __func__, timer.get_max_time(), (100.*missing)/total, missing, total);
 
     }
 
