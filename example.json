@@ -1,15 +1,24 @@
 {
     "objects": [
-        {"DIM_SIZE": 3, "FP_SIZE": 64, "EXE": "D3.FP64"},
-        {"DIM_SIZE": 8, "FP_SIZE": 64, "EXE": "D8.FP64"},
-        {"DIM_SIZE": 32, "FP_SIZE": 64, "EXE": "D32.FP64"},
-        {"DIM_SIZE": 128, "FP_SIZE": 32, "EXE": "D128.FP64"}
+        {"DIM_SIZE": 8, "FP_SIZE": 64, "EXE": "D8.FP64"}
     ],
-    "counts": ["100K", "200K", "400K"],
+    "counts": ["100K"],
     "tests" : [
-        {"nodes" : 1, "tasks_per_node" : 8, "radius" : 0.1, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
-        {"nodes" : 2, "tasks_per_node" : 8, "radius" : 0.1, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
-        {"nodes" : 3, "tasks_per_node" : 8, "radius" : 0.1, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
-        {"nodes" : 4, "tasks_per_node" : 8, "radius" : 0.1, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true}
+        {"nodes" : 1, "tasks_per_node" : 128, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 1, "tasks_per_node" : 64, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 1, "tasks_per_node" : 32, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 1, "tasks_per_node" : 16, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 1, "tasks_per_node" : 8, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 1, "tasks_per_node" : 4, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 1, "tasks_per_node" : 2, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 1, "tasks_per_node" : 1, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 2, "tasks_per_node" : 128, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 2, "tasks_per_node" : 64, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 2, "tasks_per_node" : 32, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 2, "tasks_per_node" : 16, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 2, "tasks_per_node" : 8, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 2, "tasks_per_node" : 4, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 2, "tasks_per_node" : 2, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 2, "tasks_per_node" : 1, "radius" : 3.0, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true}
     ]
 }

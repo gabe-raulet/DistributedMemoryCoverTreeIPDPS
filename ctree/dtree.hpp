@@ -258,6 +258,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
         if (verbose && !comm.rank())
         {
             fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] completed ghost tree construction\n", __func__, elapsed, t);
+            std::cout << std::flush;
         }
     }
 

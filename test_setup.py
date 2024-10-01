@@ -46,7 +46,7 @@ with open("job.sh", "w") as f:
                 N, tpn, r, S, s, l, v = test["nodes"], test["tasks_per_node"], test["radius"], test["split_ratio"], test["switch_percent"], test["min_hub_size"], test["verbose"]
                 n = N*tpn
                 c = 2 * (128 // tpn)
-                command = f"srun -N {N} -n {n} -c {c} --cpu_bind=cores ./main_mpi.{obj['EXE']} -v -s {s} -S {S} -l {l} -r {r} > output.n{n}.N{N}.{obj['EXE']}.{count}.txt"
+                command = f"srun -N {N} -n {n} -c {c} --cpu_bind=cores ./main_mpi.{obj['EXE']} -v -s {s} -S {S} -l {l} -r {r} {points_filename} > output.n{n}.N{N}.{obj['EXE']}.{count}.txt"
                 f.write(command + "\n")
 
 
