@@ -404,12 +404,69 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
 {
     myneighbors.resize(mysize, {});
 
-    IndexVector hub_ids;
+    struct PointQuery
+    {
+        Point pt;
+        Index id;
+        Index hub;
+        int ptrank;
+    };
+
+    struct PointResult
+    {
+        Index id;
+        Index neighbor;
+    };
+
+    using PointQueryVector = std::vector<PointQuery>;
+    using PointResultVector = std::vector<PointResult>;
+
+    std::vector<PointQueryVector> query_sendbufs(comm.size());
+    PointQueryVector query_recvbuf;
+
+    for (Index i = 0; i < mysize; ++i)
+    {
+        IndexVector hub_ids;
+        reptree_point_query(mypoints[i], radius, hub_ids, myneighbors[i]);
+
+        for (Index hub_id : hub_ids)
+        {
+            int where = hub_to_proc_map.at(hub_id);
+            query_sendbufs[where].emplace_back(mypoints[i], myoffset + i, hub_id, comm.rank());
+        }
+    }
+
+    comm.alltoallv(query_sendbufs, query_recvbuf);
+
+    std::vector<PointResultVector> result_sendbufs(comm.size());
+    PointResultVector result_recvbuf;
+
+    for (const auto& [pt, id, hub_id, ptrank] : query_recvbuf)
+    {
+        assert((ghost_trees.contains(hub_id)));
+
+        IndexVector neighbors;
+        ghost_trees.at(hub_id).point_query(pt, radius, neighbors);
+
+        for (Index neighbor : neighbors)
+        {
+            result_sendbufs[ptrank].emplace_back(id, neighbor);
+        }
+    }
+
+    comm.alltoallv(result_sendbufs, result_recvbuf);
+
+    for (const auto& [id, neighbor] : result_recvbuf)
+    {
+        myneighbors[id-myoffset].push_back(neighbor);
+    }
+
     Index num_edges = 0;
 
     for (Index i = 0; i < mysize; ++i)
     {
-        reptree_point_query(mypoints[i], radius, hub_ids, myneighbors[i]);
+        IndexSet tmp(myneighbors[i].begin(), myneighbors[i].end());
+        myneighbors[i].assign(tmp.begin(), tmp.end());
         num_edges += myneighbors[i].size();
     }
 
