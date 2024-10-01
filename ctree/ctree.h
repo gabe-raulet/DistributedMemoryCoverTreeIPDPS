@@ -63,6 +63,8 @@ class CoverTree
         void add_point(Point pt, Index globid);
         void set_new_root(Index root);
 
+        Index build_epsilon_graph(Real radius, IndexVectorVector& neighbors) const;
+
     private:
 
         PointVector points;

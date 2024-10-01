@@ -71,8 +71,8 @@ int main(int argc, char *argv[])
 
 
     t = -omp_get_wtime();
-    GhostTree<PointTraits, Distance, Index> ctree(points);
-    ctree.build(radius, split_ratio, switch_percent, min_hub_size, level_synch, true, verbose);
+    CoverTree<PointTraits, Distance, Index> ctree(points);
+    ctree.build(split_ratio, min_hub_size, true, verbose);
     t += omp_get_wtime();
 
     fmt::print("[msg::{},time={:.3f}] constructed cover tree [vertices={},levels={},avg_nesting={:.3f}]\n", __func__, t, ctree.num_vertices(), ctree.num_levels(), (ctree.num_vertices()+0.0)/size);
@@ -88,18 +88,11 @@ int main(int argc, char *argv[])
 
     if (build_graph)
     {
-        std::vector<IndexVector> graph(size);
-        Index num_edges = 0;
+        std::vector<IndexVector> graph;
+        Index num_edges;
 
         t = -omp_get_wtime();
-
-        #pragma omp parallel for reduction(+:num_edges)
-        for (Index id = 0; id < size; ++id)
-        {
-            ctree.point_query(points[id], radius, graph[id]);
-            num_edges += graph[id].size();
-        }
-
+        num_edges = ctree.build_epsilon_graph(radius, graph);
         t += omp_get_wtime();
 
         fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, t, size, num_edges, (num_edges+0.0)/size);

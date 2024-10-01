@@ -236,6 +236,26 @@ void CoverTree<PointTraits_, Distance_, Index_>::set_new_root(Index root)
     else if (root != 0) std::swap(points[0], points[root]);
 }
 
+
+template <class PointTraits_, class Distance_, index_type Index_>
+typename CoverTree<PointTraits_, Distance_, Index_>::Index
+CoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius, IndexVectorVector& neighbors) const
+{
+    Index size = num_points();
+    neighbors.resize(size, {});
+
+    Index num_edges = 0;
+
+    #pragma omp parallel for reduction(+:num_edges)
+    for (Index i = 0; i < size; ++i)
+    {
+        point_query(points[i], radius, neighbors[i]);
+        num_edges += neighbors[i].size();
+    }
+
+    return num_edges;
+}
+
 template <class PointTraits_, class Distance_, index_type Index_>
 void GhostTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool level_synch, bool threaded, bool verbose)
 {
