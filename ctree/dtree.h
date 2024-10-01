@@ -67,6 +67,7 @@ class DistCoverTree
         Index num_rep_vertices() const { return reptree.num_vertices(); }
 
         Index build_epsilon_graph(Real radius, IndexVectorVector& myneighbors) const;
+        void point_query(const Point& query, Real epsilon, IndexVector& neighbors) const;
 
     private:
 
@@ -82,6 +83,7 @@ class DistCoverTree
         void collect_point_map(const IndexVector& globids, PointMap& point_map) const;
         Index build_replication_tree(const BallTree& repballtree);
         void hub_query(const Point& query, Real ghost_radius, IndexVector& hub_ids) const;
+        void reptree_point_query(const Point& query, Real radius, IndexVector& hub_ids, IndexVector& rep_neighbors) const;
 };
 
 #include "dtree.hpp"

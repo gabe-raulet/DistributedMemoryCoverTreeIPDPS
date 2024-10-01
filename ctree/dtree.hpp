@@ -298,6 +298,41 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::hub_query(const Point& quer
     }
 }
 
+template <class PointTraits_, class Distance_, index_type Index_>
+void DistCoverTree<PointTraits_, Distance_, Index_>::reptree_point_query(const Point& query, Real radius, IndexVector& hub_ids, IndexVector& rep_neighbors) const
+{
+    IndexVector stack = {0};
+
+    while (!stack.empty())
+    {
+        Index u = stack.back(); stack.pop_back();
+        const auto& [upt, uid, uradius] = reptree[u];
+
+        IndexVector children;
+        reptree.get_children(u, children);
+
+        auto it = ghost_map.find(uid);
+
+        if (it != ghost_map.end())
+        {
+            const auto& [_, vtx] = it->second;
+
+            if (u == vtx && distance(query, upt) <= uradius + radius)
+                hub_ids.push_back(uid);
+        }
+
+        if (children.empty() && distance(query, upt) <= radius)
+            rep_neighbors.push_back(uid);
+
+        for (Index v : children)
+        {
+            const auto& [vpt, vid, vradius] = reptree[v];
+
+            if (distance(query, vpt) <= vradius + radius)
+                stack.push_back(v);
+        }
+    }
+}
 
 template <class PointTraits_, class Distance_, index_type Index_>
 typename DistCoverTree<PointTraits_, Distance_, Index_>::Index
@@ -340,11 +375,29 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::collect_point_map(const Ind
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
+void DistCoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query, Real epsilon, IndexVector& neighbors) const
+{
+    IndexVector hub_ids, es;
+    hub_query(query, epsilon, hub_ids);
+}
+
+template <class PointTraits_, class Distance_, index_type Index_>
 typename DistCoverTree<PointTraits_, Distance_, Index_>::Index
 DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius, IndexVectorVector& myneighbors) const
 {
     myneighbors.resize(mysize, {});
+/* void DistCoverTree<PointTraits_, Distance_, Index_>::reptree_point_query(const Point& query, Real radius, IndexVector& hub_ids, IndexVector& rep_neighbors) const */
 
+    IndexVector hub_ids;
+    Index num_edges = 0;
 
-    return 0;
+    for (Index i = 0; i < mysize; ++i)
+    {
+        reptree_point_query(mypoints[i], radius, hub_ids, myneighbors[i]);
+        num_edges += myneighbors[i].size();
+    }
+
+    comm.allreduce(num_edges, MPI_SUM);
+
+    return num_edges;
 }
