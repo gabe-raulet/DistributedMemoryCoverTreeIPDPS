@@ -345,7 +345,6 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
 {
     myneighbors.resize(mysize, {});
 
-    /*
-     * Step 1:
-     */
+
+    return 0;
 }
