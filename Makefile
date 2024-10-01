@@ -5,6 +5,8 @@ FP?=64
 FLAGS=-std=c++20 -fopenmp -DDIM_SIZE=$(D) -DFP_SIZE=$(FP)
 INCS=-I./misc -I./ptraits -I./mpienv -I./
 
+EXE?=D$(D).FP$(FP)
+
 ifeq ($(shell uname -s),Linux)
 COMPILER=CC
 MPI_COMPILER=CC
@@ -31,13 +33,13 @@ version.h:
 	@echo "#define GIT_COMMIT \"$(shell git describe --always --dirty --match 'NOT A TAG')\"" > version.h
 
 main_mpi: src/main_mpi.cpp misc ptraits ctree version.h
-	$(MPI_COMPILER) -o $@ $(FLAGS) $(INCS) -I./ctree $<
+	$(MPI_COMPILER) -o main_mpi.$(EXE) $(FLAGS) $(INCS) -I./ctree $<
 
 main: src/main.cpp misc ptraits ctree version.h
-	$(MPI_COMPILER) -o $@ $(FLAGS) $(INCS) -I./ctree $<
+	$(MPI_COMPILER) -o main.$(EXE) $(FLAGS) $(INCS) -I./ctree $<
 
 ptgen: src/ptgen.cpp misc ptraits version.h
-	$(COMPILER) -o $@ $(FLAGS) $(INCS) $<
+	$(COMPILER) -o ptgen.$(EXE) $(FLAGS) $(INCS) $<
 
 clean:
-	rm -rf main_mpi main ptgen version.h *.dSYM
+	rm -rf main_mpi.* main.* ptgen.* version.h *.dSYM

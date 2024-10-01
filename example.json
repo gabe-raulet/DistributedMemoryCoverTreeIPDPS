@@ -1,0 +1,15 @@
+{
+    "objects": [
+        {"DIM_SIZE": 3, "FP_SIZE": 64, "EXE": "D3.FP64"},
+        {"DIM_SIZE": 8, "FP_SIZE": 64, "EXE": "D8.FP64"},
+        {"DIM_SIZE": 32, "FP_SIZE": 64, "EXE": "D32.FP64"},
+        {"DIM_SIZE": 128, "FP_SIZE": 32, "EXE": "D128.FP64"}
+    ],
+    "counts": ["100K", "200K", "400K"],
+    "tests" : [
+        {"nodes" : 1, "tasks_per_node" : 8, "radius" : 0.1, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 2, "tasks_per_node" : 8, "radius" : 0.1, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 3, "tasks_per_node" : 8, "radius" : 0.1, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true},
+        {"nodes" : 4, "tasks_per_node" : 8, "radius" : 0.1, "split_ratio" : 0.7, "switch_percent" : 10, "min_hub_size" : 10, "verbose" : true}
+    ]
+}
