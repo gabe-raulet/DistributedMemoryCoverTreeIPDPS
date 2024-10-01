@@ -378,7 +378,24 @@ template <class PointTraits_, class Distance_, index_type Index_>
 void DistCoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query, Real epsilon, IndexVector& neighbors) const
 {
     IndexVector hub_ids, es;
-    hub_query(query, epsilon, hub_ids);
+    reptree_point_query(query, epsilon, hub_ids, es); // need store neighbors found in replication tree in es, as there may be leaves in the replication tree!!
+
+    for (Index hub_id : hub_ids)
+    {
+        int where = hub_to_proc_map.at(hub_id);
+
+        if (where == comm.rank())
+        {
+            assert((ghost_trees.contains(hub_id)));
+            ghost_trees.at(hub_id).point_query(query, epsilon, es);
+        }
+    }
+
+    IndexVector alles;
+    comm.allgatherv(es, alles);
+
+    IndexSet dup(alles.begin(), alles.end());
+    neighbors.assign(dup.begin(), dup.end());
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
@@ -386,7 +403,6 @@ typename DistCoverTree<PointTraits_, Distance_, Index_>::Index
 DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius, IndexVectorVector& myneighbors) const
 {
     myneighbors.resize(mysize, {});
-/* void DistCoverTree<PointTraits_, Distance_, Index_>::reptree_point_query(const Point& query, Real radius, IndexVector& hub_ids, IndexVector& rep_neighbors) const */
 
     IndexVector hub_ids;
     Index num_edges = 0;

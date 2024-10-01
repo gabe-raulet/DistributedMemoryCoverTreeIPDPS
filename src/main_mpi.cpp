@@ -108,16 +108,37 @@ int main_mpi(int argc, char *argv[])
 
     if (build_graph)
     {
-        std::vector<IndexVector> mygraph;
-        Index num_edges;
+        //std::vector<IndexVector> mygraph;
+        //Index num_edges;
 
-        timer.start_timer();
-        num_edges = dtree.build_epsilon_graph(radius, mygraph);
-        timer.stop_timer();
+        //timer.start_timer();
+        //num_edges = dtree.build_epsilon_graph(radius, mygraph);
+        //timer.stop_timer();
 
-        if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, timer.get_max_time(), totsize, num_edges, (num_edges+0.0)/totsize);
+        //if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, timer.get_max_time(), totsize, num_edges, (num_edges+0.0)/totsize);
 
         /** tmp **/
+
+        PointVector allpoints;
+        comm.allgatherv(mypoints, allpoints);
+        totsize = allpoints.size();
+
+        Index myoffset;
+        comm.exscan(mysize, myoffset, MPI_SUM, (Index)0);
+
+        std::vector<IndexVector> graph(totsize), mygraph;
+
+        for (Index i = 0; i < totsize; ++i)
+        {
+            dtree.point_query(allpoints[i], radius, graph[i]);
+        }
+
+        for (Index i = myoffset; i < myoffset + mysize; ++i)
+        {
+            mygraph.push_back(graph[i]);
+        }
+
+        /*********/
 
         timer.start_timer();
         const auto& [missing, total] = count_missing(mypoints, radius, mygraph, comm);
@@ -125,7 +146,6 @@ int main_mpi(int argc, char *argv[])
 
         if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] {:.3f} percent of edges missing [num_missing={},num_total={}]\n",  __func__, timer.get_max_time(), (100.*missing)/total, missing, total);
 
-        /*********/
     }
 
     return 0;

@@ -179,6 +179,8 @@ bool CoverTree<PointTraits_, Distance_, Index_>::is_correct(Real split_ratio) co
 template <class PointTraits_, class Distance_, index_type Index_>
 void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query, Real epsilon, IndexVector& neighbors) const
 {
+    Index prev_size = neighbors.size();
+
     const auto& [root_pt, root_id, root_radius] = tree[0];
 
     if (distance(query, root_pt) > root_radius + epsilon)
@@ -210,7 +212,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
         }
     }
 
-    if (has_globids()) std::for_each(neighbors.begin(), neighbors.end(), [&](Index& id) { id = globids[id]; });
+    if (has_globids()) std::for_each(neighbors.begin()+prev_size, neighbors.end(), [&](Index& id) { id = globids[id]; });
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
