@@ -1,0 +1,41 @@
+{
+    "points_filename": "points",
+    "thread_counts": [
+        256,
+        128,
+        64,
+        32,
+        16,
+        8,
+        4,
+        2,
+        1
+    ],
+    "trials": 3,
+    "cases": [
+        {
+            "radius": 0.25,
+            "split_ratio": 0.5,
+            "min_hub_size": 20,
+            "tag": "case1"
+        },
+        {
+            "radius": 0.25,
+            "split_ratio": 0.5,
+            "min_hub_size": 10,
+            "tag": "case2"
+        },
+        {
+            "radius": 0.25,
+            "split_ratio": 0.5,
+            "min_hub_size": 5,
+            "tag": "case3"
+        },
+        {
+            "radius": 0.25,
+            "split_ratio": 0.5,
+            "min_hub_size": 1,
+            "tag": "case4"
+        }
+    ]
+}
