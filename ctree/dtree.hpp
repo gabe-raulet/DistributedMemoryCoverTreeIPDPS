@@ -409,25 +409,10 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
 {
     myneighbors.resize(mysize, {});
 
-    struct PointQuery
-    {
-        Point pt;
-        Index id;
-        Index hub;
-        int ptrank;
-    };
-
-    struct PointResult
-    {
-        Index id;
-        Index neighbor;
-    };
 
     auto timer = comm.get_timer();
     double t;
 
-    using PointQueryVector = std::vector<PointQuery>;
-    using PointResultVector = std::vector<PointResult>;
 
     timer.start_timer();
 

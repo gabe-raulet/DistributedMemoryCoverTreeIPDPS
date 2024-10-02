@@ -84,6 +84,24 @@ class DistCoverTree
         Index build_replication_tree(const BallTree& repballtree);
         void hub_query(const Point& query, Real ghost_radius, IndexVector& hub_ids) const;
         void reptree_point_query(const Point& query, Real radius, IndexVector& hub_ids, IndexVector& rep_neighbors) const;
+
+        struct PointQuery
+        {
+            Point pt;
+            Index id;
+            Index hub;
+            int ptrank;
+        };
+
+        struct PointResult
+        {
+            Index id;
+            Index neighbor;
+        };
+
+        using PointQueryVector = std::vector<PointQuery>;
+        using PointResultVector = std::vector<PointResult>;
+
 };
 
 #include "dtree.hpp"
