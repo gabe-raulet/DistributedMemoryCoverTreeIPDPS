@@ -526,9 +526,11 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
     }
 
     Index num_edges = 0;
+    Index num_dups = 0;
 
     for (Index i = 0; i < mysize; ++i)
     {
+        num_dups += myneighbors[i].size();
         IndexSet tmp(myneighbors[i].begin(), myneighbors[i].end());
         myneighbors[i].assign(tmp.begin(), tmp.end());
         num_edges += myneighbors[i].size();
@@ -537,13 +539,14 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
     timer.stop_timer();
     t = timer.get_max_time();
 
+    comm.allreduce(num_edges, MPI_SUM);
+    comm.allreduce(num_dups, MPI_SUM);
+
     if (verbose && !comm.rank())
     {
-        fmt::print("[msg::{},time={:.3f}] removed local duplicates\n", __func__, t);
+        fmt::print("[msg::{},time={:.3f}] removed local duplicates [num_edges={},num_dups={}]\n", __func__, t, num_edges, num_dups);
         std::cout << std::flush;
     }
-
-    comm.allreduce(num_edges, MPI_SUM);
 
     return num_edges;
 }
