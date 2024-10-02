@@ -112,7 +112,7 @@ int main_mpi(int argc, char *argv[])
         Index num_edges;
 
         timer.start_timer();
-        num_edges = dtree.build_epsilon_graph(radius, mygraph);
+        num_edges = dtree.build_epsilon_graph(radius, mygraph, verbose);
         timer.stop_timer();
 
         if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, timer.get_max_time(), totsize, num_edges, (num_edges+0.0)/totsize);

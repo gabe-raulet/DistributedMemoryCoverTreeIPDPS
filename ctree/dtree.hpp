@@ -240,14 +240,18 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
         timer.start_timer();
 
+        t = -MPI_Wtime();
+
         for (auto& [_, ghost_tree] : ghost_trees)
         {
             ghost_tree.build(split_ratio, min_hub_size, false, false);
         }
 
+        t += MPI_Wtime();
+
         if (verbose)
         {
-            fmt::print("[msg::{}] rank {} finished building its {} ghost trees\n", __func__, comm.rank(), ghost_trees.size());
+            fmt::print("[msg::{},local_time={:.3f}] rank {} finished building its {} ghost trees\n", __func__, t, comm.rank(), ghost_trees.size());
             std::cout << std::flush;
         }
 
@@ -401,7 +405,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& qu
 
 template <class PointTraits_, class Distance_, index_type Index_>
 typename DistCoverTree<PointTraits_, Distance_, Index_>::Index
-DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius, IndexVectorVector& myneighbors) const
+DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius, IndexVectorVector& myneighbors, bool verbose) const
 {
     myneighbors.resize(mysize, {});
 
@@ -419,8 +423,13 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
         Index neighbor;
     };
 
+    auto timer = comm.get_timer();
+    double t;
+
     using PointQueryVector = std::vector<PointQuery>;
     using PointResultVector = std::vector<PointResult>;
+
+    timer.start_timer();
 
     std::vector<PointQueryVector> query_sendbufs(comm.size());
     PointQueryVector query_recvbuf;
@@ -437,10 +446,34 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
         }
     }
 
+    timer.stop_timer();
+    t = timer.get_max_time();
+
+    if (verbose && !comm.rank())
+    {
+        fmt::print("[msg::{},time={:.3f}] queried local point partition against replication tree and loaded outgoing query buffers\n", __func__, t);
+        std::cout << std::flush;
+    }
+
+    timer.start_timer();
     comm.alltoallv(query_sendbufs, query_recvbuf);
+    timer.stop_timer();
+    t = timer.get_max_time();
+
+    if (verbose && !comm.rank())
+    {
+        fmt::print("[msg::{},time={:.3f}] alltoall communicated point queries to their destination ghost hub owners\n", __func__, t);
+        std::cout << std::flush;
+    }
+
+    timer.start_timer();
 
     std::vector<PointResultVector> result_sendbufs(comm.size());
     PointResultVector result_recvbuf;
+
+    t = -MPI_Wtime();
+
+    Index neighbors_found = 0;
 
     for (const auto& [pt, id, hub_id, ptrank] : query_recvbuf)
     {
@@ -453,9 +486,39 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
         {
             result_sendbufs[ptrank].emplace_back(id, neighbor);
         }
+
+        neighbors_found += neighbors.size();
     }
 
+    t += MPI_Wtime();
+
+    if (verbose)
+    {
+        fmt::print("[msg::{},time={:.3f}] rank {} finished querying {} points against its {} ghost trees, finding {} neighbors\n", __func__, t, comm.rank(), query_recvbuf.size(), ghost_trees.size(), neighbors_found);
+        std::cout << std::flush;
+    }
+
+    timer.stop_timer();
+    t = timer.get_max_time();
+
+    if (verbose && !comm.rank())
+    {
+        fmt::print("[msg::{},time={:.3f}] finished local ghost tree queries\n", __func__, t);
+        std::cout << std::flush;
+    }
+
+    timer.start_timer();
     comm.alltoallv(result_sendbufs, result_recvbuf);
+    timer.stop_timer();
+    t = timer.get_max_time();
+
+    if (verbose && !comm.rank())
+    {
+        fmt::print("[msg::{},time={:.3f}] alltoall communicated local ghost tree queries back to their original query owners\n", __func__, t);
+        std::cout << std::flush;
+    }
+
+    timer.start_timer();
 
     for (const auto& [id, neighbor] : result_recvbuf)
     {
@@ -469,6 +532,15 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
         IndexSet tmp(myneighbors[i].begin(), myneighbors[i].end());
         myneighbors[i].assign(tmp.begin(), tmp.end());
         num_edges += myneighbors[i].size();
+    }
+
+    timer.stop_timer();
+    t = timer.get_max_time();
+
+    if (verbose && !comm.rank())
+    {
+        fmt::print("[msg::{},time={:.3f}] removed local duplicates\n", __func__, t);
+        std::cout << std::flush;
     }
 
     comm.allreduce(num_edges, MPI_SUM);

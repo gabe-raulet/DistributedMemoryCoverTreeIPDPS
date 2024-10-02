@@ -66,7 +66,7 @@ class DistCoverTree
         Index num_rep_levels() const { return reptree.num_levels(); }
         Index num_rep_vertices() const { return reptree.num_vertices(); }
 
-        Index build_epsilon_graph(Real radius, IndexVectorVector& myneighbors) const;
+        Index build_epsilon_graph(Real radius, IndexVectorVector& myneighbors, bool verbose = false) const;
         void point_query(const Point& query, Real epsilon, IndexVector& neighbors) const;
 
     private:
