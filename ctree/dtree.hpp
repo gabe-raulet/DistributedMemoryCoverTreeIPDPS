@@ -409,15 +409,20 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
 {
     myneighbors.resize(mysize, {});
 
-
     auto timer = comm.get_timer();
     double t;
-
 
     timer.start_timer();
 
     std::vector<PointQueryVector> query_sendbufs(comm.size());
     PointQueryVector query_recvbuf;
+
+    /*
+     * Go through all local points and query the replication tree.
+     * Store found replication leaves in local neighbors list,
+     * and pack points intersecting ghost hubs into outgoing
+     * buffers.
+     */
 
     for (Index i = 0; i < mysize; ++i)
     {
@@ -440,6 +445,10 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
         std::cout << std::flush;
     }
 
+    /*
+     * Communicate points + their intersecting hub to their destinations.
+     */
+
     timer.start_timer();
     comm.alltoallv(query_sendbufs, query_recvbuf);
     timer.stop_timer();
@@ -459,6 +468,10 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
     t = -MPI_Wtime();
 
     Index neighbors_found = 0;
+
+    /*
+     * Query received points against local ghost trees.
+     */
 
     for (const auto& [pt, id, hub_id, ptrank] : query_recvbuf)
     {
@@ -492,6 +505,10 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
         std::cout << std::flush;
     }
 
+    /*
+     * Send query results back to where they came from.
+     */
+
     timer.start_timer();
     comm.alltoallv(result_sendbufs, result_recvbuf);
     timer.stop_timer();
@@ -505,6 +522,10 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
 
     timer.start_timer();
 
+    /*
+     * Load received queries into their neighborhood destinations.
+     */
+
     for (const auto& [id, neighbor] : result_recvbuf)
     {
         myneighbors[id-myoffset].push_back(neighbor);
@@ -512,6 +533,12 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
 
     Index num_edges = 0;
     Index num_dups = 0;
+
+
+    /*
+     * Remove duplicate points created by querying redundant ghost
+     * regions.
+     */
 
     for (Index i = 0; i < mysize; ++i)
     {
