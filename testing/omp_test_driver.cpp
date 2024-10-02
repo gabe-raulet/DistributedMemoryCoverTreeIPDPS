@@ -95,6 +95,7 @@ void driver(const json& test_case, json& output, const std::vector<int>& thread_
     Index min_hub_size = test_case["min_hub_size"];
 
     std::vector<json> thread_trials;
+    std::string tag = test_case["tag"];
 
     for (int nthreads : thread_counts)
     {
@@ -128,6 +129,13 @@ void driver(const json& test_case, json& output, const std::vector<int>& thread_
         thread_trials.back()["cover_tree_times"] = cover_tree_times;
         thread_trials.back()["epsilon_graph_times"] = epsilon_graph_times;
         thread_trials.back()["edge_counts"] = edge_counts;
+        thread_trials.back()["num_threads"] = nthreads;
+        thread_trials.back()["radius"] = radius;
+        thread_trials.back()["split_ratio"] = split_ratio;
+        thread_trials.back()["min_hub_size"] = min_hub_size;
+
+        fmt::print("Finished case '{}' [nthreads={}]\n", tag.c_str(), nthreads);
+        std::cout << std::flush;
     }
 
     output["thread_trials"] = thread_trials;
