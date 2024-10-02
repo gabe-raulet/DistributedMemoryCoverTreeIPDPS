@@ -1,0 +1,23 @@
+{
+    "points_filename": "points",
+    "thread_counts": [
+        256,
+        128,
+        64,
+        32,
+        16,
+        8,
+        4,
+        2,
+        1
+    ],
+    "trials": 1,
+    "cases": [
+        {
+            "radius": 0.6,
+            "split_ratio": 0.8,
+            "min_hub_size": 20,
+            "tag": "case1"
+        }
+    ]
+}

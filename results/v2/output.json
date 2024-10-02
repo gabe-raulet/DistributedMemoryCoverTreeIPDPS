@@ -1,0 +1,148 @@
+{
+    "cases": [
+        {
+            "tag": "case1",
+            "thread_trials": [
+                {
+                    "cover_tree_times": [
+                        1.243198054842651
+                    ],
+                    "edge_counts": [
+                        204800
+                    ],
+                    "epsilon_graph_times": [
+                        1.0161021850071847
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 256,
+                    "radius": 0.6000000238418579,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        1.2544683071319014
+                    ],
+                    "edge_counts": [
+                        204800
+                    ],
+                    "epsilon_graph_times": [
+                        1.5000231058802456
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 128,
+                    "radius": 0.6000000238418579,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        1.1674146330915391
+                    ],
+                    "edge_counts": [
+                        204800
+                    ],
+                    "epsilon_graph_times": [
+                        2.348221118096262
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 64,
+                    "radius": 0.6000000238418579,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        1.1851730630733073
+                    ],
+                    "edge_counts": [
+                        204800
+                    ],
+                    "epsilon_graph_times": [
+                        4.49471718701534
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 32,
+                    "radius": 0.6000000238418579,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        1.0836812970228493
+                    ],
+                    "edge_counts": [
+                        204800
+                    ],
+                    "epsilon_graph_times": [
+                        8.020762979984283
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 16,
+                    "radius": 0.6000000238418579,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        1.1096910869237036
+                    ],
+                    "edge_counts": [
+                        204800
+                    ],
+                    "epsilon_graph_times": [
+                        15.49385337298736
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 8,
+                    "radius": 0.6000000238418579,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        1.1056325079407543
+                    ],
+                    "edge_counts": [
+                        204800
+                    ],
+                    "epsilon_graph_times": [
+                        30.833834361983463
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 4,
+                    "radius": 0.6000000238418579,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        1.234853969886899
+                    ],
+                    "edge_counts": [
+                        204800
+                    ],
+                    "epsilon_graph_times": [
+                        61.265947316074744
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 2,
+                    "radius": 0.6000000238418579,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        1.6878457409329712
+                    ],
+                    "edge_counts": [
+                        204800
+                    ],
+                    "epsilon_graph_times": [
+                        117.80477995984256
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 1,
+                    "radius": 0.6000000238418579,
+                    "split_ratio": 0.800000011920929
+                }
+            ]
+        }
+    ],
+    "dimension": 32,
+    "float_size": 32,
+    "num_points": 204800,
+    "read_file_time": 2.5710333499591798
+}
