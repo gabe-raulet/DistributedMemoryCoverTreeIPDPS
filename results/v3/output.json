@@ -1,0 +1,708 @@
+{
+    "cases": [
+        {
+            "tag": "case1",
+            "thread_trials": [
+                {
+                    "cover_tree_times": [
+                        0.09504226502031088
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.09634376608300954
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 256,
+                    "radius": 256.0,
+                    "split_ratio": 0.8999999761581421
+                },
+                {
+                    "cover_tree_times": [
+                        0.04948055394925177
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.15347834397107363
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 128,
+                    "radius": 256.0,
+                    "split_ratio": 0.8999999761581421
+                },
+                {
+                    "cover_tree_times": [
+                        0.04559700796380639
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.20716833393089473
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 64,
+                    "radius": 256.0,
+                    "split_ratio": 0.8999999761581421
+                },
+                {
+                    "cover_tree_times": [
+                        0.045651032007299364
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.36222265008836985
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 32,
+                    "radius": 256.0,
+                    "split_ratio": 0.8999999761581421
+                },
+                {
+                    "cover_tree_times": [
+                        0.046095722005702555
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.6804231519345194
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 16,
+                    "radius": 256.0,
+                    "split_ratio": 0.8999999761581421
+                },
+                {
+                    "cover_tree_times": [
+                        0.040666532004252076
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        1.2680789399892092
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 8,
+                    "radius": 256.0,
+                    "split_ratio": 0.8999999761581421
+                },
+                {
+                    "cover_tree_times": [
+                        0.04272572696208954
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        2.494256734964438
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 4,
+                    "radius": 256.0,
+                    "split_ratio": 0.8999999761581421
+                },
+                {
+                    "cover_tree_times": [
+                        0.04530000500380993
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        4.961715867044404
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 2,
+                    "radius": 256.0,
+                    "split_ratio": 0.8999999761581421
+                },
+                {
+                    "cover_tree_times": [
+                        0.057736619957722723
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        9.917183864978142
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 1,
+                    "radius": 256.0,
+                    "split_ratio": 0.8999999761581421
+                }
+            ]
+        },
+        {
+            "tag": "case2",
+            "thread_trials": [
+                {
+                    "cover_tree_times": [
+                        0.12441954703535885
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.09443374094553292
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 256,
+                    "radius": 256.0,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        0.07717707194387913
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.15462523803580552
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 128,
+                    "radius": 256.0,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        0.07532618101686239
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.17968253209255636
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 64,
+                    "radius": 256.0,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        0.07462675007991493
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.3559146150946617
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 32,
+                    "radius": 256.0,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        0.07520551700145006
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.6811706550652161
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 16,
+                    "radius": 256.0,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        0.07020796102005988
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        1.275264048948884
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 8,
+                    "radius": 256.0,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        0.06888917600736022
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        2.510028306976892
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 4,
+                    "radius": 256.0,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        0.07201566104777157
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        5.008037194027565
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 2,
+                    "radius": 256.0,
+                    "split_ratio": 0.800000011920929
+                },
+                {
+                    "cover_tree_times": [
+                        0.10206884692888707
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        10.033611036022194
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 1,
+                    "radius": 256.0,
+                    "split_ratio": 0.800000011920929
+                }
+            ]
+        },
+        {
+            "tag": "case3",
+            "thread_trials": [
+                {
+                    "cover_tree_times": [
+                        0.21888895600568503
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.10175898892339319
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 256,
+                    "radius": 256.0,
+                    "split_ratio": 0.699999988079071
+                },
+                {
+                    "cover_tree_times": [
+                        0.1677906789118424
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.15049385407473892
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 128,
+                    "radius": 256.0,
+                    "split_ratio": 0.699999988079071
+                },
+                {
+                    "cover_tree_times": [
+                        0.16486372996587306
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.2123197769979015
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 64,
+                    "radius": 256.0,
+                    "split_ratio": 0.699999988079071
+                },
+                {
+                    "cover_tree_times": [
+                        0.16570036497432739
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.3680029669776559
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 32,
+                    "radius": 256.0,
+                    "split_ratio": 0.699999988079071
+                },
+                {
+                    "cover_tree_times": [
+                        0.1654668339760974
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.6728382419096306
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 16,
+                    "radius": 256.0,
+                    "split_ratio": 0.699999988079071
+                },
+                {
+                    "cover_tree_times": [
+                        0.14944870700128376
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        1.2641550230327994
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 8,
+                    "radius": 256.0,
+                    "split_ratio": 0.699999988079071
+                },
+                {
+                    "cover_tree_times": [
+                        0.14741941296961159
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        2.508400807972066
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 4,
+                    "radius": 256.0,
+                    "split_ratio": 0.699999988079071
+                },
+                {
+                    "cover_tree_times": [
+                        0.14868455508258194
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        4.980882707983255
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 2,
+                    "radius": 256.0,
+                    "split_ratio": 0.699999988079071
+                },
+                {
+                    "cover_tree_times": [
+                        0.2131096760276705
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        10.057580724009313
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 1,
+                    "radius": 256.0,
+                    "split_ratio": 0.699999988079071
+                }
+            ]
+        },
+        {
+            "tag": "case4",
+            "thread_trials": [
+                {
+                    "cover_tree_times": [
+                        0.3188892680918798
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.09998550801537931
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 256,
+                    "radius": 256.0,
+                    "split_ratio": 0.6000000238418579
+                },
+                {
+                    "cover_tree_times": [
+                        0.30698143295012414
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.16565279697533697
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 128,
+                    "radius": 256.0,
+                    "split_ratio": 0.6000000238418579
+                },
+                {
+                    "cover_tree_times": [
+                        0.29629194096196443
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.2878018750343472
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 64,
+                    "radius": 256.0,
+                    "split_ratio": 0.6000000238418579
+                },
+                {
+                    "cover_tree_times": [
+                        0.29185936599969864
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.3777267941040918
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 32,
+                    "radius": 256.0,
+                    "split_ratio": 0.6000000238418579
+                },
+                {
+                    "cover_tree_times": [
+                        0.2967880489304662
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.7506148179527372
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 16,
+                    "radius": 256.0,
+                    "split_ratio": 0.6000000238418579
+                },
+                {
+                    "cover_tree_times": [
+                        0.29239790502469987
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        1.334861007053405
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 8,
+                    "radius": 256.0,
+                    "split_ratio": 0.6000000238418579
+                },
+                {
+                    "cover_tree_times": [
+                        0.2770667029544711
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        2.656082227011211
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 4,
+                    "radius": 256.0,
+                    "split_ratio": 0.6000000238418579
+                },
+                {
+                    "cover_tree_times": [
+                        0.2739173750160262
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        5.265751441009343
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 2,
+                    "radius": 256.0,
+                    "split_ratio": 0.6000000238418579
+                },
+                {
+                    "cover_tree_times": [
+                        0.3509054039604962
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        10.409370315959677
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 1,
+                    "radius": 256.0,
+                    "split_ratio": 0.6000000238418579
+                }
+            ]
+        },
+        {
+            "tag": "case5",
+            "thread_trials": [
+                {
+                    "cover_tree_times": [
+                        1.015034610987641
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.1044036460807547
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 256,
+                    "radius": 256.0,
+                    "split_ratio": 0.5
+                },
+                {
+                    "cover_tree_times": [
+                        0.9969266599509865
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.1405568670015782
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 128,
+                    "radius": 256.0,
+                    "split_ratio": 0.5
+                },
+                {
+                    "cover_tree_times": [
+                        0.9988442909670994
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.2646249980898574
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 64,
+                    "radius": 256.0,
+                    "split_ratio": 0.5
+                },
+                {
+                    "cover_tree_times": [
+                        0.996172503917478
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.4014539900235832
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 32,
+                    "radius": 256.0,
+                    "split_ratio": 0.5
+                },
+                {
+                    "cover_tree_times": [
+                        0.9920501169981435
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        0.6666664939839393
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 16,
+                    "radius": 256.0,
+                    "split_ratio": 0.5
+                },
+                {
+                    "cover_tree_times": [
+                        0.9931219050195068
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        1.1441753830295056
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 8,
+                    "radius": 256.0,
+                    "split_ratio": 0.5
+                },
+                {
+                    "cover_tree_times": [
+                        0.9790169609477744
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        2.2799022200051695
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 4,
+                    "radius": 256.0,
+                    "split_ratio": 0.5
+                },
+                {
+                    "cover_tree_times": [
+                        0.9797800240339711
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        4.536313447053544
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 2,
+                    "radius": 256.0,
+                    "split_ratio": 0.5
+                },
+                {
+                    "cover_tree_times": [
+                        0.9976174429757521
+                    ],
+                    "edge_counts": [
+                        209328
+                    ],
+                    "epsilon_graph_times": [
+                        9.14034789800644
+                    ],
+                    "min_hub_size": 20,
+                    "num_threads": 1,
+                    "radius": 256.0,
+                    "split_ratio": 0.5
+                }
+            ]
+        }
+    ],
+    "dimension": 128,
+    "float_size": 32,
+    "num_points": 10000,
+    "read_file_time": 0.10917745798360556
+}
