@@ -1,7 +1,7 @@
 DEBUG?=0
 LOG?=0
 D?=3
-FP?=64
+FP?=32
 FLAGS=-std=c++20 -fopenmp -DDIM_SIZE=$(D) -DFP_SIZE=$(FP)
 INCS=-I./misc -I./ptraits -I./mpienv -I./
 
@@ -25,21 +25,18 @@ ifeq ($(LOG),1)
 FLAGS+=-DLOG
 endif
 
-all: main_mpi main ptgen
+all: omp_test_driver ptgen
 
 .PHONY: version.h
 
 version.h:
 	@echo "#define GIT_COMMIT \"$(shell git describe --always --dirty --match 'NOT A TAG')\"" > version.h
 
-main_mpi: src/main_mpi.cpp misc ptraits ctree version.h
-	$(MPI_COMPILER) -o main_mpi.$(EXE) $(FLAGS) $(INCS) -I./ctree $<
-
-main: src/main.cpp misc ptraits ctree version.h
-	$(MPI_COMPILER) -o main.$(EXE) $(FLAGS) $(INCS) -I./ctree $<
-
 ptgen: src/ptgen.cpp misc ptraits version.h
-	$(COMPILER) -o ptgen.$(EXE) $(FLAGS) $(INCS) $<
+	$(COMPILER) -o ptgen $(FLAGS) $(INCS) $<
+
+omp_test_driver: testing/omp_test_driver.cpp misc ptraits ctree version.h
+	$(MPI_COMPILER) -o omp_test_driver $(FLAGS) $(INCS) -I./ctree $<
 
 clean:
-	rm -rf main_mpi.* main.* ptgen.* version.h *.dSYM
+	rm -rf ptgen omp_test_driver version.h *.dSYM
