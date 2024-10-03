@@ -496,6 +496,16 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
      * Query received points against local ghost trees.
      */
 
+    double t_sort = -MPI_Wtime();
+    std::sort(query_recvbuf.begin(), query_recvbuf.end(), [](const auto& lhs, const auto& rhs) { return lhs.hub < rhs.hub; });
+    t_sort += MPI_Wtime();
+
+    if (verbose)
+    {
+        fmt::print("[msg::{},time={:.3f}] rank {} finished sorting {} received points\n", __func__, t_sort, comm.rank(), query_recvbuf.size());
+        std::cout << std::flush;
+    }
+
     Index num_recv = query_recvbuf.size();
     IndexVectorVector local_neighbors(num_recv);
 
