@@ -4,7 +4,10 @@ namespace MPIEnv
     {
         if (is_initialized()) return MPI_ERR_OTHER;
         cache.reset();
-        return MPI_Init(argc, argv);
+        int provided, ret;
+        ret = MPI_Init_thread(argc, argv, MPI_THREAD_FUNNELED, &provided);
+        assert((provided<=MPI_THREAD_FUNNELED));
+        return ret;
     }
 
     int finalize()

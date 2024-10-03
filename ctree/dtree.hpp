@@ -71,6 +71,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
         DistHubVector split_hubs, next_hubs;
         num_hubs = hubs.size();
 
+        #pragma omp parallel for
         for (Index i = 0; i < num_hubs; ++i)
             hubs[i].add_new_leader(mypoints);
 
@@ -441,12 +442,17 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
      * buffers.
      */
 
+    IndexVectorVector my_hub_ids(mysize);
+
+    #pragma omp parallel for
     for (Index i = 0; i < mysize; ++i)
     {
-        IndexVector hub_ids;
-        reptree_point_query(mypoints[i], radius, hub_ids, myneighbors[i]);
+        reptree_point_query(mypoints[i], radius, my_hub_ids[i], myneighbors[i]);
+    }
 
-        for (Index hub_id : hub_ids)
+    for (Index i = 0; i < mysize; ++i)
+    {
+        for (Index hub_id : my_hub_ids[i])
         {
             int where = hub_to_proc_map.at(hub_id);
             query_sendbufs[where].emplace_back(mypoints[i], myoffset + i, hub_id, comm.rank());
@@ -490,19 +496,25 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
      * Query received points against local ghost trees.
      */
 
-    for (const auto& [pt, id, hub_id, ptrank] : query_recvbuf)
+    Index num_recv = query_recvbuf.size();
+    IndexVectorVector local_neighbors(num_recv);
+
+    #pragma omp parallel for
+    for (Index i = 0; i < num_recv; ++i)
     {
-        assert((ghost_trees.contains(hub_id)));
+        const auto& [pt, id, hub_id, ptrank] = query_recvbuf[i];
+        ghost_trees.at(hub_id).point_query(pt, radius, local_neighbors[i]);
+    }
 
-        IndexVector neighbors;
-        ghost_trees.at(hub_id).point_query(pt, radius, neighbors);
-
-        for (Index neighbor : neighbors)
+    for (Index i = 0; const auto& [pt, id, hub_id, ptrank] : query_recvbuf)
+    {
+        for (Index neighbor : local_neighbors[i])
         {
             result_sendbufs[ptrank].emplace_back(id, neighbor);
         }
 
-        neighbors_found += neighbors.size();
+        neighbors_found += local_neighbors[i].size();
+        i++;
     }
 
     t += MPI_Wtime();
@@ -557,6 +569,7 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
      * regions.
      */
 
+    #pragma omp parallel for reduction(+:num_edges,num_dups)
     for (Index i = 0; i < mysize; ++i)
     {
         num_dups += myneighbors[i].size();
