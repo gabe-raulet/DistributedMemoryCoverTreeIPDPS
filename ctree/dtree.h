@@ -8,6 +8,7 @@
 #include "fmt/ranges.h"
 #include "mpienv.h"
 #include <assert.h>
+#include <memory>
 #include <unordered_map>
 
 template <class PointTraits_, class Distance_, index_type Index_>
@@ -76,6 +77,8 @@ class DistCoverTree
         PointVector mypoints;
         PointBallTree reptree;
 
+        //GhostTree one_ghost_tree;
+        std::unique_ptr<GhostTree> one_ghost_tree;
         GhostTreeMap ghost_trees; /* (local) maps hub representative to local ghost tree (only stores hub reprs that are local) */
         IndexPairMap ghost_map; /* (global) maps hub representative to (global slot, vertex) */
         IndexMap hub_to_proc_map; /* (global) maps hub representatives to their processor owners */

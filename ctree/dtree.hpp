@@ -219,15 +219,22 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
         comm.alltoallv(sendbufs, recvbuf);
 
-        for (const auto& [id, repr, pt] : recvbuf)
+        one_ghost_tree = std::make_unique<GhostTree>();
+
+        for (auto& [id, repr, pt] : recvbuf)
         {
-            ghost_trees[repr].add_point(pt, id);
+            one_ghost_tree->add_point(pt, id);
         }
 
-        for (auto& [repr, ghost_tree] : ghost_trees)
-        {
-            ghost_tree.set_new_root(repr);
-        }
+        //for (const auto& [id, repr, pt] : recvbuf)
+        //{
+        //    ghost_trees[repr].add_point(pt, id);
+        //}
+
+        //for (auto& [repr, ghost_tree] : ghost_trees)
+        //{
+        //    ghost_tree.set_new_root(repr);
+        //}
 
         timer.stop_timer();
         t = timer.get_max_time();
@@ -235,7 +242,8 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
         if (verbose && !comm.rank())
         {
-            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] constructed local ghost hubs via alltoall\n", __func__, elapsed, t);
+            //fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] constructed local ghost hubs via alltoall\n", __func__, elapsed, t);
+            fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] constructed local ghost hub via alltoall\n", __func__, elapsed, t);
             std::cout << std::flush;
         }
 
@@ -243,16 +251,18 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
         t = -MPI_Wtime();
 
-        for (auto& [_, ghost_tree] : ghost_trees)
-        {
-            ghost_tree.build(split_ratio, min_hub_size, false, false);
-        }
+        one_ghost_tree->build(split_ratio, min_hub_size, false, false);
+        //for (auto& [_, ghost_tree] : ghost_trees)
+        //{
+        //    ghost_tree.build(split_ratio, min_hub_size, false, false);
+        //}
 
         t += MPI_Wtime();
 
         if (verbose)
         {
-            fmt::print("[msg::{},local_time={:.3f}] rank {} finished building its {} ghost trees\n", __func__, t, comm.rank(), ghost_trees.size());
+            //fmt::print("[msg::{},local_time={:.3f}] rank {} finished building its {} ghost trees\n", __func__, t, comm.rank(), ghost_trees.size());
+            fmt::print("[msg::{},local_time={:.3f}] rank {} finished building its ghost tree [num_vertices={},num_levels={},num_points={}]\n", __func__, t, comm.rank(), one_ghost_tree->num_vertices(), one_ghost_tree->num_levels(), one_ghost_tree->num_points());
             std::cout << std::flush;
         }
 
@@ -496,15 +506,15 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
      * Query received points against local ghost trees.
      */
 
-    double t_sort = -MPI_Wtime();
-    std::sort(query_recvbuf.begin(), query_recvbuf.end(), [](const auto& lhs, const auto& rhs) { return lhs.hub < rhs.hub; });
-    t_sort += MPI_Wtime();
+    //double t_sort = -MPI_Wtime();
+    //std::sort(query_recvbuf.begin(), query_recvbuf.end(), [](const auto& lhs, const auto& rhs) { return lhs.hub < rhs.hub; });
+    //t_sort += MPI_Wtime();
 
-    if (verbose)
-    {
-        fmt::print("[msg::{},time={:.3f}] rank {} finished sorting {} received points\n", __func__, t_sort, comm.rank(), query_recvbuf.size());
-        std::cout << std::flush;
-    }
+    //if (verbose)
+    //{
+    //    fmt::print("[msg::{},time={:.3f}] rank {} finished sorting {} received points\n", __func__, t_sort, comm.rank(), query_recvbuf.size());
+    //    std::cout << std::flush;
+    //}
 
     Index num_recv = query_recvbuf.size();
     IndexVectorVector local_neighbors(num_recv);
@@ -513,7 +523,8 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
     for (Index i = 0; i < num_recv; ++i)
     {
         const auto& [pt, id, hub_id, ptrank] = query_recvbuf[i];
-        ghost_trees.at(hub_id).point_query(pt, radius, local_neighbors[i]);
+        one_ghost_tree->point_query(pt, radius, local_neighbors[i]);
+        //ghost_trees.at(hub_id).point_query(pt, radius, local_neighbors[i]);
     }
 
     for (Index i = 0; const auto& [pt, id, hub_id, ptrank] : query_recvbuf)
@@ -531,7 +542,8 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
 
     if (verbose)
     {
-        fmt::print("[msg::{},time={:.3f}] rank {} finished querying {} points against its {} ghost trees, finding {} neighbors\n", __func__, t, comm.rank(), query_recvbuf.size(), ghost_trees.size(), neighbors_found);
+        //fmt::print("[msg::{},time={:.3f}] rank {} finished querying {} points against its {} ghost trees, finding {} neighbors\n", __func__, t, comm.rank(), query_recvbuf.size(), ghost_trees.size(), neighbors_found);
+        fmt::print("[msg::{},time={:.3f}] rank {} finished querying {} points against its ghost tree, finding {} neighbors\n", __func__, t, comm.rank(), query_recvbuf.size(), neighbors_found);
         std::cout << std::flush;
     }
 
