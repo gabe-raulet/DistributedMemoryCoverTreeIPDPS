@@ -407,6 +407,23 @@ template <class PointTraits_, class Distance_, index_type Index_>
 typename DistCoverTree<PointTraits_, Distance_, Index_>::Index
 DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius, IndexVectorVector& myneighbors, bool verbose) const
 {
+    struct PointQuery
+    {
+        Point pt;
+        Index id;
+        Index hub;
+        int ptrank;
+    };
+
+    struct PointResult
+    {
+        Index id;
+        Index neighbor;
+    };
+
+    using PointQueryVector = std::vector<PointQuery>;
+    using PointResultVector = std::vector<PointResult>;
+
     myneighbors.resize(mysize, {});
 
     auto timer = comm.get_timer();
