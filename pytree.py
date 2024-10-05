@@ -10,6 +10,7 @@ def distance(p, q):
     return np.linalg.norm(p-q)
 
 HubPoint = namedtuple("HubPoint", ["id", "leader", "dist"])
+TreeVertex = namedtuple("TreeVertex", ["repr", "radius", "parent"])
 
 class Hub(object):
 
@@ -83,7 +84,6 @@ class Hub(object):
         self.hub_sep = 0.
 
         for i in range(n):
-            #  hpt = self.hub_points[i]
             idx, leader, dist = self.hub_points[i]
             new_leader_dist = distance(self.candidate_point, points[idx])
             if new_leader_dist < dist:
@@ -124,9 +124,7 @@ class Hub(object):
     def add_hub_vertex(self, tree):
         assert self.active
         self.hub_vertex = len(tree)
-        vtx = {'repr' : self.repr(), 'radius' : self.radius(), 'parent' : self.parent(), 'children' : []}
-        tree[self.hub_vertex] = vtx
-        if self.parent() >= 0: tree[self.parent()]['children'].append(self.hub_vertex)
+        tree[self.hub_vertex] = TreeVertex(repr=self.repr(), radius=self.radius(), parent=self.parent())
         return self.hub_vertex
 
     def update_tree(self, tree, next_hubs):
@@ -138,7 +136,7 @@ class Hub(object):
             next_hubs.append(new_hub)
         for leaf in self.leaves:
             vtx = len(tree)
-            tree[vtx] = {'repr' : leaf, 'radius' : 0., 'parent' : self.hub_vertex, 'children' : []}
+            tree[vtx] = TreeVertex(repr=leaf, radius=0., parent=self.hub_vertex)
         return len(self.leaves)
 
 class CoverTree(object):
@@ -173,7 +171,6 @@ class CoverTree(object):
             if leaf_count >= size:
                 break
 
-#  points = create_points(1000, 2)
 fv = np.fromfile("points", dtype="int32")
 d = fv.view(np.int32)[0]
 new = fv.reshape(-1,d+1)[:,1:]
