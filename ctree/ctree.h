@@ -51,6 +51,7 @@ class CoverTree
         Index num_vertices() const { return tree.num_vertices(); }
         Index num_points() const { return points.size(); }
         const Point* point_data() const { return points.data(); }
+        const Index* globid_data() const { return globids.data(); }
 
         struct Ball { Index id; Real radius; };
         struct PointBall { Point pt; Index id; Real radius; };

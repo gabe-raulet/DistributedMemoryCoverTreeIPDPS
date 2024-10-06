@@ -98,6 +98,122 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
 
     } while (static_cast<Real>(leaf_count) < switch_size && leaf_count < totsize);
 
+    assert((leaf_count <= totsize));
+
+    using PointTriple = std::tuple<Index, Index, Point>; // hub id, point id, point
+    using PointTripleVector = std::vector<PointTriple>;
+
+    std::vector<PointTripleVector> sendbufs(comm.size());
+    PointTripleVector recvbuf;
+
+    if (leaf_count < totsize)
+    {
+        for (DistHub& hub : hubs)
+        {
+            Index repr = hub.repr();
+            int owner = point_owner(repr);
+
+            if (owner == comm.rank())
+            {
+                ghost_trees.try_emplace(repr);
+            }
+
+            ghost_map[repr] = hub.add_hub_vertex(repballtree);
+            hub_sizes[repr] = hub.size();
+
+            for (const auto& hub_point : hub.get_hub_points())
+            {
+                Index p = hub_point.id;
+                Point pt = mypoints[p-myoffset];
+                sendbufs[owner].emplace_back(repr, p, pt);
+            }
+        }
+    }
+
+    PointPairVector my_point_pairs, point_pairs;
+
+    for (Index i = 0; i < repballtree.num_vertices(); ++i)
+        if (repballtree.is_leaf(i) && owns_point(repballtree[i].id))
+            my_point_pairs.emplace_back(repballtree[i].id, mypoints[repballtree[i].id-myoffset]);
+
+    comm.allgatherv(my_point_pairs, point_pairs);
+
+    PointMap reptree_points;
+    reptree_points.reserve(point_pairs.size());
+
+    for (const auto& [globid, pt] : point_pairs)
+        reptree_points.insert({globid, pt});
+
+    auto itemizer = [&](const Ball& ball) -> PointBall { return {reptree_points.at(ball.id), ball.id, ball.radius}; };
+
+    repballtree.itemize_new_tree(reptree, itemizer);
+
+    if (leaf_count == totsize)
+        goto mpi_cleanup;
+
+    comm.alltoallv(sendbufs, recvbuf);
+
+    /* std::sort(recvbuf.begin(), recvbuf.end()); */
+
+    for (const auto& [repr, p, pt] : recvbuf)
+    {
+        assert((ghost_trees.contains(repr)));
+        ghost_trees[repr].add_point(pt, p);
+    }
+
+    recvbuf.clear();
+    std::for_each(sendbufs.begin(), sendbufs.end(), [](auto& sendbuf) { sendbuf.clear(); });
+
+    for (auto& [repr, ghost_tree] : ghost_trees)
+    {
+        ghost_tree.set_new_root(repr);
+        Index n = ghost_tree.num_points();
+        const Point* tree_points = ghost_tree.point_data();
+        const Index* tree_globids = ghost_tree.globid_data();
+
+        for (Index i = 0; i < n; ++i)
+        {
+            Point pt = tree_points[i];
+            Index p = tree_globids[i];
+
+            IndexVector neighbors, ghost_hubs;
+            point_query(pt, radius, neighbors, ghost_hubs, repr);
+
+            for (Index ghost_hub : ghost_hubs)
+            {
+                sendbufs[point_owner(ghost_hub)].emplace_back(ghost_hub, p, pt);
+            }
+        }
+    }
+
+    for (const auto& [p, pt] : reptree_points)
+    {
+        if (ghost_map.contains(p))
+            continue;
+
+        IndexVector neighbors, ghost_hubs;
+        point_query(pt, radius, neighbors, ghost_hubs);
+
+        for (Index ghost_hub : ghost_hubs)
+        {
+            sendbufs[point_owner(ghost_hub)].emplace_back(ghost_hub, p, pt);
+        }
+    }
+
+    comm.alltoallv(sendbufs, recvbuf);
+
+    for (const auto& [repr, p, pt] : recvbuf)
+    {
+        assert((ghost_trees.contains(repr)));
+        ghost_trees[repr].add_point(pt, p);
+    }
+
+    for (auto& [repr, ghost_tree] : ghost_trees)
+    {
+        ghost_tree.build(split_ratio, min_hub_size, false, false);
+    }
+
+mpi_cleanup:
     DistHub::free_mpi_argmax_op();
 }
 
