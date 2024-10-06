@@ -51,8 +51,6 @@ class DistCoverTree
         using PointPair = std::pair<Index, Point>;
         using PointPairVector = std::vector<PointPair>;
 
-        DistCoverTree(const Comm& comm) : comm(comm), mysize(0), myoffset(0), totsize(0) {}
-        DistCoverTree(const PointVector& points, int root, const Comm& comm);
         DistCoverTree(const PointVector& mypoints, const Comm& comm);
 
         Index getmysize() const { return mysize; }
