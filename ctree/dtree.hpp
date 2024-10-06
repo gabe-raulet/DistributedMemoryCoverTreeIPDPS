@@ -111,3 +111,42 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
     comm.allreduce(num_edges, MPI_SUM);
     return num_edges;
 }
+
+template <class PointTraits_, class Distance_, index_type Index_>
+void DistCoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query, Real radius, IndexVector& neighbors, IndexVector& ghost_hubs, Index query_hub) const
+{
+    IndexVector stack = {0};
+
+    while (!stack.empty())
+    {
+        Index u = stack.back(); stack.pop_back();
+        const auto& [upt, uid, uradius] = reptree[u];
+
+        IndexVector children;
+        reptree.get_children(u, children);
+
+        if (!children.empty())
+        {
+            for (Index v : children)
+            {
+                const auto& [vpt, vid, vradius] = reptree[v];
+
+                if (distance(query, vpt) <= vradius + radius)
+                    stack.push_back(v);
+            }
+        }
+        else
+        {
+            Real dist = distance(query, upt);
+
+            if (uid != query_hub && ghost_map.contains(uid) && u == ghost_map.at(uid) && dist <= uradius + radius)
+            {
+                ghost_hubs.push_back(uid);
+            }
+            else if (dist <= radius)
+            {
+                neighbors.push_back(uid);
+            }
+        }
+    }
+}

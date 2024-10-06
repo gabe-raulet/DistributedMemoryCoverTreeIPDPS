@@ -63,10 +63,6 @@ class DistCoverTree
 
         void build(Real radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool verbose = false);
 
-        Index num_rep_levels() const { return reptree.num_levels(); }
-        Index num_rep_vertices() const { return reptree.num_vertices(); }
-        Index num_rep_points() const { return reptree_points.size(); }
-
         Index build_epsilon_graph(Real radius, IndexVectorVector& myneighbors) const;
 
         int point_owner(Index globid) const { return (std::upper_bound(offsets.begin(), offsets.end(), globid) - offsets.begin()) - 1; }
@@ -80,7 +76,9 @@ class DistCoverTree
         PointVector mypoints;
 
         PointBallTree reptree;
-        PointMap reptree_points;
+        IndexMap ghost_map;
+
+        void point_query(const Point& query, Real radius, IndexVector& neighbors, IndexVector& ghost_hubs, Index query_hub = -1) const;
 };
 
 #include "dtree.hpp"

@@ -103,7 +103,7 @@ int main_mpi(int argc, char *argv[])
     dtree.build(radius, split_ratio, switch_percent, min_hub_size, verbose);
     timer.stop_timer();
 
-    if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed distributed cover tree [rep_vertices={},rep_levels={},avg_rep_nesting={:.3f}]\n", __func__, timer.get_max_time(), dtree.num_rep_vertices(), dtree.num_rep_levels(), -1.0);
+    if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed distributed cover tree\n", __func__, timer.get_max_time());
 
     /* if (build_graph) */
     /* { */
