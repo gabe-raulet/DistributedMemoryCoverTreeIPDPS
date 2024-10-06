@@ -288,7 +288,7 @@ void DistHub<DistCoverTree>::synchronize_split_hubs(DistHubVector& split_hubs, I
 
 template <class DistCoverTree>
 typename DistHub<DistCoverTree>::Index
-DistHub<DistCoverTree>::update_tree(BallTree& tree, DistHubVector& next_hubs, IndexSet& leaf_pts)
+DistHub<DistCoverTree>::update_tree(BallTree& tree, DistHubVector& next_hubs)
 {
     assert((BaseHub::active));
     BaseHub::add_hub_vertex(tree);
@@ -296,7 +296,6 @@ DistHub<DistCoverTree>::update_tree(BallTree& tree, DistHubVector& next_hubs, In
 
     for (Index i = 0; BaseHub& new_hub : BaseHub::new_hubs)
     {
-        //new_hub.hub_parent = BaseHub::hub_vertex; // TODO: see if this is necessary
         next_hubs.emplace_back(new_hub, BaseHub::hub_vertex, new_hub_sizes[i], myoffset);
         i++;
     }
@@ -304,7 +303,6 @@ DistHub<DistCoverTree>::update_tree(BallTree& tree, DistHubVector& next_hubs, In
     for (Index leaf : BaseHub::leaves)
     {
         tree.add_vertex({leaf, 0.}, BaseHub::hub_vertex);
-        leaf_pts.insert(leaf);
     }
 
     return BaseHub::leaves.size();

@@ -46,7 +46,6 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
     iter = 1;
     leaf_count = 0;
-    IndexSet leaf_pts;
 
     do
     {
@@ -77,7 +76,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
 
         for (DistHub& split_hub : split_hubs)
         {
-            leaf_count += split_hub.update_tree(repballtree, next_hubs, leaf_pts);
+            leaf_count += split_hub.update_tree(repballtree, next_hubs);
         }
 
         std::swap(hubs, next_hubs);

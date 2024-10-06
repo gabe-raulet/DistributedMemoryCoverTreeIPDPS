@@ -134,7 +134,7 @@ class DistHub : public Hub<DistCoverTree>
         static void synchronize_hubs(DistHubVector& hubs, const Comm& comm);
         static void synchronize_split_hubs(DistHubVector& split_hubs, Index min_hub_size, const Comm& comm);
 
-        Index update_tree(BallTree& tree, DistHubVector& next_hubs, IndexSet& leaf_pts);
+        Index update_tree(BallTree& tree, DistHubVector& next_hubs);
 
     private:
 
