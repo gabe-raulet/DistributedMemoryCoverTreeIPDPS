@@ -53,7 +53,6 @@ bool build_graph = false;
 bool verbose = false;
 
 void parse_arguments(int argc, char *argv[], const Comm& comm);
-std::pair<Index, Index> count_missing(const PointVector& mypoints, Real radius, const std::vector<IndexVector>& mygraph, const Comm& comm);
 
 int main_mpi(int argc, char *argv[]);
 int main(int argc, char *argv[])
@@ -116,13 +115,6 @@ int main_mpi(int argc, char *argv[])
         timer.stop_timer();
 
         if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, timer.get_max_time(), totsize, num_edges, (num_edges+0.0)/totsize);
-
-        //timer.start_timer();
-        //const auto& [missing, total] = count_missing(mypoints, radius, mygraph, comm);
-        //timer.stop_timer();
-
-        //if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] {:.3f} percent of edges missing [num_missing={},num_total={}]\n",  __func__, timer.get_max_time(), (100.*missing)/total, missing, total);
-
     }
 
     return 0;
@@ -175,45 +167,4 @@ void parse_arguments(int argc, char *argv[], const Comm& comm)
         fmt::print("[msg::{}] ctree parameters: [split_ratio={:.2f},switch_percent={:.2f},min_hub_size={},verbose={}]\n", __func__, split_ratio, switch_percent, min_hub_size, verbose);
         if (build_graph) fmt::print("[msg::{}] graph parameters: [radius={:.3f}]\n", __func__, radius);
     }
-}
-
-std::pair<Index, Index> count_missing(const PointVector& mypoints, Real radius, const std::vector<IndexVector>& mygraph, const Comm& comm)
-{
-
-    using IndexSet = std::unordered_set<Index>;
-    auto distance = Distance();
-
-    Index mysize = mypoints.size();
-    Index missing = 0;
-    Index total = 0;
-
-    PointVector allpoints;
-    comm.allgatherv(mypoints, allpoints);
-
-    Index totsize = allpoints.size();
-
-    for (Index i = 0; i < mysize; ++i)
-    {
-        IndexVector neighbors; neighbors.reserve(mygraph[i].size());
-
-        for (Index j = 0; j < totsize; ++j)
-            if (distance(mypoints[i], allpoints[j]) <= radius)
-                neighbors.push_back(j);
-
-        total += neighbors.size();
-
-        if (neighbors.size() != mygraph[i].size() || !std::is_permutation(neighbors.begin(), neighbors.end(), mygraph[i].begin()))
-        {
-            IndexSet incorrect(mygraph[i].begin(), mygraph[i].end());
-
-            for (Index v : neighbors)
-                if (!incorrect.contains(v))
-                    missing++;
-        }
-    }
-
-    comm.allreduce(missing, MPI_SUM);
-    comm.allreduce(total, MPI_SUM);
-
-    return {missing, total};
 }
