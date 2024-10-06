@@ -1,10 +1,14 @@
 template <class PointTraits_, class Distance_, index_type Index_>
-DistCoverTree<PointTraits_, Distance_, Index_>::DistCoverTree(const PointVector& mypoints, const Comm& comm) : comm(comm), mysize(mypoints.size()), mypoints(mypoints)
+DistCoverTree<PointTraits_, Distance_, Index_>::DistCoverTree(const PointVector& mypoints, const Comm& comm) : comm(comm), mysize(mypoints.size()), mypoints(mypoints), offsets(comm.size())
 {
-    comm.exscan(mysize, myoffset, MPI_SUM, (Index)0);
+    IndexVector counts(comm.size());
+    counts[comm.rank()] = mysize;
+    comm.allgather(counts);
 
-    totsize = myoffset + mysize;
-    comm.bcast(totsize, comm.size()-1);
+    std::exclusive_scan(counts.begin(), counts.end(), offsets.begin(), static_cast<Index>(0));
+
+    myoffset = offsets[comm.rank()];
+    totsize = offsets.back() + counts.back();
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
@@ -171,11 +175,13 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Re
         for (const auto& hub : hubs)
         {
             Index repr = hub.repr();
-            Index where = (std::upper_bound(offsets.begin(), offsets.end(), repr) - offsets.begin()) - 1;
+            Index where = point_owner(repr);
             hub_to_proc_map.insert({repr, where}); // map the hub to its destination processor
 
-            if (myoffset <= repr && repr < myoffset + mysize)
+            if (owns_point(repr))
+            {
                 ghost_trees.try_emplace(repr); // initialize local hub ghost tree
+            }
         }
 
         using PointTriple = std::tuple<Index, Index, Point>; /* point id, hub repr, point */
@@ -343,7 +349,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::collect_point_map(const Ind
         PointPairVector my_point_pairs, point_pairs;
 
         for (Index globid : globids)
-            if (myoffset <= globid && globid < myoffset + mysize)
+            if (owns_point(globid))
                 my_point_pairs.emplace_back(globid, mypoints[globid-myoffset]);
 
         comm.allgatherv(my_point_pairs, point_pairs);

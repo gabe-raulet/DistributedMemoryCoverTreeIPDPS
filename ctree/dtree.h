@@ -67,9 +67,13 @@ class DistCoverTree
         Index build_epsilon_graph(Real radius, IndexVectorVector& myneighbors) const;
         void point_query(const Point& query, Real epsilon, IndexVector& neighbors) const;
 
+        int point_owner(Index globid) const { return (std::upper_bound(offsets.begin(), offsets.end(), globid) - offsets.begin()) - 1; }
+        bool owns_point(Index globid) const { return myoffset <= globid && globid < myoffset + mysize; }
+
     private:
 
         Comm comm;
+        IndexVector offsets;
         Index mysize, myoffset, totsize;
         PointVector mypoints;
         PointBallTree reptree;
