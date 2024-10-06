@@ -215,7 +215,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
     recvbuf.clear();
     std::for_each(sendbufs.begin(), sendbufs.end(), [](auto& sendbuf) { sendbuf.clear(); });
 
-    Index my_num_queries = 0, root_num_queries = 0;
+    Index my_num_queries = 0, rep_num_queries = 0;
 
     for (auto& [repr, ghost_tree] : ghost_trees)
     {
@@ -240,35 +240,37 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
         }
     }
 
-    ranktime += MPI_Wtime();
+    IndexVector rep_counts(comm.size()), rep_offsets(comm.size());
+    get_balanced_counts(rep_counts, point_pairs.size());
 
-    if (comm.rank()==comm.size()-1)
+    std::exclusive_scan(rep_counts.begin(), rep_counts.end(), rep_offsets.begin(), static_cast<Index>(0));
+
+    /* for (const auto& [p, pt] : point_pairs) */
+
+    for (Index i = 0; i < rep_counts[comm.rank()]; ++i)
     {
-        roottime = -MPI_Wtime();
+        const auto& [p, pt] = point_pairs[i+rep_offsets[comm.rank()]];
 
-        for (const auto& [p, pt] : reptree_points)
+        if (ghost_map.contains(p))
+            continue;
+
+        rep_num_queries++;
+
+        IndexVector neighbors, ghost_hubs;
+        point_query(pt, radius, neighbors, ghost_hubs);
+
+        for (Index ghost_hub : ghost_hubs)
         {
-            if (ghost_map.contains(p))
-                continue;
-
-            root_num_queries++;
-
-            IndexVector neighbors, ghost_hubs;
-            point_query(pt, radius, neighbors, ghost_hubs);
-
-            for (Index ghost_hub : ghost_hubs)
-            {
-                sendbufs[point_owner(ghost_hub)].emplace_back(ghost_hub, p, pt);
-            }
+            sendbufs[point_owner(ghost_hub)].emplace_back(ghost_hub, p, pt);
         }
-
-        roottime += MPI_Wtime();
     }
+
+    ranktime += MPI_Wtime();
 
     if (verbose)
     {
-        fmt::print("[msg::{},elapsed={:.3f},ranktime={:.3f}] rank {} finished querying {} hub points against replication tree\n", __func__, ranktime+elapsed, ranktime, comm.rank(), my_num_queries);
-        if (comm.rank()==comm.size()-1) fmt::print("[msg::{},elapsed={:.3f},ranktime={:.3f}] rank {} finished querying {} replication-tree leaves against replication tree\n", __func__, ranktime+roottime+elapsed, roottime, comm.rank(), root_num_queries);
+        fmt::print("[msg::{},elapsed={:.3f},ranktime={:.3f}] rank {} finished querying {} hub points and {} replication-leaf points against replication tree\n", __func__, ranktime+elapsed, ranktime, comm.rank(), my_num_queries, rep_num_queries);
+        /* if (comm.rank()==comm.size()-1) fmt::print("[msg::{},elapsed={:.3f},ranktime={:.3f}] rank {} finished querying {} replication-tree leaves against replication tree\n", __func__, ranktime+roottime+elapsed, roottime, comm.rank(), root_num_queries); */
         std::cout << std::flush;
     }
 
@@ -295,16 +297,20 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
     timer.start_timer();
     ranktime = -MPI_Wtime();
 
+    Index num_hub_points = 0, num_tree_points = 0;
+
     for (auto& [repr, ghost_tree] : ghost_trees)
     {
         ghost_tree.build(split_ratio, min_hub_size, false, false);
+        num_hub_points += hub_sizes.at(repr);
+        num_tree_points += ghost_tree.num_points();
     }
 
     ranktime += MPI_Wtime();
 
     if (verbose)
     {
-        fmt::print("[msg::{},elapsed={:.3f},ranktime={:.3f}] rank {} finished building {} ghost trees\n", __func__, ranktime+elapsed, ranktime, comm.rank(), ghost_trees.size());
+        fmt::print("[msg::{},elapsed={:.3f},ranktime={:.3f}] rank {} finished building {} ghost trees [num_hub_points={},num_tree_points={},percent_ghost_points={:.3f}]\n", __func__, ranktime+elapsed, ranktime, comm.rank(), ghost_trees.size(), num_hub_points, num_tree_points, 100.*(num_tree_points-num_hub_points) / num_tree_points);
         std::cout << std::flush;
     }
 
