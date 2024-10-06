@@ -12,7 +12,7 @@ DistCoverTree<PointTraits_, Distance_, Index_>::DistCoverTree(const PointVector&
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
-void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real ghost_radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool verbose)
+void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool verbose)
 {
     using DistHub = DistHub<DistCoverTree>;
     using DistHubVector = typename DistHub::DistHubVector;

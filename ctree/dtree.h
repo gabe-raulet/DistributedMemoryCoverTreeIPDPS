@@ -61,7 +61,7 @@ class DistCoverTree
         Comm getcomm() const { return comm; }
         const Point* my_point_data() const { return mypoints.data(); }
 
-        void build(Real ghost_radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool verbose = false);
+        void build(Real radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool verbose = false);
 
         Index num_rep_levels() const { return reptree.num_levels(); }
         Index num_rep_vertices() const { return reptree.num_vertices(); }

@@ -105,17 +105,17 @@ int main_mpi(int argc, char *argv[])
 
     if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed distributed cover tree [rep_vertices={},rep_levels={},avg_rep_nesting={:.3f}]\n", __func__, timer.get_max_time(), dtree.num_rep_vertices(), dtree.num_rep_levels(), -1.0);
 
-    if (build_graph)
-    {
-        std::vector<IndexVector> mygraph;
-        Index num_edges;
+    /* if (build_graph) */
+    /* { */
+        /* std::vector<IndexVector> mygraph; */
+        /* Index num_edges; */
 
-        timer.start_timer();
-        num_edges = dtree.build_epsilon_graph(radius, mygraph);
-        timer.stop_timer();
+        /* timer.start_timer(); */
+        /* num_edges = dtree.build_epsilon_graph(radius, mygraph); */
+        /* timer.stop_timer(); */
 
-        if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, timer.get_max_time(), totsize, num_edges, (num_edges+0.0)/totsize);
-    }
+        /* if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, timer.get_max_time(), totsize, num_edges, (num_edges+0.0)/totsize); */
+    /* } */
 
     return 0;
 }
