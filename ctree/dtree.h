@@ -46,10 +46,12 @@ class DistCoverTree
         using IndexPair = std::pair<Index, Index>;
         using IndexPairMap = std::unordered_map<Index, IndexPair>;
         using IndexVectorVector = std::vector<IndexVector>;
+        using IndexVectorMap = std::unordered_map<Index, IndexVector>;
 
         using PointMap = std::unordered_map<Index, Point>;
         using PointPair = std::pair<Index, Point>;
         using PointPairVector = std::vector<PointPair>;
+        using PointPairVectorMap = std::unordered_map<Index, PointPairVector>;
 
         DistCoverTree(const PointVector& mypoints, const Comm& comm);
 
@@ -78,9 +80,9 @@ class DistCoverTree
         PointVector mypoints;
         PointBallTree reptree;
 
-        GhostTreeMap ghost_trees; /* (local) maps hub representative to local ghost tree (only stores hub reprs that are local) */
-        IndexPairMap ghost_map; /* (global) maps hub representative to (global slot, vertex) */
-        IndexMap hub_to_proc_map; /* (global) maps hub representatives to their processor owners */
+        GhostTreeMap ghost_trees;
+        IndexPairMap ghost_map;
+        IndexMap hub_to_proc_map;
 
         void collect_point_map(const IndexVector& globids, PointMap& point_map) const;
         Index build_replication_tree(const BallTree& repballtree);
