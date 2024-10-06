@@ -1,6 +1,6 @@
 DEBUG?=0
 LOG?=0
-D?=2
+D?=3
 FP?=32
 FLAGS=-std=c++20 -fopenmp -DDIM_SIZE=$(D) -DFP_SIZE=$(FP)
 INCS=-I./misc -I./ptraits -I./mpienv -I./
