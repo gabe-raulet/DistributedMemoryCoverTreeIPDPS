@@ -1,0 +1,987 @@
+{
+    "build_info": {
+        "iterations": [
+            {
+                "iter": 1,
+                "num_hubs": 10,
+                "num_leaves": 0,
+                "num_levels": 1,
+                "num_vertices": 1,
+                "time": 0.01005264901323244
+            },
+            {
+                "iter": 2,
+                "num_hubs": 111,
+                "num_leaves": 9,
+                "num_levels": 3,
+                "num_vertices": 20,
+                "time": 0.00987496500601992
+            },
+            {
+                "iter": 3,
+                "num_hubs": 586,
+                "num_leaves": 1354,
+                "num_levels": 4,
+                "num_vertices": 1476,
+                "time": 0.009459319000598043
+            },
+            {
+                "iter": 4,
+                "num_hubs": 1086,
+                "num_leaves": 11840,
+                "num_levels": 5,
+                "num_vertices": 12548,
+                "time": 0.003807655011769384
+            },
+            {
+                "iter": 5,
+                "num_hubs": 873,
+                "num_leaves": 31011,
+                "num_levels": 6,
+                "num_vertices": 32805,
+                "time": 0.004165406979154795
+            },
+            {
+                "iter": 6,
+                "num_hubs": 279,
+                "num_leaves": 46674,
+                "num_levels": 7,
+                "num_vertices": 49341,
+                "time": 0.0018103659967891872
+            },
+            {
+                "iter": 7,
+                "num_hubs": 15,
+                "num_leaves": 50985,
+                "num_levels": 8,
+                "num_vertices": 53931,
+                "time": 0.0006481150048784912
+            },
+            {
+                "iter": 8,
+                "num_hubs": 0,
+                "num_leaves": 51200,
+                "num_levels": 9,
+                "num_vertices": 54161,
+                "time": 0.00019455701112747192
+            }
+        ],
+        "total_time": 0.04948775400407612
+    },
+    "graph_info": {
+        "graph_threads": [
+            {
+                "thread_dist_comps": 1822359,
+                "thread_edges": 469,
+                "thread_id": 40,
+                "thread_queries": 400,
+                "thread_time": 0.029345873976126313
+            },
+            {
+                "thread_dist_comps": 1875948,
+                "thread_edges": 462,
+                "thread_id": 44,
+                "thread_queries": 400,
+                "thread_time": 0.029867934994399548
+            },
+            {
+                "thread_dist_comps": 1896607,
+                "thread_edges": 471,
+                "thread_id": 41,
+                "thread_queries": 400,
+                "thread_time": 0.029890018049627542
+            },
+            {
+                "thread_dist_comps": 1902623,
+                "thread_edges": 482,
+                "thread_id": 47,
+                "thread_queries": 400,
+                "thread_time": 0.02994302101433277
+            },
+            {
+                "thread_dist_comps": 1814773,
+                "thread_edges": 472,
+                "thread_id": 110,
+                "thread_queries": 400,
+                "thread_time": 0.02998809900600463
+            },
+            {
+                "thread_dist_comps": 1816738,
+                "thread_edges": 474,
+                "thread_id": 127,
+                "thread_queries": 400,
+                "thread_time": 0.030176251952070743
+            },
+            {
+                "thread_dist_comps": 1951844,
+                "thread_edges": 479,
+                "thread_id": 43,
+                "thread_queries": 400,
+                "thread_time": 0.030191502009984106
+            },
+            {
+                "thread_dist_comps": 1951251,
+                "thread_edges": 473,
+                "thread_id": 45,
+                "thread_queries": 400,
+                "thread_time": 0.030258722021244466
+            },
+            {
+                "thread_dist_comps": 1854785,
+                "thread_edges": 464,
+                "thread_id": 113,
+                "thread_queries": 400,
+                "thread_time": 0.03067072998965159
+            },
+            {
+                "thread_dist_comps": 1869262,
+                "thread_edges": 467,
+                "thread_id": 111,
+                "thread_queries": 400,
+                "thread_time": 0.030731256993021816
+            },
+            {
+                "thread_dist_comps": 1848759,
+                "thread_edges": 481,
+                "thread_id": 123,
+                "thread_queries": 400,
+                "thread_time": 0.031204723985865712
+            },
+            {
+                "thread_dist_comps": 1899958,
+                "thread_edges": 474,
+                "thread_id": 121,
+                "thread_queries": 400,
+                "thread_time": 0.0312842580024153
+            },
+            {
+                "thread_dist_comps": 1929914,
+                "thread_edges": 466,
+                "thread_id": 108,
+                "thread_queries": 400,
+                "thread_time": 0.03134019597200677
+            },
+            {
+                "thread_dist_comps": 1886605,
+                "thread_edges": 466,
+                "thread_id": 125,
+                "thread_queries": 400,
+                "thread_time": 0.03135026601376012
+            },
+            {
+                "thread_dist_comps": 1877686,
+                "thread_edges": 466,
+                "thread_id": 88,
+                "thread_queries": 400,
+                "thread_time": 0.03152047598268837
+            },
+            {
+                "thread_dist_comps": 1888215,
+                "thread_edges": 468,
+                "thread_id": 3,
+                "thread_queries": 400,
+                "thread_time": 0.03164380497764796
+            },
+            {
+                "thread_dist_comps": 1910726,
+                "thread_edges": 495,
+                "thread_id": 116,
+                "thread_queries": 400,
+                "thread_time": 0.031653072976041585
+            },
+            {
+                "thread_dist_comps": 1846059,
+                "thread_edges": 473,
+                "thread_id": 12,
+                "thread_queries": 400,
+                "thread_time": 0.03167624800698832
+            },
+            {
+                "thread_dist_comps": 1915840,
+                "thread_edges": 484,
+                "thread_id": 98,
+                "thread_queries": 400,
+                "thread_time": 0.03171046398347244
+            },
+            {
+                "thread_dist_comps": 1807919,
+                "thread_edges": 459,
+                "thread_id": 30,
+                "thread_queries": 400,
+                "thread_time": 0.03170856001088396
+            },
+            {
+                "thread_dist_comps": 1864880,
+                "thread_edges": 460,
+                "thread_id": 93,
+                "thread_queries": 400,
+                "thread_time": 0.0317599400295876
+            },
+            {
+                "thread_dist_comps": 1830100,
+                "thread_edges": 455,
+                "thread_id": 55,
+                "thread_queries": 400,
+                "thread_time": 0.0318015210214071
+            },
+            {
+                "thread_dist_comps": 1882816,
+                "thread_edges": 494,
+                "thread_id": 118,
+                "thread_queries": 400,
+                "thread_time": 0.03186796902446076
+            },
+            {
+                "thread_dist_comps": 1878799,
+                "thread_edges": 482,
+                "thread_id": 117,
+                "thread_queries": 400,
+                "thread_time": 0.03187859000172466
+            },
+            {
+                "thread_dist_comps": 1823785,
+                "thread_edges": 458,
+                "thread_id": 9,
+                "thread_queries": 400,
+                "thread_time": 0.031905131007079035
+            },
+            {
+                "thread_dist_comps": 1941375,
+                "thread_edges": 484,
+                "thread_id": 109,
+                "thread_queries": 400,
+                "thread_time": 0.03192227298859507
+            },
+            {
+                "thread_dist_comps": 1899946,
+                "thread_edges": 474,
+                "thread_id": 46,
+                "thread_queries": 400,
+                "thread_time": 0.03193042002385482
+            },
+            {
+                "thread_dist_comps": 1960960,
+                "thread_edges": 480,
+                "thread_id": 99,
+                "thread_queries": 400,
+                "thread_time": 0.03198973502730951
+            },
+            {
+                "thread_dist_comps": 1864403,
+                "thread_edges": 475,
+                "thread_id": 11,
+                "thread_queries": 400,
+                "thread_time": 0.031991709023714066
+            },
+            {
+                "thread_dist_comps": 1858450,
+                "thread_edges": 459,
+                "thread_id": 64,
+                "thread_queries": 400,
+                "thread_time": 0.03201448294566944
+            },
+            {
+                "thread_dist_comps": 1907611,
+                "thread_edges": 484,
+                "thread_id": 92,
+                "thread_queries": 400,
+                "thread_time": 0.032055401999969035
+            },
+            {
+                "thread_dist_comps": 1952957,
+                "thread_edges": 477,
+                "thread_id": 106,
+                "thread_queries": 400,
+                "thread_time": 0.032093496003653854
+            },
+            {
+                "thread_dist_comps": 1846353,
+                "thread_edges": 462,
+                "thread_id": 67,
+                "thread_queries": 400,
+                "thread_time": 0.03210509801283479
+            },
+            {
+                "thread_dist_comps": 1910153,
+                "thread_edges": 470,
+                "thread_id": 95,
+                "thread_queries": 400,
+                "thread_time": 0.03211675101192668
+            },
+            {
+                "thread_dist_comps": 1968817,
+                "thread_edges": 478,
+                "thread_id": 105,
+                "thread_queries": 400,
+                "thread_time": 0.03215402300702408
+            },
+            {
+                "thread_dist_comps": 1859636,
+                "thread_edges": 461,
+                "thread_id": 28,
+                "thread_queries": 400,
+                "thread_time": 0.03215531603200361
+            },
+            {
+                "thread_dist_comps": 1925778,
+                "thread_edges": 456,
+                "thread_id": 42,
+                "thread_queries": 400,
+                "thread_time": 0.03218975197523832
+            },
+            {
+                "thread_dist_comps": 1864233,
+                "thread_edges": 471,
+                "thread_id": 18,
+                "thread_queries": 400,
+                "thread_time": 0.03221999999368563
+            },
+            {
+                "thread_dist_comps": 1906288,
+                "thread_edges": 472,
+                "thread_id": 119,
+                "thread_queries": 400,
+                "thread_time": 0.0322444069897756
+            },
+            {
+                "thread_dist_comps": 1873768,
+                "thread_edges": 495,
+                "thread_id": 66,
+                "thread_queries": 400,
+                "thread_time": 0.032317920005880296
+            },
+            {
+                "thread_dist_comps": 1911989,
+                "thread_edges": 466,
+                "thread_id": 6,
+                "thread_queries": 400,
+                "thread_time": 0.03234504204010591
+            },
+            {
+                "thread_dist_comps": 1878215,
+                "thread_edges": 461,
+                "thread_id": 13,
+                "thread_queries": 400,
+                "thread_time": 0.03242750297067687
+            },
+            {
+                "thread_dist_comps": 1913904,
+                "thread_edges": 476,
+                "thread_id": 35,
+                "thread_queries": 400,
+                "thread_time": 0.03245746000902727
+            },
+            {
+                "thread_dist_comps": 1899184,
+                "thread_edges": 481,
+                "thread_id": 8,
+                "thread_queries": 400,
+                "thread_time": 0.03248245903523639
+            },
+            {
+                "thread_dist_comps": 1903457,
+                "thread_edges": 479,
+                "thread_id": 2,
+                "thread_queries": 400,
+                "thread_time": 0.03248661698307842
+            },
+            {
+                "thread_dist_comps": 1890105,
+                "thread_edges": 464,
+                "thread_id": 73,
+                "thread_queries": 400,
+                "thread_time": 0.032529178948607296
+            },
+            {
+                "thread_dist_comps": 1972311,
+                "thread_edges": 489,
+                "thread_id": 112,
+                "thread_queries": 400,
+                "thread_time": 0.032534750003833324
+            },
+            {
+                "thread_dist_comps": 1956337,
+                "thread_edges": 486,
+                "thread_id": 100,
+                "thread_queries": 400,
+                "thread_time": 0.032548477000091225
+            },
+            {
+                "thread_dist_comps": 1912760,
+                "thread_edges": 466,
+                "thread_id": 96,
+                "thread_queries": 400,
+                "thread_time": 0.03256059001432732
+            },
+            {
+                "thread_dist_comps": 1975846,
+                "thread_edges": 466,
+                "thread_id": 114,
+                "thread_queries": 400,
+                "thread_time": 0.032570518960710615
+            },
+            {
+                "thread_dist_comps": 1890945,
+                "thread_edges": 470,
+                "thread_id": 74,
+                "thread_queries": 400,
+                "thread_time": 0.03259570803493261
+            },
+            {
+                "thread_dist_comps": 1932268,
+                "thread_edges": 480,
+                "thread_id": 39,
+                "thread_queries": 400,
+                "thread_time": 0.0325949169928208
+            },
+            {
+                "thread_dist_comps": 1844890,
+                "thread_edges": 462,
+                "thread_id": 54,
+                "thread_queries": 400,
+                "thread_time": 0.03266567399259657
+            },
+            {
+                "thread_dist_comps": 1979214,
+                "thread_edges": 471,
+                "thread_id": 115,
+                "thread_queries": 400,
+                "thread_time": 0.032752362021710724
+            },
+            {
+                "thread_dist_comps": 1912410,
+                "thread_edges": 486,
+                "thread_id": 24,
+                "thread_queries": 400,
+                "thread_time": 0.03284967102808878
+            },
+            {
+                "thread_dist_comps": 1954660,
+                "thread_edges": 474,
+                "thread_id": 85,
+                "thread_queries": 400,
+                "thread_time": 0.03285197395598516
+            },
+            {
+                "thread_dist_comps": 1912818,
+                "thread_edges": 482,
+                "thread_id": 79,
+                "thread_queries": 400,
+                "thread_time": 0.032860000035725534
+            },
+            {
+                "thread_dist_comps": 2025156,
+                "thread_edges": 492,
+                "thread_id": 104,
+                "thread_queries": 400,
+                "thread_time": 0.032883646024856716
+            },
+            {
+                "thread_dist_comps": 1958233,
+                "thread_edges": 483,
+                "thread_id": 81,
+                "thread_queries": 400,
+                "thread_time": 0.032888555026147515
+            },
+            {
+                "thread_dist_comps": 1964390,
+                "thread_edges": 461,
+                "thread_id": 4,
+                "thread_queries": 400,
+                "thread_time": 0.03292387299006805
+            },
+            {
+                "thread_dist_comps": 1889432,
+                "thread_edges": 485,
+                "thread_id": 25,
+                "thread_queries": 400,
+                "thread_time": 0.03299607400549576
+            },
+            {
+                "thread_dist_comps": 2035412,
+                "thread_edges": 488,
+                "thread_id": 101,
+                "thread_queries": 400,
+                "thread_time": 0.03302443795837462
+            },
+            {
+                "thread_dist_comps": 1983257,
+                "thread_edges": 472,
+                "thread_id": 5,
+                "thread_queries": 400,
+                "thread_time": 0.03306494595017284
+            },
+            {
+                "thread_dist_comps": 1873584,
+                "thread_edges": 472,
+                "thread_id": 107,
+                "thread_queries": 400,
+                "thread_time": 0.0331193630117923
+            },
+            {
+                "thread_dist_comps": 2008432,
+                "thread_edges": 484,
+                "thread_id": 126,
+                "thread_queries": 400,
+                "thread_time": 0.03315905900672078
+            },
+            {
+                "thread_dist_comps": 1897998,
+                "thread_edges": 460,
+                "thread_id": 49,
+                "thread_queries": 400,
+                "thread_time": 0.0331923239864409
+            },
+            {
+                "thread_dist_comps": 1979907,
+                "thread_edges": 465,
+                "thread_id": 87,
+                "thread_queries": 400,
+                "thread_time": 0.03320463700219989
+            },
+            {
+                "thread_dist_comps": 1943308,
+                "thread_edges": 474,
+                "thread_id": 75,
+                "thread_queries": 400,
+                "thread_time": 0.033227220992557704
+            },
+            {
+                "thread_dist_comps": 1943236,
+                "thread_edges": 467,
+                "thread_id": 71,
+                "thread_queries": 400,
+                "thread_time": 0.03322755196131766
+            },
+            {
+                "thread_dist_comps": 1901760,
+                "thread_edges": 478,
+                "thread_id": 22,
+                "thread_queries": 400,
+                "thread_time": 0.03323882300173864
+            },
+            {
+                "thread_dist_comps": 1945495,
+                "thread_edges": 469,
+                "thread_id": 14,
+                "thread_queries": 400,
+                "thread_time": 0.033385397982783616
+            },
+            {
+                "thread_dist_comps": 1948590,
+                "thread_edges": 473,
+                "thread_id": 78,
+                "thread_queries": 400,
+                "thread_time": 0.03338978602550924
+            },
+            {
+                "thread_dist_comps": 1922732,
+                "thread_edges": 481,
+                "thread_id": 1,
+                "thread_queries": 400,
+                "thread_time": 0.03340601798845455
+            },
+            {
+                "thread_dist_comps": 1942736,
+                "thread_edges": 479,
+                "thread_id": 48,
+                "thread_queries": 400,
+                "thread_time": 0.033418242004700005
+            },
+            {
+                "thread_dist_comps": 1989992,
+                "thread_edges": 489,
+                "thread_id": 38,
+                "thread_queries": 400,
+                "thread_time": 0.03342320001684129
+            },
+            {
+                "thread_dist_comps": 1946758,
+                "thread_edges": 474,
+                "thread_id": 29,
+                "thread_queries": 400,
+                "thread_time": 0.033434021985158324
+            },
+            {
+                "thread_dist_comps": 2042918,
+                "thread_edges": 488,
+                "thread_id": 124,
+                "thread_queries": 400,
+                "thread_time": 0.033460443024523556
+            },
+            {
+                "thread_dist_comps": 1964105,
+                "thread_edges": 471,
+                "thread_id": 15,
+                "thread_queries": 400,
+                "thread_time": 0.03347253700485453
+            },
+            {
+                "thread_dist_comps": 1993159,
+                "thread_edges": 480,
+                "thread_id": 82,
+                "thread_queries": 400,
+                "thread_time": 0.03348910802742466
+            },
+            {
+                "thread_dist_comps": 1987490,
+                "thread_edges": 483,
+                "thread_id": 7,
+                "thread_queries": 400,
+                "thread_time": 0.033522924000862986
+            },
+            {
+                "thread_dist_comps": 2001206,
+                "thread_edges": 481,
+                "thread_id": 83,
+                "thread_queries": 400,
+                "thread_time": 0.03352519799955189
+            },
+            {
+                "thread_dist_comps": 1948708,
+                "thread_edges": 479,
+                "thread_id": 23,
+                "thread_queries": 400,
+                "thread_time": 0.033534035028424114
+            },
+            {
+                "thread_dist_comps": 1948344,
+                "thread_edges": 477,
+                "thread_id": 19,
+                "thread_queries": 400,
+                "thread_time": 0.03354434500215575
+            },
+            {
+                "thread_dist_comps": 1877237,
+                "thread_edges": 464,
+                "thread_id": 52,
+                "thread_queries": 400,
+                "thread_time": 0.03355302300769836
+            },
+            {
+                "thread_dist_comps": 2001538,
+                "thread_edges": 472,
+                "thread_id": 86,
+                "thread_queries": 400,
+                "thread_time": 0.03356021596118808
+            },
+            {
+                "thread_dist_comps": 1947073,
+                "thread_edges": 486,
+                "thread_id": 21,
+                "thread_queries": 400,
+                "thread_time": 0.03357397299259901
+            },
+            {
+                "thread_dist_comps": 1957279,
+                "thread_edges": 474,
+                "thread_id": 26,
+                "thread_queries": 400,
+                "thread_time": 0.033627957047428936
+            },
+            {
+                "thread_dist_comps": 1932355,
+                "thread_edges": 470,
+                "thread_id": 57,
+                "thread_queries": 400,
+                "thread_time": 0.03375535400118679
+            },
+            {
+                "thread_dist_comps": 1989278,
+                "thread_edges": 489,
+                "thread_id": 72,
+                "thread_queries": 400,
+                "thread_time": 0.03376850899076089
+            },
+            {
+                "thread_dist_comps": 1977697,
+                "thread_edges": 480,
+                "thread_id": 10,
+                "thread_queries": 400,
+                "thread_time": 0.033790112007409334
+            },
+            {
+                "thread_dist_comps": 1941477,
+                "thread_edges": 485,
+                "thread_id": 53,
+                "thread_queries": 400,
+                "thread_time": 0.033882600953802466
+            },
+            {
+                "thread_dist_comps": 1951382,
+                "thread_edges": 478,
+                "thread_id": 63,
+                "thread_queries": 400,
+                "thread_time": 0.0339091420173645
+            },
+            {
+                "thread_dist_comps": 2002618,
+                "thread_edges": 474,
+                "thread_id": 91,
+                "thread_queries": 400,
+                "thread_time": 0.03392191702732816
+            },
+            {
+                "thread_dist_comps": 2012375,
+                "thread_edges": 472,
+                "thread_id": 94,
+                "thread_queries": 400,
+                "thread_time": 0.0339418450021185
+            },
+            {
+                "thread_dist_comps": 1991740,
+                "thread_edges": 478,
+                "thread_id": 31,
+                "thread_queries": 400,
+                "thread_time": 0.033950501994695514
+            },
+            {
+                "thread_dist_comps": 1939386,
+                "thread_edges": 483,
+                "thread_id": 58,
+                "thread_queries": 400,
+                "thread_time": 0.034013263997621834
+            },
+            {
+                "thread_dist_comps": 1981360,
+                "thread_edges": 471,
+                "thread_id": 65,
+                "thread_queries": 400,
+                "thread_time": 0.03403408301528543
+            },
+            {
+                "thread_dist_comps": 2014856,
+                "thread_edges": 485,
+                "thread_id": 36,
+                "thread_queries": 400,
+                "thread_time": 0.034036358003504574
+            },
+            {
+                "thread_dist_comps": 1971768,
+                "thread_edges": 476,
+                "thread_id": 103,
+                "thread_queries": 400,
+                "thread_time": 0.03408193704672158
+            },
+            {
+                "thread_dist_comps": 2017973,
+                "thread_edges": 500,
+                "thread_id": 33,
+                "thread_queries": 400,
+                "thread_time": 0.03410258598159999
+            },
+            {
+                "thread_dist_comps": 2027353,
+                "thread_edges": 507,
+                "thread_id": 37,
+                "thread_queries": 400,
+                "thread_time": 0.03412223403574899
+            },
+            {
+                "thread_dist_comps": 1953165,
+                "thread_edges": 483,
+                "thread_id": 61,
+                "thread_queries": 400,
+                "thread_time": 0.0341287370538339
+            },
+            {
+                "thread_dist_comps": 1974603,
+                "thread_edges": 489,
+                "thread_id": 16,
+                "thread_queries": 400,
+                "thread_time": 0.03413842601003125
+            },
+            {
+                "thread_dist_comps": 2056056,
+                "thread_edges": 483,
+                "thread_id": 122,
+                "thread_queries": 400,
+                "thread_time": 0.03416269301669672
+            },
+            {
+                "thread_dist_comps": 2016240,
+                "thread_edges": 479,
+                "thread_id": 68,
+                "thread_queries": 400,
+                "thread_time": 0.0342919229879044
+            },
+            {
+                "thread_dist_comps": 1946765,
+                "thread_edges": 468,
+                "thread_id": 76,
+                "thread_queries": 400,
+                "thread_time": 0.034348351997323334
+            },
+            {
+                "thread_dist_comps": 2003872,
+                "thread_edges": 486,
+                "thread_id": 51,
+                "thread_queries": 400,
+                "thread_time": 0.03442169399932027
+            },
+            {
+                "thread_dist_comps": 1971004,
+                "thread_edges": 477,
+                "thread_id": 62,
+                "thread_queries": 400,
+                "thread_time": 0.03442947898292914
+            },
+            {
+                "thread_dist_comps": 1998898,
+                "thread_edges": 496,
+                "thread_id": 84,
+                "thread_queries": 400,
+                "thread_time": 0.03443725500255823
+            },
+            {
+                "thread_dist_comps": 1996276,
+                "thread_edges": 465,
+                "thread_id": 50,
+                "thread_queries": 400,
+                "thread_time": 0.034464566968381405
+            },
+            {
+                "thread_dist_comps": 2011325,
+                "thread_edges": 487,
+                "thread_id": 69,
+                "thread_queries": 400,
+                "thread_time": 0.034506919037085027
+            },
+            {
+                "thread_dist_comps": 1944756,
+                "thread_edges": 485,
+                "thread_id": 97,
+                "thread_queries": 400,
+                "thread_time": 0.03453279996756464
+            },
+            {
+                "thread_dist_comps": 2026463,
+                "thread_edges": 491,
+                "thread_id": 70,
+                "thread_queries": 400,
+                "thread_time": 0.03454397100722417
+            },
+            {
+                "thread_dist_comps": 1961777,
+                "thread_edges": 500,
+                "thread_id": 56,
+                "thread_queries": 400,
+                "thread_time": 0.03458165400661528
+            },
+            {
+                "thread_dist_comps": 2022737,
+                "thread_edges": 490,
+                "thread_id": 17,
+                "thread_queries": 400,
+                "thread_time": 0.0346460790024139
+            },
+            {
+                "thread_dist_comps": 1992519,
+                "thread_edges": 477,
+                "thread_id": 59,
+                "thread_queries": 400,
+                "thread_time": 0.03465659002540633
+            },
+            {
+                "thread_dist_comps": 2078832,
+                "thread_edges": 506,
+                "thread_id": 34,
+                "thread_queries": 400,
+                "thread_time": 0.03467952401842922
+            },
+            {
+                "thread_dist_comps": 2088407,
+                "thread_edges": 497,
+                "thread_id": 80,
+                "thread_queries": 400,
+                "thread_time": 0.03472294798120856
+            },
+            {
+                "thread_dist_comps": 2109155,
+                "thread_edges": 488,
+                "thread_id": 90,
+                "thread_queries": 400,
+                "thread_time": 0.0348226010100916
+            },
+            {
+                "thread_dist_comps": 2022692,
+                "thread_edges": 502,
+                "thread_id": 27,
+                "thread_queries": 400,
+                "thread_time": 0.034919439000077546
+            },
+            {
+                "thread_dist_comps": 2031134,
+                "thread_edges": 476,
+                "thread_id": 60,
+                "thread_queries": 400,
+                "thread_time": 0.03495046903844923
+            },
+            {
+                "thread_dist_comps": 2042275,
+                "thread_edges": 503,
+                "thread_id": 20,
+                "thread_queries": 400,
+                "thread_time": 0.034969464992173016
+            },
+            {
+                "thread_dist_comps": 2000688,
+                "thread_edges": 482,
+                "thread_id": 102,
+                "thread_queries": 400,
+                "thread_time": 0.0352636449970305
+            },
+            {
+                "thread_dist_comps": 2161974,
+                "thread_edges": 506,
+                "thread_id": 89,
+                "thread_queries": 400,
+                "thread_time": 0.035616768989712
+            },
+            {
+                "thread_dist_comps": 2057183,
+                "thread_edges": 477,
+                "thread_id": 77,
+                "thread_queries": 400,
+                "thread_time": 0.036147386010270566
+            },
+            {
+                "thread_dist_comps": 2021817,
+                "thread_edges": 510,
+                "thread_id": 120,
+                "thread_queries": 400,
+                "thread_time": 0.037729561037849635
+            },
+            {
+                "thread_dist_comps": 1976225,
+                "thread_edges": 482,
+                "thread_id": 32,
+                "thread_queries": 400,
+                "thread_time": 0.03775454900460318
+            },
+            {
+                "thread_dist_comps": 1947232,
+                "thread_edges": 487,
+                "thread_id": 0,
+                "thread_queries": 400,
+                "thread_time": 0.03857378597604111
+            }
+        ],
+        "num_edges": 61172,
+        "num_vertices": 51200,
+        "total_time": 0.03944329998921603
+    },
+    "parameter_info": {
+        "min_hub_size": 10,
+        "num_threads": 128,
+        "radius": 2.0,
+        "split_ratio": 0.800000011920929,
+        "switch_percent": 100.0
+    },
+    "points_info": {
+        "dimension": 8,
+        "filename": "points",
+        "float_size": 32,
+        "size": 51200
+    }
+}

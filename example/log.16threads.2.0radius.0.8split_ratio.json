@@ -1,0 +1,203 @@
+{
+    "build_info": {
+        "iterations": [
+            {
+                "iter": 1,
+                "num_hubs": 10,
+                "num_leaves": 0,
+                "num_levels": 1,
+                "num_vertices": 1,
+                "time": 0.00866642501205206
+            },
+            {
+                "iter": 2,
+                "num_hubs": 111,
+                "num_leaves": 9,
+                "num_levels": 3,
+                "num_vertices": 20,
+                "time": 0.008680821978487074
+            },
+            {
+                "iter": 3,
+                "num_hubs": 586,
+                "num_leaves": 1354,
+                "num_levels": 4,
+                "num_vertices": 1476,
+                "time": 0.007123415998648852
+            },
+            {
+                "iter": 4,
+                "num_hubs": 1086,
+                "num_leaves": 11840,
+                "num_levels": 5,
+                "num_vertices": 12548,
+                "time": 0.0035592829808592796
+            },
+            {
+                "iter": 5,
+                "num_hubs": 873,
+                "num_leaves": 31011,
+                "num_levels": 6,
+                "num_vertices": 32805,
+                "time": 0.004387285967823118
+            },
+            {
+                "iter": 6,
+                "num_hubs": 279,
+                "num_leaves": 46674,
+                "num_levels": 7,
+                "num_vertices": 49341,
+                "time": 0.0020095619838684797
+            },
+            {
+                "iter": 7,
+                "num_hubs": 15,
+                "num_leaves": 50985,
+                "num_levels": 8,
+                "num_vertices": 53931,
+                "time": 0.0006514420383609831
+            },
+            {
+                "iter": 8,
+                "num_hubs": 0,
+                "num_leaves": 51200,
+                "num_levels": 9,
+                "num_vertices": 54161,
+                "time": 6.756995571777225e-05
+            }
+        ],
+        "total_time": 0.04513324098661542
+    },
+    "graph_info": {
+        "graph_threads": [
+            {
+                "thread_dist_comps": 15375838,
+                "thread_edges": 3808,
+                "thread_id": 13,
+                "thread_queries": 3200,
+                "thread_time": 0.18578617402818054
+            },
+            {
+                "thread_dist_comps": 15226356,
+                "thread_edges": 3766,
+                "thread_id": 5,
+                "thread_queries": 3200,
+                "thread_time": 0.18619173899060115
+            },
+            {
+                "thread_dist_comps": 15360785,
+                "thread_edges": 3833,
+                "thread_id": 14,
+                "thread_queries": 3200,
+                "thread_time": 0.18624078400898725
+            },
+            {
+                "thread_dist_comps": 15198943,
+                "thread_edges": 3768,
+                "thread_id": 1,
+                "thread_queries": 3200,
+                "thread_time": 0.1867548000300303
+            },
+            {
+                "thread_dist_comps": 15581283,
+                "thread_edges": 3860,
+                "thread_id": 15,
+                "thread_queries": 3200,
+                "thread_time": 0.1869729930185713
+            },
+            {
+                "thread_dist_comps": 15578992,
+                "thread_edges": 3797,
+                "thread_id": 9,
+                "thread_queries": 3200,
+                "thread_time": 0.18730086705181748
+            },
+            {
+                "thread_dist_comps": 15557195,
+                "thread_edges": 3811,
+                "thread_id": 8,
+                "thread_queries": 3200,
+                "thread_time": 0.18738963000942022
+            },
+            {
+                "thread_dist_comps": 15334586,
+                "thread_edges": 3756,
+                "thread_id": 6,
+                "thread_queries": 3200,
+                "thread_time": 0.18823077803244814
+            },
+            {
+                "thread_dist_comps": 15649733,
+                "thread_edges": 3873,
+                "thread_id": 2,
+                "thread_queries": 3200,
+                "thread_time": 0.19126282999059185
+            },
+            {
+                "thread_dist_comps": 15387866,
+                "thread_edges": 3819,
+                "thread_id": 3,
+                "thread_queries": 3200,
+                "thread_time": 0.19127168704289943
+            },
+            {
+                "thread_dist_comps": 15698521,
+                "thread_edges": 3847,
+                "thread_id": 12,
+                "thread_queries": 3200,
+                "thread_time": 0.1921269539743662
+            },
+            {
+                "thread_dist_comps": 15732722,
+                "thread_edges": 3844,
+                "thread_id": 7,
+                "thread_queries": 3200,
+                "thread_time": 0.1926681719487533
+            },
+            {
+                "thread_dist_comps": 15846452,
+                "thread_edges": 3820,
+                "thread_id": 11,
+                "thread_queries": 3200,
+                "thread_time": 0.19436062994645908
+            },
+            {
+                "thread_dist_comps": 15951403,
+                "thread_edges": 3925,
+                "thread_id": 4,
+                "thread_queries": 3200,
+                "thread_time": 0.19740257097873837
+            },
+            {
+                "thread_dist_comps": 15976008,
+                "thread_edges": 3848,
+                "thread_id": 10,
+                "thread_queries": 3200,
+                "thread_time": 0.2002858350169845
+            },
+            {
+                "thread_dist_comps": 15508762,
+                "thread_edges": 3797,
+                "thread_id": 0,
+                "thread_queries": 3200,
+                "thread_time": 0.22512884001480415
+            }
+        ],
+        "num_edges": 61172,
+        "num_vertices": 51200,
+        "total_time": 0.22573621600167826
+    },
+    "parameter_info": {
+        "min_hub_size": 10,
+        "num_threads": 16,
+        "radius": 2.0,
+        "split_ratio": 0.800000011920929,
+        "switch_percent": 100.0
+    },
+    "points_info": {
+        "dimension": 8,
+        "filename": "points",
+        "float_size": 32,
+        "size": 51200
+    }
+}
