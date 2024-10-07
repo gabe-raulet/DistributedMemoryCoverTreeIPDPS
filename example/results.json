@@ -1,0 +1,1738 @@
+{
+    "experiments": [
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.009372949600219727
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.014011144638061523
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.008703947067260742
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.004240989685058594
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.0047130584716796875
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.005724191665649414
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.002866029739379883
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0006868839263916016
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 8.082389831542969e-05
+                    }
+                ],
+                "total_time": 0.05981588363647461
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 230077491,
+                        "thread_edges": 40309,
+                        "thread_id": 2,
+                        "thread_queries": 22756,
+                        "thread_time": 2.4181840419769287
+                    },
+                    {
+                        "thread_dist_comps": 229744688,
+                        "thread_edges": 40465,
+                        "thread_id": 7,
+                        "thread_queries": 22755,
+                        "thread_time": 2.47119402885437
+                    },
+                    {
+                        "thread_dist_comps": 230970552,
+                        "thread_edges": 40458,
+                        "thread_id": 1,
+                        "thread_queries": 22756,
+                        "thread_time": 2.485473871231079
+                    },
+                    {
+                        "thread_dist_comps": 232474999,
+                        "thread_edges": 40567,
+                        "thread_id": 6,
+                        "thread_queries": 22755,
+                        "thread_time": 2.4870190620422363
+                    },
+                    {
+                        "thread_dist_comps": 232229939,
+                        "thread_edges": 40576,
+                        "thread_id": 5,
+                        "thread_queries": 22755,
+                        "thread_time": 2.489582061767578
+                    },
+                    {
+                        "thread_dist_comps": 231936973,
+                        "thread_edges": 40814,
+                        "thread_id": 4,
+                        "thread_queries": 22756,
+                        "thread_time": 2.5019500255584717
+                    },
+                    {
+                        "thread_dist_comps": 232039260,
+                        "thread_edges": 40589,
+                        "thread_id": 0,
+                        "thread_queries": 22756,
+                        "thread_time": 2.5039010047912598
+                    },
+                    {
+                        "thread_dist_comps": 232507605,
+                        "thread_edges": 40587,
+                        "thread_id": 8,
+                        "thread_queries": 22755,
+                        "thread_time": 2.5286080837249756
+                    },
+                    {
+                        "thread_dist_comps": 231863839,
+                        "thread_edges": 40329,
+                        "thread_id": 3,
+                        "thread_queries": 22756,
+                        "thread_time": 2.5515048503875732
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 2.552008867263794
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 9,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        },
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.009363889694213867
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.014471054077148438
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.00845789909362793
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.004137992858886719
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.004585981369018555
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.00631403923034668
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.002911806106567383
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0006580352783203125
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 8.702278137207031e-05
+                    }
+                ],
+                "total_time": 0.06009101867675781
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 208303142,
+                        "thread_edges": 36265,
+                        "thread_id": 6,
+                        "thread_queries": 20480,
+                        "thread_time": 2.473639965057373
+                    },
+                    {
+                        "thread_dist_comps": 208647406,
+                        "thread_edges": 36619,
+                        "thread_id": 4,
+                        "thread_queries": 20480,
+                        "thread_time": 2.495835065841675
+                    },
+                    {
+                        "thread_dist_comps": 208892904,
+                        "thread_edges": 36551,
+                        "thread_id": 0,
+                        "thread_queries": 20480,
+                        "thread_time": 2.4980459213256836
+                    },
+                    {
+                        "thread_dist_comps": 208484815,
+                        "thread_edges": 36437,
+                        "thread_id": 1,
+                        "thread_queries": 20480,
+                        "thread_time": 2.507251024246216
+                    },
+                    {
+                        "thread_dist_comps": 206498052,
+                        "thread_edges": 36194,
+                        "thread_id": 2,
+                        "thread_queries": 20480,
+                        "thread_time": 2.5075290203094482
+                    },
+                    {
+                        "thread_dist_comps": 206567584,
+                        "thread_edges": 36521,
+                        "thread_id": 8,
+                        "thread_queries": 20480,
+                        "thread_time": 2.521176815032959
+                    },
+                    {
+                        "thread_dist_comps": 208170721,
+                        "thread_edges": 36343,
+                        "thread_id": 3,
+                        "thread_queries": 20480,
+                        "thread_time": 2.5219509601593018
+                    },
+                    {
+                        "thread_dist_comps": 209601997,
+                        "thread_edges": 36647,
+                        "thread_id": 7,
+                        "thread_queries": 20480,
+                        "thread_time": 2.5524070262908936
+                    },
+                    {
+                        "thread_dist_comps": 209401468,
+                        "thread_edges": 36507,
+                        "thread_id": 9,
+                        "thread_queries": 20480,
+                        "thread_time": 2.556523084640503
+                    },
+                    {
+                        "thread_dist_comps": 209277257,
+                        "thread_edges": 36610,
+                        "thread_id": 5,
+                        "thread_queries": 20480,
+                        "thread_time": 2.5606040954589844
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 2.5611989498138428
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 10,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        },
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.010345935821533203
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.014673948287963867
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.009790897369384766
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.0055768489837646484
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.006412982940673828
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.00795888900756836
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.003465890884399414
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0008220672607421875
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 7.009506225585938e-05
+                    }
+                ],
+                "total_time": 0.06848692893981934
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 414668773,
+                        "thread_edges": 72537,
+                        "thread_id": 1,
+                        "thread_queries": 40960,
+                        "thread_time": 3.7598488330841064
+                    },
+                    {
+                        "thread_dist_comps": 417377719,
+                        "thread_edges": 72988,
+                        "thread_id": 0,
+                        "thread_queries": 40960,
+                        "thread_time": 3.7601709365844727
+                    },
+                    {
+                        "thread_dist_comps": 417905139,
+                        "thread_edges": 72912,
+                        "thread_id": 3,
+                        "thread_queries": 40960,
+                        "thread_time": 3.7744410037994385
+                    },
+                    {
+                        "thread_dist_comps": 415969052,
+                        "thread_edges": 73028,
+                        "thread_id": 4,
+                        "thread_queries": 40960,
+                        "thread_time": 3.7782909870147705
+                    },
+                    {
+                        "thread_dist_comps": 417924663,
+                        "thread_edges": 73229,
+                        "thread_id": 2,
+                        "thread_queries": 40960,
+                        "thread_time": 3.794250011444092
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 3.794734001159668
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 5,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        },
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.009274005889892578
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.014046907424926758
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.00911402702331543
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.006684064865112305
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.007033109664916992
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.0076830387115478516
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.0034918785095214844
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0007638931274414062
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 5.507469177246094e-05
+                    }
+                ],
+                "total_time": 0.06684589385986328
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 520000193,
+                        "thread_edges": 90973,
+                        "thread_id": 0,
+                        "thread_queries": 51200,
+                        "thread_time": 4.140606164932251
+                    },
+                    {
+                        "thread_dist_comps": 519922448,
+                        "thread_edges": 91139,
+                        "thread_id": 3,
+                        "thread_queries": 51200,
+                        "thread_time": 4.18036413192749
+                    },
+                    {
+                        "thread_dist_comps": 520693705,
+                        "thread_edges": 91171,
+                        "thread_id": 1,
+                        "thread_queries": 51200,
+                        "thread_time": 4.1943519115448
+                    },
+                    {
+                        "thread_dist_comps": 523229000,
+                        "thread_edges": 91411,
+                        "thread_id": 2,
+                        "thread_queries": 51200,
+                        "thread_time": 4.22678017616272
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 4.227154970169067
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 4,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        },
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.00935506820678711
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.01411581039428711
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.00860285758972168
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.0045969486236572266
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.004725933074951172
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.006284952163696289
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.0031130313873291016
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0008039474487304688
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 0.0011408329010009766
+                    }
+                ],
+                "total_time": 0.06266999244689941
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 188092622,
+                        "thread_edges": 32908,
+                        "thread_id": 2,
+                        "thread_queries": 18618,
+                        "thread_time": 2.603994846343994
+                    },
+                    {
+                        "thread_dist_comps": 188369645,
+                        "thread_edges": 32832,
+                        "thread_id": 3,
+                        "thread_queries": 18618,
+                        "thread_time": 2.626492977142334
+                    },
+                    {
+                        "thread_dist_comps": 189128987,
+                        "thread_edges": 33114,
+                        "thread_id": 1,
+                        "thread_queries": 18619,
+                        "thread_time": 2.6430070400238037
+                    },
+                    {
+                        "thread_dist_comps": 189239312,
+                        "thread_edges": 33108,
+                        "thread_id": 8,
+                        "thread_queries": 18618,
+                        "thread_time": 2.6443259716033936
+                    },
+                    {
+                        "thread_dist_comps": 190101804,
+                        "thread_edges": 33291,
+                        "thread_id": 0,
+                        "thread_queries": 18619,
+                        "thread_time": 2.6554298400878906
+                    },
+                    {
+                        "thread_dist_comps": 190587708,
+                        "thread_edges": 33272,
+                        "thread_id": 10,
+                        "thread_queries": 18618,
+                        "thread_time": 2.6620900630950928
+                    },
+                    {
+                        "thread_dist_comps": 190104522,
+                        "thread_edges": 33248,
+                        "thread_id": 4,
+                        "thread_queries": 18618,
+                        "thread_time": 2.665583848953247
+                    },
+                    {
+                        "thread_dist_comps": 189490595,
+                        "thread_edges": 33000,
+                        "thread_id": 7,
+                        "thread_queries": 18618,
+                        "thread_time": 2.6649298667907715
+                    },
+                    {
+                        "thread_dist_comps": 190466002,
+                        "thread_edges": 33314,
+                        "thread_id": 6,
+                        "thread_queries": 18618,
+                        "thread_time": 2.686789035797119
+                    },
+                    {
+                        "thread_dist_comps": 187917278,
+                        "thread_edges": 33138,
+                        "thread_id": 9,
+                        "thread_queries": 18618,
+                        "thread_time": 2.7041611671447754
+                    },
+                    {
+                        "thread_dist_comps": 190346871,
+                        "thread_edges": 33469,
+                        "thread_id": 5,
+                        "thread_queries": 18618,
+                        "thread_time": 2.7153220176696777
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 2.7158000469207764
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 11,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        },
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.009433984756469727
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.014224052429199219
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.008990049362182617
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.00433802604675293
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.005265951156616211
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.006266117095947266
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.0031518936157226562
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0007078647613525391
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 7.295608520507812e-05
+                    }
+                ],
+                "total_time": 0.0617671012878418
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 259372951,
+                        "thread_edges": 45345,
+                        "thread_id": 2,
+                        "thread_queries": 25600,
+                        "thread_time": 2.3733670711517334
+                    },
+                    {
+                        "thread_dist_comps": 261365375,
+                        "thread_edges": 45797,
+                        "thread_id": 0,
+                        "thread_queries": 25600,
+                        "thread_time": 2.4094619750976562
+                    },
+                    {
+                        "thread_dist_comps": 258546352,
+                        "thread_edges": 45505,
+                        "thread_id": 6,
+                        "thread_queries": 25600,
+                        "thread_time": 2.4584579467773438
+                    },
+                    {
+                        "thread_dist_comps": 261376096,
+                        "thread_edges": 45634,
+                        "thread_id": 7,
+                        "thread_queries": 25600,
+                        "thread_time": 2.521507978439331
+                    },
+                    {
+                        "thread_dist_comps": 262264646,
+                        "thread_edges": 45902,
+                        "thread_id": 4,
+                        "thread_queries": 25600,
+                        "thread_time": 2.533337116241455
+                    },
+                    {
+                        "thread_dist_comps": 261320754,
+                        "thread_edges": 45826,
+                        "thread_id": 3,
+                        "thread_queries": 25600,
+                        "thread_time": 2.5629000663757324
+                    },
+                    {
+                        "thread_dist_comps": 260964354,
+                        "thread_edges": 45509,
+                        "thread_id": 5,
+                        "thread_queries": 25600,
+                        "thread_time": 2.677351951599121
+                    },
+                    {
+                        "thread_dist_comps": 258634818,
+                        "thread_edges": 45176,
+                        "thread_id": 1,
+                        "thread_queries": 25600,
+                        "thread_time": 2.7108078002929688
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 2.7111740112304688
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 8,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        },
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.010367870330810547
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.014878034591674805
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.009104013442993164
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.00747990608215332
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.008655071258544922
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.009032964706420898
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.004213094711303711
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0008530616760253906
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 6.508827209472656e-05
+                    }
+                ],
+                "total_time": 0.07346796989440918
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 693076495,
+                        "thread_edges": 121353,
+                        "thread_id": 0,
+                        "thread_queries": 68267,
+                        "thread_time": 5.59274697303772
+                    },
+                    {
+                        "thread_dist_comps": 694744505,
+                        "thread_edges": 121621,
+                        "thread_id": 2,
+                        "thread_queries": 68266,
+                        "thread_time": 5.596307992935181
+                    },
+                    {
+                        "thread_dist_comps": 696024346,
+                        "thread_edges": 121720,
+                        "thread_id": 1,
+                        "thread_queries": 68267,
+                        "thread_time": 5.6099770069122314
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 5.610332012176514
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 3,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        },
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.009145021438598633
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.014195919036865234
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.010766983032226562
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.010695934295654297
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.011661052703857422
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.011388063430786133
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.005196094512939453
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0009839534759521484
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 6.198883056640625e-05
+                    }
+                ],
+                "total_time": 0.08344697952270508
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 1040693898,
+                        "thread_edges": 182144,
+                        "thread_id": 0,
+                        "thread_queries": 102400,
+                        "thread_time": 7.807065010070801
+                    },
+                    {
+                        "thread_dist_comps": 1043151448,
+                        "thread_edges": 182550,
+                        "thread_id": 1,
+                        "thread_queries": 102400,
+                        "thread_time": 7.863087892532349
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 7.863540172576904
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 2,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        },
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.01351308822631836
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.02366805076599121
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.022472143173217773
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.020108938217163086
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.021185874938964844
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.018793106079101562
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.009111166000366211
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0017650127410888672
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 9.393692016601562e-05
+                    }
+                ],
+                "total_time": 0.14106297492980957
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 2083845346,
+                        "thread_edges": 364694,
+                        "thread_id": 0,
+                        "thread_queries": 204800,
+                        "thread_time": 15.449773073196411
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 15.45012903213501
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 1,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        },
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.009257078170776367
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.014351844787597656
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.008772134780883789
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.004418849945068359
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.005020856857299805
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.0059239864349365234
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.004462003707885742
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0007050037384033203
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 0.0007920265197753906
+                    }
+                ],
+                "total_time": 0.06359100341796875
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 174811162,
+                        "thread_edges": 30482,
+                        "thread_id": 8,
+                        "thread_queries": 17066,
+                        "thread_time": 2.588318109512329
+                    },
+                    {
+                        "thread_dist_comps": 172697390,
+                        "thread_edges": 30433,
+                        "thread_id": 10,
+                        "thread_queries": 17066,
+                        "thread_time": 2.611909866333008
+                    },
+                    {
+                        "thread_dist_comps": 173409919,
+                        "thread_edges": 30311,
+                        "thread_id": 1,
+                        "thread_queries": 17067,
+                        "thread_time": 2.6402227878570557
+                    },
+                    {
+                        "thread_dist_comps": 173066276,
+                        "thread_edges": 30380,
+                        "thread_id": 3,
+                        "thread_queries": 17067,
+                        "thread_time": 2.6526541709899902
+                    },
+                    {
+                        "thread_dist_comps": 172170085,
+                        "thread_edges": 30125,
+                        "thread_id": 2,
+                        "thread_queries": 17067,
+                        "thread_time": 2.653128147125244
+                    },
+                    {
+                        "thread_dist_comps": 173473419,
+                        "thread_edges": 30584,
+                        "thread_id": 5,
+                        "thread_queries": 17067,
+                        "thread_time": 2.65960693359375
+                    },
+                    {
+                        "thread_dist_comps": 174501817,
+                        "thread_edges": 30556,
+                        "thread_id": 6,
+                        "thread_queries": 17067,
+                        "thread_time": 2.6617980003356934
+                    },
+                    {
+                        "thread_dist_comps": 174154700,
+                        "thread_edges": 30209,
+                        "thread_id": 4,
+                        "thread_queries": 17067,
+                        "thread_time": 2.6652679443359375
+                    },
+                    {
+                        "thread_dist_comps": 173913069,
+                        "thread_edges": 30371,
+                        "thread_id": 7,
+                        "thread_queries": 17067,
+                        "thread_time": 2.6694540977478027
+                    },
+                    {
+                        "thread_dist_comps": 173026966,
+                        "thread_edges": 30288,
+                        "thread_id": 9,
+                        "thread_queries": 17066,
+                        "thread_time": 2.694589853286743
+                    },
+                    {
+                        "thread_dist_comps": 174441023,
+                        "thread_edges": 30540,
+                        "thread_id": 0,
+                        "thread_queries": 17067,
+                        "thread_time": 2.705171823501587
+                    },
+                    {
+                        "thread_dist_comps": 174179520,
+                        "thread_edges": 30415,
+                        "thread_id": 11,
+                        "thread_queries": 17066,
+                        "thread_time": 2.731215000152588
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 2.7316360473632812
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 12,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        },
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.00923299789428711
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.013868093490600586
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.008428096771240234
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.00475621223449707
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.005221843719482422
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.006747007369995117
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.003123044967651367
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0009198188781738281
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 8.296966552734375e-05
+                    }
+                ],
+                "total_time": 0.06142020225524902
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 297702217,
+                        "thread_edges": 51905,
+                        "thread_id": 2,
+                        "thread_queries": 29257,
+                        "thread_time": 2.9896349906921387
+                    },
+                    {
+                        "thread_dist_comps": 298617001,
+                        "thread_edges": 51915,
+                        "thread_id": 4,
+                        "thread_queries": 29257,
+                        "thread_time": 3.0122880935668945
+                    },
+                    {
+                        "thread_dist_comps": 297879572,
+                        "thread_edges": 52434,
+                        "thread_id": 3,
+                        "thread_queries": 29257,
+                        "thread_time": 3.0172390937805176
+                    },
+                    {
+                        "thread_dist_comps": 295981859,
+                        "thread_edges": 51756,
+                        "thread_id": 1,
+                        "thread_queries": 29257,
+                        "thread_time": 3.031402111053467
+                    },
+                    {
+                        "thread_dist_comps": 297392947,
+                        "thread_edges": 52109,
+                        "thread_id": 6,
+                        "thread_queries": 29257,
+                        "thread_time": 3.043735980987549
+                    },
+                    {
+                        "thread_dist_comps": 297905995,
+                        "thread_edges": 52320,
+                        "thread_id": 5,
+                        "thread_queries": 29257,
+                        "thread_time": 3.048395872116089
+                    },
+                    {
+                        "thread_dist_comps": 298365755,
+                        "thread_edges": 52255,
+                        "thread_id": 0,
+                        "thread_queries": 29258,
+                        "thread_time": 3.093158006668091
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 3.093554973602295
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 7,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        },
+        {
+            "build_info": {
+                "iterations": [
+                    {
+                        "iter": 1,
+                        "num_hubs": 7,
+                        "num_leaves": 0,
+                        "num_levels": 1,
+                        "num_vertices": 1,
+                        "time": 0.010163068771362305
+                    },
+                    {
+                        "iter": 2,
+                        "num_hubs": 84,
+                        "num_leaves": 0,
+                        "num_levels": 2,
+                        "num_vertices": 8,
+                        "time": 0.014518976211547852
+                    },
+                    {
+                        "iter": 3,
+                        "num_hubs": 687,
+                        "num_leaves": 125,
+                        "num_levels": 4,
+                        "num_vertices": 217,
+                        "time": 0.008874893188476562
+                    },
+                    {
+                        "iter": 4,
+                        "num_hubs": 2837,
+                        "num_leaves": 7580,
+                        "num_levels": 5,
+                        "num_vertices": 8359,
+                        "time": 0.005095958709716797
+                    },
+                    {
+                        "iter": 5,
+                        "num_hubs": 4631,
+                        "num_leaves": 53895,
+                        "num_levels": 6,
+                        "num_vertices": 57511,
+                        "time": 0.005671977996826172
+                    },
+                    {
+                        "iter": 6,
+                        "num_hubs": 3336,
+                        "num_leaves": 134883,
+                        "num_levels": 7,
+                        "num_vertices": 143130,
+                        "time": 0.0076100826263427734
+                    },
+                    {
+                        "iter": 7,
+                        "num_hubs": 828,
+                        "num_leaves": 191936,
+                        "num_levels": 8,
+                        "num_vertices": 203519,
+                        "time": 0.0036079883575439453
+                    },
+                    {
+                        "iter": 8,
+                        "num_hubs": 47,
+                        "num_leaves": 204193,
+                        "num_levels": 9,
+                        "num_vertices": 216604,
+                        "time": 0.0009009838104248047
+                    },
+                    {
+                        "iter": 9,
+                        "num_hubs": 0,
+                        "num_leaves": 204800,
+                        "num_levels": 10,
+                        "num_vertices": 217258,
+                        "time": 7.796287536621094e-05
+                    }
+                ],
+                "total_time": 0.06623005867004395
+            },
+            "graph_info": {
+                "graph_threads": [
+                    {
+                        "thread_dist_comps": 347610878,
+                        "thread_edges": 60789,
+                        "thread_id": 2,
+                        "thread_queries": 34133,
+                        "thread_time": 3.126410961151123
+                    },
+                    {
+                        "thread_dist_comps": 345236361,
+                        "thread_edges": 60505,
+                        "thread_id": 1,
+                        "thread_queries": 34134,
+                        "thread_time": 3.146430015563965
+                    },
+                    {
+                        "thread_dist_comps": 346894724,
+                        "thread_edges": 60851,
+                        "thread_id": 5,
+                        "thread_queries": 34133,
+                        "thread_time": 3.1590640544891357
+                    },
+                    {
+                        "thread_dist_comps": 348402660,
+                        "thread_edges": 60928,
+                        "thread_id": 3,
+                        "thread_queries": 34133,
+                        "thread_time": 3.174795150756836
+                    },
+                    {
+                        "thread_dist_comps": 347850942,
+                        "thread_edges": 60851,
+                        "thread_id": 0,
+                        "thread_queries": 34134,
+                        "thread_time": 3.204010009765625
+                    },
+                    {
+                        "thread_dist_comps": 347849781,
+                        "thread_edges": 60770,
+                        "thread_id": 4,
+                        "thread_queries": 34133,
+                        "thread_time": 3.2255349159240723
+                    }
+                ],
+                "num_edges": 364694,
+                "num_vertices": 204800,
+                "total_time": 3.225985050201416
+            },
+            "parameter_info": {
+                "min_hub_size": 10,
+                "num_threads": 6,
+                "radius": 2.0,
+                "split_ratio": 0.800000011920929,
+                "switch_percent": 100.0
+            },
+            "points_info": {
+                "dimension": 8,
+                "filename": "../../points",
+                "float_size": 32,
+                "size": 204800
+            }
+        }
+    ]
+}
