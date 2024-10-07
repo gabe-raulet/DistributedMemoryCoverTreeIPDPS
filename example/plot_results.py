@@ -51,19 +51,22 @@ def plot_build_iter_info(exp):
     parameter_info = parse_parameter_info(exp["parameter_info"])
     points_info = parse_points_info(exp["points_info"])
 
-    fig, axs = plt.subplots(3, figsize=(10,5))
+    fig = plt.figure(figsize=(10,5))
+    gs = fig.add_gridspec(3, hspace=0)
+    axs = gs.subplots(sharex=True, sharey=False)
+    #  fig, axs = plt.subplots(3, figsize=(10,5), sharex=True, sharey=False)
 
     cumulative_times = np.add.accumulate(build_info.iter_times)
     xdata = np.array(range(len(build_info.num_hubs)))
     avg_hub_sizes = (points_info.size - build_info.num_leaves)[:-1] / (build_info.num_hubs)[:-1]
 
-    axs[0].plot(xdata, build_info.num_leaves, ':x', markersize=0.5, linewidth=0.7, color='green', label="# of leaves")
-    axs[0].plot(xdata, build_info.num_vertices, '--o', markersize=0.5, linewidth=1.0, color='blue', label="# of vertices")
+    axs[0].plot(xdata, build_info.num_leaves, ':x', markersize=0.8, linewidth=0.7, color='green', label="# of leaves")
+    axs[0].plot(xdata, build_info.num_vertices, '--o', markersize=0.8, linewidth=1.0, color='blue', label="# of vertices")
     #  axs[0].legend()
 
-    axs[1].plot(xdata, build_info.num_levels, ':s', markersize=0.1, color='red', label="# of levels")
+    axs[1].plot(xdata, build_info.num_levels, ':s', markersize=0.3, color='red', label="# of levels")
     axs[1].plot(xdata[:-1], build_info.num_hubs[:-1], '-^', linewidth=0.5, markersize=0.5, color='black', label="# of hubs")
-    axs[1].plot(xdata[:-1], avg_hub_sizes, ':*', color='orange', markersize=0.1, label="average hub size")
+    axs[1].plot(xdata[:-1], avg_hub_sizes, ':*', color='orange', markersize=0.3, label="average hub size")
     axs[1].set_yscale("log")
     #  axs[1].legend()
 
@@ -73,7 +76,7 @@ def plot_build_iter_info(exp):
     axs[2].set_xlabel("Iteration")
     #  axs[2].legend()
 
-    axs[0].set_title(f"Tree construction runtime (split ratio = {parameter_info.split_ratio:.2f})")
+    axs[0].set_title(f"Tree construction runtime evolution (split ratio = {parameter_info.split_ratio:.2f})")
     fig.legend(loc="upper right")
     plt.show()
     fig.savefig(f"build_iter_info.{get_points_info_string(points_info)}.{get_params_info_string(parameter_info)}.pdf")
