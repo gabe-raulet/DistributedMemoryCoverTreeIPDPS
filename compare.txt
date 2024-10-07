@@ -1,0 +1,75 @@
+[msg::parse_arguments,mpi_num_ranks=8,commit=10010c3-dirty,when='2024/10/06 19:24:32'] cmd: ./main_mpi -r 8 -S 0.8 -v -s 2 points
+[msg::parse_arguments] point parameters: [file='points',dim=16,fp=32]
+[msg::parse_arguments] ctree parameters: [split_ratio=0.80,switch_percent=2.00,min_hub_size=10,verbose=true]
+[msg::parse_arguments] graph parameters: [radius=8.000]
+[msg::main_mpi,time=0.003] read 51200 points from file 'points'
+[msg::main_mpi,time=0.000] initialized distributed cover tree
+[msg::build,elapsed=0.000,time=0.000] initialized root hub [farthest_point=45028,root_hub_radius=31.193]
+[msg::build,elapsed=0.000,time=0.000] 0.00 percent leaves reached [iter=1,levels=0,vertices=0,hubs=1,avg_hub_size=51200.000]
+[msg::build,elapsed=0.000,time=0.000] 0.00 percent leaves reached [iter=2,levels=0,vertices=0,hubs=1,avg_hub_size=51200.000]
+[msg::build,elapsed=0.000,time=0.000] 0.00 percent leaves reached [iter=3,levels=0,vertices=0,hubs=1,avg_hub_size=51200.000]
+[msg::build,elapsed=0.001,time=0.000] 0.00 percent leaves reached [iter=4,levels=0,vertices=0,hubs=1,avg_hub_size=51200.000]
+[msg::build,elapsed=0.001,time=0.000] 0.00 percent leaves reached [iter=5,levels=0,vertices=0,hubs=1,avg_hub_size=51200.000]
+[msg::build,elapsed=0.001,time=0.000] 0.00 percent leaves reached [iter=6,levels=0,vertices=0,hubs=1,avg_hub_size=51200.000]
+[msg::build,elapsed=0.001,time=0.000] 0.00 percent leaves reached [iter=7,levels=0,vertices=0,hubs=1,avg_hub_size=51200.000]
+[msg::build,elapsed=0.001,time=0.000] 0.00 percent leaves reached [iter=8,levels=1,vertices=1,hubs=9,avg_hub_size=5688.889]
+[msg::build,elapsed=0.001,time=0.000] 0.00 percent leaves reached [iter=9,levels=1,vertices=1,hubs=9,avg_hub_size=5688.889]
+[msg::build,elapsed=0.001,time=0.000] 0.00 percent leaves reached [iter=10,levels=1,vertices=1,hubs=9,avg_hub_size=5688.889]
+[msg::build,elapsed=0.001,time=0.000] 0.03 percent leaves reached [iter=11,levels=3,vertices=17,hubs=9,avg_hub_size=5687.222]
+[msg::build,elapsed=0.001,time=0.000] 0.03 percent leaves reached [iter=12,levels=3,vertices=17,hubs=9,avg_hub_size=5687.222]
+[msg::build,elapsed=0.001,time=0.000] 0.03 percent leaves reached [iter=13,levels=3,vertices=17,hubs=9,avg_hub_size=5687.222]
+[msg::build,elapsed=0.001,time=0.000] 0.06 percent leaves reached [iter=14,levels=4,vertices=36,hubs=8,avg_hub_size=6395.875]
+[msg::build,elapsed=0.001,time=0.000] 0.06 percent leaves reached [iter=15,levels=4,vertices=36,hubs=8,avg_hub_size=6395.875]
+[msg::build,elapsed=0.002,time=0.000] 0.06 percent leaves reached [iter=16,levels=4,vertices=36,hubs=8,avg_hub_size=6395.875]
+[msg::build,elapsed=0.002,time=0.000] 0.06 percent leaves reached [iter=17,levels=4,vertices=36,hubs=8,avg_hub_size=6395.875]
+[msg::build,elapsed=0.002,time=0.000] 0.11 percent leaves reached [iter=18,levels=4,vertices=59,hubs=15,avg_hub_size=3409.667]
+[msg::build,elapsed=0.002,time=0.000] 0.11 percent leaves reached [iter=19,levels=4,vertices=59,hubs=15,avg_hub_size=3409.667]
+[msg::build,elapsed=0.002,time=0.000] 0.11 percent leaves reached [iter=20,levels=4,vertices=59,hubs=15,avg_hub_size=3409.667]
+[msg::build,elapsed=0.002,time=0.000] 0.11 percent leaves reached [iter=21,levels=4,vertices=59,hubs=15,avg_hub_size=3409.667]
+[msg::build,elapsed=0.002,time=0.000] 0.13 percent leaves reached [iter=22,levels=4,vertices=74,hubs=28,avg_hub_size=1826.143]
+[msg::build,elapsed=0.002,time=0.000] 0.21 percent leaves reached [iter=23,levels=4,vertices=114,hubs=25,avg_hub_size=2043.800]
+[msg::build,elapsed=0.002,time=0.000] 0.33 percent leaves reached [iter=24,levels=4,vertices=181,hubs=23,avg_hub_size=2218.739]
+[msg::build,elapsed=0.002,time=0.000] 0.33 percent leaves reached [iter=25,levels=4,vertices=181,hubs=23,avg_hub_size=2218.739]
+[msg::build,elapsed=0.002,time=0.000] 0.36 percent leaves reached [iter=26,levels=4,vertices=199,hubs=22,avg_hub_size=2318.818]
+[msg::build,elapsed=0.002,time=0.000] 0.36 percent leaves reached [iter=27,levels=4,vertices=201,hubs=60,avg_hub_size=850.233]
+[msg::build,elapsed=0.002,time=0.000] 0.50 percent leaves reached [iter=28,levels=4,vertices=275,hubs=59,avg_hub_size=863.424]
+[msg::build,elapsed=0.002,time=0.000] 0.57 percent leaves reached [iter=29,levels=4,vertices=311,hubs=58,avg_hub_size=877.707]
+[msg::build,elapsed=0.003,time=0.000] 0.71 percent leaves reached [iter=30,levels=4,vertices=386,hubs=102,avg_hub_size=498.392]
+[msg::build,elapsed=0.003,time=0.000] 1.16 percent leaves reached [iter=31,levels=5,vertices=625,hubs=98,avg_hub_size=516.367]
+[msg::build,elapsed=0.003,time=0.000] 1.30 percent leaves reached [iter=32,levels=5,vertices=699,hubs=102,avg_hub_size=495.412]
+[msg::build,elapsed=0.003,time=0.000] 1.50 percent leaves reached [iter=33,levels=5,vertices=806,hubs=97,avg_hub_size=519.897]
+[msg::build,elapsed=0.003,time=0.000] 1.75 percent leaves reached [iter=34,levels=5,vertices=938,hubs=99,avg_hub_size=508.101]
+[msg::build,elapsed=0.003,time=0.000] 2.42 percent leaves reached [iter=35,levels=5,vertices=1288,hubs=133,avg_hub_size=375.662]
+[msg::build,elapsed=0.003,time=0.000] initialized 133 local trees and loaded outgoing hub point buffers
+[msg::build,elapsed=0.006,time=0.002] added points to replication tree vertices
+[msg::build,elapsed=0.009,time=0.003] collected hubs to local ranks via alltoall
+[msg::build,elapsed=0.020,ranktime=0.011] rank 7 finished querying 555 hub points and 164 replication-leaf points against replication tree
+[msg::build,elapsed=0.026,ranktime=0.017] rank 3 finished querying 784 hub points and 147 replication-leaf points against replication tree
+[msg::build,elapsed=0.033,ranktime=0.024] rank 1 finished querying 1440 hub points and 152 replication-leaf points against replication tree
+[msg::build,elapsed=0.036,ranktime=0.027] rank 4 finished querying 1547 hub points and 145 replication-leaf points against replication tree
+[msg::build,elapsed=0.038,ranktime=0.029] rank 5 finished querying 1732 hub points and 153 replication-leaf points against replication tree
+[msg::build,elapsed=0.044,ranktime=0.035] rank 2 finished querying 1964 hub points and 163 replication-leaf points against replication tree
+[msg::build,elapsed=0.051,ranktime=0.042] rank 6 finished querying 2440 hub points and 147 replication-leaf points against replication tree
+[msg::build,elapsed=0.660,ranktime=0.651] rank 0 finished querying 39501 hub points and 166 replication-leaf points against replication tree
+[msg::build,elapsed=0.776,time=0.767] finished setting up 133 ghost trees
+[msg::build,elapsed=1.125,ranktime=0.349] rank 7 finished building 8 ghost trees [num_hub_points=555,num_tree_points=342917,percent_ghost_points=99.838]
+[msg::build,elapsed=1.374,ranktime=0.597] rank 3 finished building 11 ghost trees [num_hub_points=784,num_tree_points=509674,percent_ghost_points=99.846]
+[msg::build,elapsed=1.398,ranktime=0.622] rank 1 finished building 12 ghost trees [num_hub_points=1440,num_tree_points=569644,percent_ghost_points=99.747]
+[msg::build,elapsed=1.619,ranktime=0.842] rank 4 finished building 16 ghost trees [num_hub_points=1547,num_tree_points=733550,percent_ghost_points=99.789]
+[msg::build,elapsed=1.673,ranktime=0.897] rank 5 finished building 18 ghost trees [num_hub_points=1732,num_tree_points=850173,percent_ghost_points=99.796]
+[msg::build,elapsed=1.749,ranktime=0.973] rank 0 finished building 20 ghost trees [num_hub_points=39501,num_tree_points=915151,percent_ghost_points=95.684]
+[msg::build,elapsed=1.884,ranktime=1.108] rank 2 finished building 23 ghost trees [num_hub_points=1964,num_tree_points=1059541,percent_ghost_points=99.815]
+[msg::build,elapsed=2.041,ranktime=1.264] rank 6 finished building 25 ghost trees [num_hub_points=2440,num_tree_points=1146080,percent_ghost_points=99.787]
+[msg::main_mpi,time=2.043] constructed distributed cover tree
+[msg::build_epsilon_graph,ranktime=0.223] rank 7 finished computing local neighbors for 710 points
+[msg::build_epsilon_graph,ranktime=0.319] rank 3 finished computing local neighbors for 939 points
+[msg::build_epsilon_graph,ranktime=0.607] rank 1 finished computing local neighbors for 1594 points
+[msg::build_epsilon_graph,ranktime=0.614] rank 4 finished computing local neighbors for 1702 points
+[msg::build_epsilon_graph,ranktime=0.669] rank 5 finished computing local neighbors for 1887 points
+[msg::build_epsilon_graph,ranktime=0.752] rank 2 finished computing local neighbors for 2118 points
+[msg::build_epsilon_graph,ranktime=0.949] rank 6 finished computing local neighbors for 2595 points
+[msg::build_epsilon_graph,ranktime=16.737] rank 0 finished computing local neighbors for 39655 points
+[msg::build_epsilon_graph,time=16.737] finished finding local neighbors
+[msg::build_epsilon_graph,time=0.002] finished sending neighbors to their owners
+[msg::build_epsilon_graph,time=0.005] finished receiving neighbors
+[msg::main_mpi,time=16.745] constructed epsilon graph [vertices=51200,edges=721614,avg_deg=14.094]

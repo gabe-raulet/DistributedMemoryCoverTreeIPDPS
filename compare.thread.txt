@@ -1,0 +1,15 @@
+[msg::parse_arguments] cmd: ./main -r 8 -S 0.8 -v -t12 points [omp_num_threads=12,commit=10010c3-dirty,when='2024/10/06 19:25:31']
+[msg::parse_arguments] point parameters: [file='points',dim=16,fp=32]
+[msg::parse_arguments] ctree parameters: [split_ratio=0.80,switch_percent=100.00,min_hub_size=10,level_synch=true,verify_tree=false,verbose=true]
+[msg::parse_arguments] graph parameters: [radius=8.000,verify_graph=false]
+[msg::main,time=0.002] read 51200 points from file 'points'
+[msg::build,elapsed=0.000,time=0.000] initialized root hub [farthest_point=45028,root_hub_radius=31.193]
+[msg::build,elapsed=0.005,time=0.005] 0.00 percent leaves reached [iter=1,levels=1,vertices=1,hubs=9,avg_hub_size=5688.889]
+[msg::build,elapsed=0.023,time=0.017] 0.07 percent leaves reached [iter=2,levels=3,vertices=47,hubs=188,avg_hub_size=272.144]
+[msg::build,elapsed=0.037,time=0.014] 15.32 percent leaves reached [iter=3,levels=4,vertices=8040,hubs=1172,avg_hub_size=36.995]
+[msg::build,elapsed=0.039,time=0.003] 78.31 percent leaves reached [iter=4,levels=5,vertices=41463,hubs=582,avg_hub_size=19.084]
+[msg::build,elapsed=0.040,time=0.001] 99.71 percent leaves reached [iter=5,levels=6,vertices=53005,hubs=9,avg_hub_size=16.333]
+[msg::build,elapsed=0.040,time=0.000] 100.00 percent leaves reached [iter=6,levels=7,vertices=53161,hubs=0,avg_hub_size=nan]
+[msg::build,elapsed=0.041,time=0.001] added points to tree
+[msg::main,time=0.042] constructed cover tree [vertices=53161,levels=7,avg_nesting=1.038]
+[msg::main,time=2.451] constructed epsilon graph [vertices=51200,edges=721614,avg_deg=14.094]
