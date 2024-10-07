@@ -93,7 +93,7 @@ class DistCoverTree
         double estimate_workload(const DistHub& hub, RandomGen& gen, Real split_ratio, Real sample_ratio) const
         {
             Index n = static_cast<Index>(std::floor(sample_ratio * hub.localsize()));
-            if (n <= 10) return 0.;
+            if (n <= 2) return 0.;
 
             PointVector pts;
             pts.reserve(hub.localsize());
@@ -108,7 +108,7 @@ class DistCoverTree
 
             double t = -MPI_Wtime();
             GhostTree gt(pts);
-            gt.build(split_ratio, 2, false, false);
+            gt.build(split_ratio, 5, false, false);
             t += MPI_Wtime();
 
             return t;

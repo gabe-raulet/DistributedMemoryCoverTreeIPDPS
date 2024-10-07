@@ -111,7 +111,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
 
         for (DistHub& hub : hubs)
         {
-            workload_estimates.push_back(estimate_workload(hub, gen, split_ratio, 0.5));
+            workload_estimates.push_back(estimate_workload(hub, gen, split_ratio, 0.05));
         }
 
         comm.allreduce(workload_estimates, MPI_SUM);
