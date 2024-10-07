@@ -176,6 +176,8 @@ namespace MPIEnv
             template <class T> int alltoallv(const std::vector<T>& sendbuf, const std::vector<int>& sendcounts, std::vector<T>& recvbuf) const;
             template <class T> int alltoallv(const std::vector<std::vector<T>>& sendbufs, std::vector<T>& recvbuf) const;
 
+            template <class T> int balanced_buffer(const std::vector<T>& sendbuf, std::vector<T>& recvbuf) const;
+
             void log_strings(const std::string& mystr, std::ostream& os) const;
             void log_string(const std::string& str, std::ostream& os, int root) const;
 

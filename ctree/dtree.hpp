@@ -239,6 +239,12 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
         }
     }
 
+    PointTripleVector my_balanced_queries;
+    comm.balanced_buffer(my_queries, my_balanced_queries);
+
+    std::swap(my_balanced_queries, my_queries);
+    my_num_queries = my_queries.size();
+
     for (const auto& [repr, p, pt] : my_queries)
     {
         IndexVector neighbors, ghost_hubs;

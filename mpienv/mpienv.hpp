@@ -581,6 +581,32 @@ namespace MPIEnv
                              recvbuf.data(), recvcounts.data(), rdispls.data(), dtype, comm);
     }
 
+    template <class T> int Comm::balanced_buffer(const std::vector<T>& sendbuf, std::vector<T>& recvbuf) const
+    {
+        std::vector<std::vector<T>> outgoing(nprocs);
+
+        size_t totsize = sendbuf.size();
+        allreduce(totsize, MPI_SUM);
+
+        std::vector<int> counts(nprocs), displs(nprocs);
+        get_balanced_counts(counts, totsize);
+
+        std::exclusive_scan(counts.begin(), counts.end(), displs.begin(), static_cast<int>(0));
+
+        size_t mysize = sendbuf.size();
+        size_t myoffset;
+
+        exscan(mysize, myoffset, MPI_SUM, (size_t)0);
+
+        for (size_t i = 0; i < mysize; ++i)
+        {
+            int where = (std::upper_bound(displs.begin(), displs.end(), i+myoffset) - displs.begin()) - 1;
+            outgoing[where].push_back(sendbuf[i]);
+        }
+
+        return alltoallv(outgoing, recvbuf);
+    }
+
     void Comm::log_strings(const std::string& mystr, std::ostream& os) const
     {
         std::vector<char> mybuf(mystr.begin(), mystr.end());
