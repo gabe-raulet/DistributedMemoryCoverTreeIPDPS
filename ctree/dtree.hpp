@@ -325,6 +325,9 @@ template <class PointTraits_, class Distance_, index_type Index_>
 typename DistCoverTree<PointTraits_, Distance_, Index_>::Index
 DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius, IndexVectorVector& myneighbors) const
 {
+    auto timer = comm.get_timer();
+    timer.start_timer();
+
     int myrank = comm.rank();
     int nprocs = comm.size();
 
@@ -388,8 +391,28 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
         }
     }
 
-    comm.alltoallv(sendbufs, recvbuf);
+    timer.stop_timer();
+    double t = timer.get_max_time();
 
+    if (!comm.rank())
+    {
+        fmt::print("[msg::{},time={:.3f}] finished finding local neighbors\n", __func__, t);
+        std::cout << std::flush;
+    }
+
+    timer.start_timer();
+    comm.alltoallv(sendbufs, recvbuf);
+    timer.stop_timer();
+
+    t = timer.get_max_time();
+
+    if (!comm.rank())
+    {
+        fmt::print("[msg::{},time={:.3f}] finished sending neighbors to their owners\n", __func__, t);
+        std::cout << std::flush;
+    }
+
+    timer.start_timer();
     for (const auto& [u, v] : recvbuf)
     {
         myneighbors[u-myoffset].push_back(v);
@@ -397,6 +420,15 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
     }
 
     comm.allreduce(num_edges, MPI_SUM);
+    timer.stop_timer();
+    t = timer.get_max_time();
+
+    if (!comm.rank())
+    {
+        fmt::print("[msg::{},time={:.3f}] finished receiving neighbors\n", __func__, t);
+        std::cout << std::flush;
+    }
+
     return num_edges;
 }
 
