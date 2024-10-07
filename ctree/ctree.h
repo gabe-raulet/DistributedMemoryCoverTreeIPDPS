@@ -43,7 +43,7 @@ class CoverTree
         CoverTree(const PointVector& points) : points(points) {}
         CoverTree(const PointVector& points, const IndexVector& globids) : points(points), globids(globids) {}
 
-        void build(Real split_ratio, Index min_hub_size, bool threaded, bool verbose = false);
+        void build(Real split_ratio, Index min_hub_size, bool threaded, json& stats_json, bool verbose = false);
         void point_query(const Point& query, Real epsilon, IndexVector& neighbors) const;
         bool is_correct(Real split_ratio) const;
 

@@ -1,5 +1,5 @@
 template <class PointTraits_, class Distance_, index_type Index_>
-void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index min_hub_size, bool threaded, bool verbose)
+void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index min_hub_size, bool threaded, json& stats_json, bool verbose)
 {
     using Hub = Hub<CoverTree>;
     using HubVector = typename Hub::HubVector;
@@ -27,6 +27,8 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index m
     iter = 1;
     leaf_count = 0;
     std::vector<bool> leaf_flags(size, false);
+
+    std::vector<json> iter_jsons;
 
     do
     {
@@ -65,10 +67,20 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index m
         elapsed += t;
 
         avg_hub_size = (size-leaf_count+0.0)/hubs.size();
+        double leaf_percent = (100.0*leaf_count)/size;
+
+        iter_jsons.emplace_back();
+        auto& iter_json = iter_jsons.back();
+
+        iter_json["iter"] = iter;
+        iter_json["time"] = t;
+        iter_json["num_hubs"] = hubs.size();
+        iter_json["num_leaves"] = leaf_count;
+        iter_json["num_levels"] = balltree.num_levels();
+        iter_json["num_vertices"] = balltree.num_vertices();
 
         if (verbose)
         {
-            double leaf_percent = (100.0*leaf_count)/size;
             fmt::print("[msg::{},elapsed={:.3f},time={:.3f}] {:.2f} percent leaves reached [iter={},levels={},vertices={},hubs={},avg_hub_size={:.3f}]\n", __func__, elapsed, t, leaf_percent, iter, balltree.num_levels(), balltree.num_vertices(), hubs.size(), avg_hub_size);
             std::cout << std::flush;
         }
@@ -76,6 +88,8 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index m
         iter++;
 
     } while (leaf_count < size);
+
+    stats_json["iterations"] = iter_jsons;
 
     t = -omp_get_wtime();
 

@@ -72,7 +72,13 @@ int main(int argc, char *argv[])
     nthreads = omp_get_num_threads();
 
     json stats_json;
-    json points_info;
+    json parameter_info, points_info, build_info;
+
+    parameter_info["radius"] = radius;
+    parameter_info["split_ratio"] = split_ratio;
+    parameter_info["switch_percent"] = switch_percent;
+    parameter_info["min_hub_size"] = min_hub_size;
+    parameter_info["num_threads"] = nthreads;
 
     points_info["filename"] = fname;
     points_info["size"] = size;
@@ -80,11 +86,15 @@ int main(int argc, char *argv[])
     points_info["float_size"] = sizeof(Real) << 3;
 
     stats_json["points_info"] = points_info;
+    stats_json["parameter_info"] = parameter_info;
 
     t = -omp_get_wtime();
     CoverTree<PointTraits, Distance, Index> ctree(points);
-    ctree.build(split_ratio, min_hub_size, true, verbose);
+    ctree.build(split_ratio, min_hub_size, true, build_info, verbose);
     t += omp_get_wtime();
+
+    build_info["total_time"] = t;
+    stats_json["build_info"] = build_info;
 
     fmt::print("[msg::{},time={:.3f}] constructed cover tree [vertices={},levels={},avg_nesting={:.3f}]\n", __func__, t, ctree.num_vertices(), ctree.num_levels(), (ctree.num_vertices()+0.0)/size);
 
