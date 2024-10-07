@@ -14,9 +14,6 @@ DistCoverTree<PointTraits_, Distance_, Index_>::DistCoverTree(const PointVector&
 template <class PointTraits_, class Distance_, index_type Index_>
 void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real split_ratio, Real switch_percent, Index min_hub_size, bool verbose)
 {
-    using DistHub = DistHub<DistCoverTree>;
-    using DistHubVector = typename DistHub::DistHubVector;
-
     auto timer = comm.get_timer();
     double elapsed,  t;
     Real avg_hub_size;
@@ -107,15 +104,49 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
     {
         timer.start_timer();
 
+        std::random_device rd;
+        std::default_random_engine gen(rd());
+
+        std::vector<double> workload_estimates;
+
+        for (DistHub& hub : hubs)
+        {
+            workload_estimates.push_back(estimate_workload(hub, gen, split_ratio, 0.5));
+        }
+
+        comm.allreduce(workload_estimates, MPI_SUM);
+
+        /* std::unordered_map<Index, double> work_counts; */
+        std::vector<std::pair<Index, double>> work_counts;
+
+        for (Index i = 0; i < hubs.size(); ++i)
+        {
+            work_counts.emplace_back(hubs[i].repr(), workload_estimates[i]);
+        }
+
+        /* std::sort(work_counts.begin(), work_counts.end(), [](const auto& a, const auto& b) { return a.second >= b.second; }); */
+
+        std::vector<double> workloads(comm.size(), 0.);
+
+        for (const auto& [repr, estimate] : work_counts)
+        {
+            int smallest_rank = std::distance(workloads.begin(), std::min_element(workloads.begin(), workloads.end()));
+            hub_proc_map[repr] = smallest_rank;
+            workloads[smallest_rank] += estimate;
+        }
+
         for (DistHub& hub : hubs)
         {
             Index repr = hub.repr();
-            int owner = point_owner(repr);
+            /* hub_proc_map[repr] = point_owner(repr); */
 
-            if (owner == comm.rank())
-            {
+            if (hub_proc_map.at(repr) == comm.rank())
                 ghost_trees.try_emplace(repr);
-            }
+        }
+
+        for (DistHub& hub : hubs)
+        {
+            Index repr = hub.repr();
 
             ghost_map[repr] = hub.add_hub_vertex(repballtree);
             hub_sizes[repr] = hub.size();
@@ -124,7 +155,7 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
             {
                 Index p = hub_point.id;
                 Point pt = mypoints[p-myoffset];
-                sendbufs[owner].emplace_back(repr, p, pt);
+                sendbufs[hub_proc_map.at(repr)].emplace_back(repr, p, pt);
             }
         }
 
@@ -252,7 +283,8 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
 
         for (Index ghost_hub : ghost_hubs)
         {
-            sendbufs[point_owner(ghost_hub)].emplace_back(ghost_hub, p, pt);
+            /* sendbufs[point_owner(ghost_hub)].emplace_back(ghost_hub, p, pt); */
+            sendbufs[hub_proc_map.at(ghost_hub)].emplace_back(ghost_hub, p, pt);
         }
     }
 
@@ -275,7 +307,8 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
 
         for (Index ghost_hub : ghost_hubs)
         {
-            sendbufs[point_owner(ghost_hub)].emplace_back(ghost_hub, p, pt);
+            /* sendbufs[point_owner(ghost_hub)].emplace_back(ghost_hub, p, pt); */
+            sendbufs[hub_proc_map.at(ghost_hub)].emplace_back(ghost_hub, p, pt);
         }
     }
 

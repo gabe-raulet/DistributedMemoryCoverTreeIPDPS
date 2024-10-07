@@ -78,13 +78,41 @@ class DistCoverTree
 
         PointBallTree reptree;
         PointMap reptree_points;
-        IndexMap ghost_map, hub_sizes;
+        IndexMap ghost_map, hub_sizes, hub_proc_map;
         GhostTreeMap ghost_trees;
 
         void point_query(const Point& query, Real radius, IndexVector& neighbors, IndexVector& ghost_hubs, Index query_hub = -1) const;
 
+        using DistHub = DistHub<DistCoverTree>;
+        using DistHubVector = typename DistHub::DistHubVector;
+
         using PointTriple = std::tuple<Index, Index, Point>; // hub id, point id, point
         using PointTripleVector = std::vector<PointTriple>;
+
+        template <class RandomGen>
+        double estimate_workload(const DistHub& hub, RandomGen& gen, Real split_ratio, Real sample_ratio) const
+        {
+            Index n = static_cast<Index>(std::floor(sample_ratio * hub.localsize()));
+            if (n <= 10) return 0.;
+
+            PointVector pts;
+            pts.reserve(hub.localsize());
+
+            for (const auto& hub_point : hub.get_hub_points())
+            {
+                pts.push_back(mypoints[hub_point.id-myoffset]);
+            }
+
+            std::shuffle(pts.begin(), pts.end(), gen);
+            pts.resize(n);
+
+            double t = -MPI_Wtime();
+            GhostTree gt(pts);
+            gt.build(split_ratio, 2, false, false);
+            t += MPI_Wtime();
+
+            return t;
+        }
 
 };
 
