@@ -112,9 +112,16 @@ int main(int argc, char *argv[])
         std::vector<IndexVector> graph;
         Index num_edges;
 
+        json graph_info;
+
         t = -omp_get_wtime();
-        num_edges = ctree.build_epsilon_graph(radius, graph);
+        num_edges = ctree.build_epsilon_graph(radius, graph, graph_info);
         t += omp_get_wtime();
+
+        graph_info["total_time"] = t;
+        graph_info["num_vertices"] = size;
+        graph_info["num_edges"] = num_edges;
+        stats_json["graph_info"] = graph_info;
 
         fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, t, size, num_edges, (num_edges+0.0)/size);
 

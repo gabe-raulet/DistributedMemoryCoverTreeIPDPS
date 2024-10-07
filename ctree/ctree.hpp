@@ -1,5 +1,5 @@
 template <class PointTraits_, class Distance_, index_type Index_>
-void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index min_hub_size, bool threaded, json& stats_json, bool verbose)
+void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index min_hub_size, bool threaded, json& build_info, bool verbose)
 {
     using Hub = Hub<CoverTree>;
     using HubVector = typename Hub::HubVector;
@@ -89,7 +89,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index m
 
     } while (leaf_count < size);
 
-    stats_json["iterations"] = iter_jsons;
+    build_info["iterations"] = iter_jsons;
 
     t = -omp_get_wtime();
 
@@ -177,14 +177,11 @@ bool CoverTree<PointTraits_, Distance_, Index_>::is_correct(Real split_ratio) co
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
-void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query, Real epsilon, IndexVector& neighbors) const
+typename CoverTree<PointTraits_, Distance_, Index_>::Index
+CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query, Real epsilon, IndexVector& neighbors) const
 {
+    Index dist_comps = 0;
     Index prev_size = neighbors.size();
-
-    const auto& [root_pt, root_id, root_radius] = tree[0];
-
-    if (distance(query, root_pt) > root_radius + epsilon)
-        return;
 
     IndexVector stack = {0};
 
@@ -196,9 +193,11 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
         IndexVector children;
         tree.get_children(u, children);
 
-        if (children.empty() && distance(query, upt) <= epsilon)
+        if (children.empty())
         {
-            neighbors.push_back(uid);
+            dist_comps++;
+            if (distance(query, upt) <= epsilon)
+                neighbors.push_back(uid);
         }
         else
         {
@@ -206,6 +205,7 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
             {
                 const auto& [vpt, vid, vradius] = tree[v];
 
+                dist_comps++;
                 if (distance(query, vpt) <= vradius + epsilon)
                     stack.push_back(v);
             }
@@ -213,6 +213,8 @@ void CoverTree<PointTraits_, Distance_, Index_>::point_query(const Point& query,
     }
 
     if (has_globids()) std::for_each(neighbors.begin()+prev_size, neighbors.end(), [&](Index& id) { id = globids[id]; });
+
+    return dist_comps;
 }
 
 template <class PointTraits_, class Distance_, index_type Index_>
@@ -240,19 +242,48 @@ void CoverTree<PointTraits_, Distance_, Index_>::set_new_root(Index root)
 
 template <class PointTraits_, class Distance_, index_type Index_>
 typename CoverTree<PointTraits_, Distance_, Index_>::Index
-CoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius, IndexVectorVector& neighbors) const
+CoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius, IndexVectorVector& neighbors, json& graph_info) const
 {
     Index size = num_points();
     neighbors.resize(size, {});
 
     Index num_edges = 0;
 
-    #pragma omp parallel for reduction(+:num_edges)
-    for (Index i = 0; i < size; ++i)
+    std::vector<json> graph_threads;
+
+    #pragma omp parallel
     {
-        point_query(points[i], radius, neighbors[i]);
-        num_edges += neighbors[i].size();
+        Index my_num_edges = 0;
+        Index my_num_dist_comps = 0;
+        Index my_num_queries = 0;
+        double t = -omp_get_wtime();
+
+        #pragma omp for nowait
+        for (Index i = 0; i < size; ++i)
+        {
+            my_num_dist_comps += point_query(points[i], radius, neighbors[i]);
+            my_num_edges += neighbors[i].size();
+            my_num_queries++;
+        }
+
+        t += omp_get_wtime();
+
+        #pragma omp critical
+        {
+            graph_threads.emplace_back();
+            auto& obj = graph_threads.back();
+
+            obj["thread_id"] = omp_get_thread_num();
+            obj["thread_time"] = t;
+            obj["thread_edges"] = my_num_edges;
+            obj["thread_dist_comps"] = my_num_dist_comps;
+            obj["thread_queries"] = my_num_queries;
+
+            num_edges += my_num_edges;
+        }
     }
+
+    graph_info["graph_threads"] = graph_threads;
 
     return num_edges;
 }

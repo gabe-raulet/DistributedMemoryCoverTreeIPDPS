@@ -43,8 +43,8 @@ class CoverTree
         CoverTree(const PointVector& points) : points(points) {}
         CoverTree(const PointVector& points, const IndexVector& globids) : points(points), globids(globids) {}
 
-        void build(Real split_ratio, Index min_hub_size, bool threaded, json& stats_json, bool verbose = false);
-        void point_query(const Point& query, Real epsilon, IndexVector& neighbors) const;
+        void build(Real split_ratio, Index min_hub_size, bool threaded, json& build_info, bool verbose = false);
+        Index point_query(const Point& query, Real epsilon, IndexVector& neighbors) const;
         bool is_correct(Real split_ratio) const;
 
         Index num_levels() const { return tree.num_levels(); }
@@ -64,7 +64,7 @@ class CoverTree
         void add_point(Point pt, Index globid);
         void set_new_root(Index root);
 
-        Index build_epsilon_graph(Real radius, IndexVectorVector& neighbors) const;
+        Index build_epsilon_graph(Real radius, IndexVectorVector& neighbors, json& graph_info) const;
 
     private:
 
