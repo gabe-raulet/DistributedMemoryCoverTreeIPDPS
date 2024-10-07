@@ -346,11 +346,16 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
     get_balanced_counts(rep_leaves_counts, rep_leaves.size());
     std::exclusive_scan(rep_leaves_counts.begin(), rep_leaves_counts.end(), rep_leaves_offsets.begin(), static_cast<Index>(0));
 
+    double ranktime = -MPI_Wtime();
+
+    Index loc = 0;
+
     for (const auto& [repr, ghost_tree] : ghost_trees)
     {
         Index n = hub_sizes.at(repr);
         const Point* pts = ghost_tree.point_data();
         const Index* ids = ghost_tree.globid_data();
+        loc += n;
 
         for (Index i = 0; i < n; ++i)
         {
@@ -384,12 +389,18 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
 
         IndexVector neighbors, dummy;
         point_query(pt, radius, neighbors, dummy);
+        loc++;
 
         for (Index dest : neighbors)
         {
             sendbufs[owner].emplace_back(p, dest);
         }
     }
+
+    ranktime += MPI_Wtime();
+
+    fmt::print("[msg::{},ranktime={:.3f}] rank {} finished computing local neighbors for {} points\n", __func__, ranktime, comm.rank(), loc);
+    std::cout << std::flush;
 
     timer.stop_timer();
     double t = timer.get_max_time();
