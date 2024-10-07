@@ -100,9 +100,6 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
 
     assert((leaf_count <= totsize));
 
-    using PointTriple = std::tuple<Index, Index, Point>; // hub id, point id, point
-    using PointTripleVector = std::vector<PointTriple>;
-
     std::vector<PointTripleVector> sendbufs(comm.size());
     PointTripleVector recvbuf;
 
@@ -223,26 +220,33 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
 
     Index my_num_queries = 0, rep_num_queries = 0;
 
+    PointTripleVector my_queries;
+
+    for (auto& [repr, ghost_tree] : ghost_trees)
+        my_num_queries += ghost_tree.num_points();
+
+    my_queries.reserve(my_num_queries);
+
     for (auto& [repr, ghost_tree] : ghost_trees)
     {
-        /* ghost_tree.set_new_root(repr); */
         Index n = ghost_tree.num_points();
         const Point* tree_points = ghost_tree.point_data();
         const Index* tree_globids = ghost_tree.globid_data();
 
         for (Index i = 0; i < n; ++i)
         {
-            Point pt = tree_points[i];
-            Index p = tree_globids[i];
-            my_num_queries++;
+            my_queries.emplace_back(repr, tree_globids[i], tree_points[i]);
+        }
+    }
 
-            IndexVector neighbors, ghost_hubs;
-            point_query(pt, radius, neighbors, ghost_hubs, repr);
+    for (const auto& [repr, p, pt] : my_queries)
+    {
+        IndexVector neighbors, ghost_hubs;
+        point_query(pt, radius, neighbors, ghost_hubs, repr);
 
-            for (Index ghost_hub : ghost_hubs)
-            {
-                sendbufs[point_owner(ghost_hub)].emplace_back(ghost_hub, p, pt);
-            }
+        for (Index ghost_hub : ghost_hubs)
+        {
+            sendbufs[point_owner(ghost_hub)].emplace_back(ghost_hub, p, pt);
         }
     }
 

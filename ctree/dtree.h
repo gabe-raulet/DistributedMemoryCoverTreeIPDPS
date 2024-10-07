@@ -82,6 +82,10 @@ class DistCoverTree
         GhostTreeMap ghost_trees;
 
         void point_query(const Point& query, Real radius, IndexVector& neighbors, IndexVector& ghost_hubs, Index query_hub = -1) const;
+
+        using PointTriple = std::tuple<Index, Index, Point>; // hub id, point id, point
+        using PointTripleVector = std::vector<PointTriple>;
+
 };
 
 #include "dtree.hpp"
