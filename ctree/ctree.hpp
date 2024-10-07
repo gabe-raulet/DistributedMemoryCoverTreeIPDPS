@@ -40,43 +40,25 @@ void CoverTree<PointTraits_, Distance_, Index_>::build(Real split_ratio, Index m
 
         #pragma omp parallel if (threaded)
         {
-            HubVector my_split_hubs, my_next_hubs;
+            HubVector my_hubs;
 
             #pragma omp for nowait schedule(dynamic)
             for (Index i = 0; i < num_hubs; ++i)
             {
                 Hub& hub = hubs[i];
 
-                hub.add_new_leader(points);
+                do { hub.add_new_leader(points); } while (!hub.is_split(split_ratio));
 
-                if (hub.is_split(split_ratio))
-                {
-                    hub.split_leaders(points);
-                    hub.find_leaves(min_hub_size);
-                    my_split_hubs.push_back(hub);
-                }
-                else
-                {
-                    my_next_hubs.push_back(hub);
-                }
+                hub.split_leaders(points);
+                hub.find_leaves(min_hub_size);
+                my_hubs.push_back(hub);
             }
 
             #pragma omp critical
-            for (Hub& hub : my_split_hubs)
+            for (Hub& hub : my_hubs)
             {
-                split_hubs.push_back(hub);
+                leaf_count += hub.update_tree(balltree, next_hubs, leaf_flags);
             }
-
-            #pragma omp critical
-            for (Hub& hub : my_next_hubs)
-            {
-                next_hubs.push_back(hub);
-            }
-        }
-
-        for (Hub& hub : split_hubs)
-        {
-            leaf_count += hub.update_tree(balltree, next_hubs, leaf_flags);
         }
 
         std::swap(hubs, next_hubs);

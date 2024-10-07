@@ -302,9 +302,11 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
 
     Index num_hub_points = 0, num_tree_points = 0;
 
+    json dummy;
+
     for (auto& [repr, ghost_tree] : ghost_trees)
     {
-        ghost_tree.build(split_ratio, min_hub_size, false, false);
+        ghost_tree.build(split_ratio, min_hub_size, false, dummy, false);
         num_hub_points += hub_sizes.at(repr);
         num_tree_points += ghost_tree.num_points();
     }

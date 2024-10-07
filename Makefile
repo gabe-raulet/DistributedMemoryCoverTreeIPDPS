@@ -23,7 +23,7 @@ ifeq ($(LOG),1)
 FLAGS+=-DLOG
 endif
 
-all: main ptgen
+all: main_mpi main ptgen
 
 .PHONY: version.h
 
