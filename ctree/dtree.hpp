@@ -150,15 +150,21 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
     {
         Index p = repballtree[i].id;
 
-        if (repballtree.is_leaf(i) && owns_point(p))
+        if (repballtree.is_leaf(i))
         {
-            my_point_pairs.emplace_back(p, mypoints[p-myoffset]);
+            if (!ghost_map.contains(p))
+                rep_leaves.push_back(p);
+
+            if (owns_point(p))
+            {
+                my_point_pairs.emplace_back(p, mypoints[p-myoffset]);
+            }
         }
     }
 
     comm.allgatherv(my_point_pairs, point_pairs);
 
-    PointMap reptree_points;
+    reptree_points.clear();
     reptree_points.reserve(point_pairs.size());
 
     for (const auto& [globid, pt] : point_pairs)
@@ -245,8 +251,6 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
 
     std::exclusive_scan(rep_counts.begin(), rep_counts.end(), rep_offsets.begin(), static_cast<Index>(0));
 
-    /* for (const auto& [p, pt] : point_pairs) */
-
     for (Index i = 0; i < rep_counts[comm.rank()]; ++i)
     {
         const auto& [p, pt] = point_pairs[i+rep_offsets[comm.rank()]];
@@ -270,7 +274,6 @@ void DistCoverTree<PointTraits_, Distance_, Index_>::build(Real radius, Real spl
     if (verbose)
     {
         fmt::print("[msg::{},elapsed={:.3f},ranktime={:.3f}] rank {} finished querying {} hub points and {} replication-leaf points against replication tree\n", __func__, ranktime+elapsed, ranktime, comm.rank(), my_num_queries, rep_num_queries);
-        /* if (comm.rank()==comm.size()-1) fmt::print("[msg::{},elapsed={:.3f},ranktime={:.3f}] rank {} finished querying {} replication-tree leaves against replication tree\n", __func__, ranktime+roottime+elapsed, roottime, comm.rank(), root_num_queries); */
         std::cout << std::flush;
     }
 
@@ -322,8 +325,77 @@ template <class PointTraits_, class Distance_, index_type Index_>
 typename DistCoverTree<PointTraits_, Distance_, Index_>::Index
 DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius, IndexVectorVector& myneighbors) const
 {
+    int myrank = comm.rank();
+    int nprocs = comm.size();
+
     myneighbors.resize(mysize, {});
     Index num_edges = 0;
+
+    using Edge = std::pair<Index, Index>;
+    using EdgeVector = std::vector<Edge>;
+
+    std::vector<EdgeVector> sendbufs(nprocs);
+    EdgeVector recvbuf;
+
+    IndexSet rep_leaves_set(rep_leaves.begin(), rep_leaves.end());
+    IndexVector rep_leaves_counts(nprocs), rep_leaves_offsets(nprocs);
+
+    get_balanced_counts(rep_leaves_counts, rep_leaves.size());
+    std::exclusive_scan(rep_leaves_counts.begin(), rep_leaves_counts.end(), rep_leaves_offsets.begin(), static_cast<Index>(0));
+
+    for (const auto& [repr, ghost_tree] : ghost_trees)
+    {
+        Index n = hub_sizes.at(repr);
+        const Point* pts = ghost_tree.point_data();
+        const Index* ids = ghost_tree.globid_data();
+
+        for (Index i = 0; i < n; ++i)
+        {
+            Point pt = pts[i];
+            Index p = ids[i];
+
+            IndexVector neighbors;
+            ghost_tree.point_query(pt, radius, neighbors);
+
+            int owner = point_owner(p);
+
+            for (Index dest : neighbors)
+            {
+                sendbufs[owner].emplace_back(p, dest);
+
+                if (rep_leaves_set.contains(dest))
+                {
+                    sendbufs[point_owner(dest)].emplace_back(dest, p);
+                }
+            }
+        }
+    }
+
+    auto it = rep_leaves.begin() + rep_leaves_offsets[myrank];
+
+    for (Index i = 0; i < rep_leaves_counts[myrank]; ++i)
+    {
+        Index p = *it++;
+        Point pt = reptree_points.at(p);
+        int owner = point_owner(p);
+
+        IndexVector neighbors, dummy;
+        point_query(pt, radius, neighbors, dummy);
+
+        for (Index dest : neighbors)
+        {
+            sendbufs[owner].emplace_back(p, dest);
+        }
+    }
+
+    comm.alltoallv(sendbufs, recvbuf);
+
+    for (const auto& [u, v] : recvbuf)
+    {
+        myneighbors[u-myoffset].push_back(v);
+        num_edges++;
+    }
+
     comm.allreduce(num_edges, MPI_SUM);
     return num_edges;
 }

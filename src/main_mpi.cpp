@@ -105,17 +105,46 @@ int main_mpi(int argc, char *argv[])
 
     if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed distributed cover tree\n", __func__, timer.get_max_time());
 
-    /* if (build_graph) */
-    /* { */
-        /* std::vector<IndexVector> mygraph; */
-        /* Index num_edges; */
+    if (build_graph)
+    {
+        std::vector<IndexVector> mygraph;
+        Index num_edges;
 
-        /* timer.start_timer(); */
-        /* num_edges = dtree.build_epsilon_graph(radius, mygraph); */
-        /* timer.stop_timer(); */
+        timer.start_timer();
+        num_edges = dtree.build_epsilon_graph(radius, mygraph);
+        timer.stop_timer();
 
-        /* if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, timer.get_max_time(), totsize, num_edges, (num_edges+0.0)/totsize); */
-    /* } */
+        if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, timer.get_max_time(), totsize, num_edges, (num_edges+0.0)/totsize);
+
+        //PointVector allpoints;
+        //comm.allgatherv(mypoints, allpoints);
+        //Index totsize = allpoints.size();
+
+        //using IndexSet = std::unordered_set<Index>;
+        //auto distance = Distance();
+
+        //Index myoffset;
+        //comm.exscan(mysize, myoffset, MPI_SUM, (Index)0);
+
+        //for (Index i = 0; i < mysize; ++i)
+        //{
+        //    IndexVector neighs;
+
+        //    for (Index j = 0; j < totsize; ++j)
+        //        if (distance(mypoints[i], allpoints[j]) <= radius)
+        //            neighs.push_back(j);
+
+        //    IndexSet n1(mygraph[i].begin(), mygraph[i].end());
+        //    IndexSet n2(neighs.begin(), neighs.end());
+
+        //    if (n1 != n2)
+        //    {
+        //        fmt::print("[myrank={}] vertex {} has {} neighbors, but we computed {} neighbors\n", comm.rank(), i+myoffset, n2.size(), n1.size());
+        //        std::cout << std::flush;
+        //    }
+        //    else fmt::print("[myrank={}] vertex {} is correct\n", comm.rank(), i+myoffset);
+        //}
+    }
 
     return 0;
 }

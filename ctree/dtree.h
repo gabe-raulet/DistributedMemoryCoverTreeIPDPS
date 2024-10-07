@@ -74,10 +74,11 @@ class DistCoverTree
         IndexVector offsets;
         Index mysize, myoffset, totsize;
         PointVector mypoints;
+        IndexVector rep_leaves;
 
         PointBallTree reptree;
+        PointMap reptree_points;
         IndexMap ghost_map, hub_sizes;
-        PointPairVectorMap ghost_points;
         GhostTreeMap ghost_trees;
 
         void point_query(const Point& query, Real radius, IndexVector& neighbors, IndexVector& ghost_hubs, Index query_hub = -1) const;
