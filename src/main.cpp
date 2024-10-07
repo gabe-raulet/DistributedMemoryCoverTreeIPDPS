@@ -97,6 +97,12 @@ int main(int argc, char *argv[])
 
         fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, t, size, num_edges, (num_edges+0.0)/size);
 
+        std::ofstream f("ctree.graph.txt");
+        for (Index i = 0; i < size; ++i)
+            for (Index j : graph[i])
+                f << i << " " << j << "\n";
+        f.close();
+
         if (verify_graph_plus)
         {
             t = -omp_get_wtime();

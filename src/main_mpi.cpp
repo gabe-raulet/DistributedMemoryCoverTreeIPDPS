@@ -116,6 +116,28 @@ int main_mpi(int argc, char *argv[])
 
         if (!comm.rank()) fmt::print("[msg::{},time={:.3f}] constructed epsilon graph [vertices={},edges={},avg_deg={:.3f}]\n", __func__, timer.get_max_time(), totsize, num_edges, (num_edges+0.0)/totsize);
 
+        std::stringstream ss;
+
+        Index myoffset;
+        comm.exscan(mysize, myoffset, MPI_SUM, (Index)0);
+
+        for (Index i = 0; i < mysize; ++i)
+            for (Index j : mygraph[i])
+                ss << i+myoffset << " " << j << "\n";
+
+        std::vector<char> mybuf, buf;
+        std::string s = ss.str();
+        mybuf.assign(s.begin(), s.end());
+        comm.gatherv(mybuf, buf, 0);
+
+        if (!comm.rank())
+        {
+            std::string out(buf.begin(), buf.end());
+            std::ofstream f("dtree.graph.txt");
+            f << out;
+            f.close();
+        }
+
         //PointVector allpoints;
         //comm.allgatherv(mypoints, allpoints);
         //Index totsize = allpoints.size();

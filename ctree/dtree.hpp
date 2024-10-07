@@ -416,7 +416,13 @@ DistCoverTree<PointTraits_, Distance_, Index_>::build_epsilon_graph(Real radius,
     for (const auto& [u, v] : recvbuf)
     {
         myneighbors[u-myoffset].push_back(v);
-        num_edges++;
+    }
+
+    for (auto& neighs : myneighbors)
+    {
+        IndexSet tmp(neighs.begin(), neighs.end());
+        neighs.assign(tmp.begin(), tmp.end());
+        num_edges += neighs.size();
     }
 
     comm.allreduce(num_edges, MPI_SUM);
