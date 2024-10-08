@@ -7,6 +7,7 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 from collections import namedtuple
+import matplotlib.ticker as mticker
 
 BuildInfo = namedtuple("BuildInfo", ["total_time", "num_hubs", "num_leaves", "num_levels", "num_vertices", "iter_times"])
 GraphInfo = namedtuple("GraphInfo", ["total_time", "num_edges", "num_vertices", "dist_comps", "thread_edges", "thread_queries"])
@@ -63,6 +64,11 @@ thread_counts = thread_counts[order]
 build_times = build_times[order]
 graph_times = graph_times[order]
 combine_times = combine_times[order]
+optimal_times = np.zeros(len(combine_times))
+optimal_times[0] = combine_times[0]
+optimal_times[-1] = combine_times[0] / thread_counts[-1]
+#  for i in range(1, len(optimal_times)):
+    #  optimal_times[i] = optimal_times[i-1]/thread_counts[i]
 
 #  plt.plot(thread_counts, build_times, ':x', markersize=1.8, linewidth=0.8, color='red', label="build time")
 #  plt.plot(thread_counts, graph_times, '-o', markersize=1.4, linewidth=0.8, color='blue', label="graph time")
@@ -76,21 +82,31 @@ combine_times = combine_times[order]
 build_speedups = build_times[0]/build_times
 graph_speedups = graph_times[0]/graph_times
 combine_speedups = combine_times[0]/combine_times
+optimal_speedups = optimal_times[0]/optimal_times
 
-build_efficiencies = build_speedups/thread_counts
-graph_efficiencies = graph_speedups/thread_counts
-combine_efficiencies = combine_speedups/thread_counts
+#  build_efficiencies = build_speedups/thread_counts
+#  graph_efficiencies = graph_speedups/thread_counts
+#  combine_efficiencies = combine_speedups/thread_counts
 
-plt.plot(thread_counts, build_speedups, ':x', markersize=1.8, linewidth=0.8, color='red', label="build speedup")
-plt.plot(thread_counts, graph_speedups, ':o', markersize=1.8, linewidth=0.8, color='blue', label="graph speedup")
-plt.plot(thread_counts, combine_speedups, ':^', markersize=1.8, linewidth=0.8, color='green', label="total speedup")
+fig, ax = plt.subplots()
+
+ax.plot(thread_counts, build_speedups, ':x', markersize=1.8, linewidth=0.8, color='red', label="tree")
+ax.plot(thread_counts, graph_speedups, ':o', markersize=1.8, linewidth=0.8, color='blue', label="graph")
+ax.plot(thread_counts, combine_speedups, ':^', markersize=1.8, linewidth=0.8, color='green', label="total")
+ax.plot(thread_counts[[0,-1]], optimal_speedups[[0,-1]], '--*', markersize=1.0, linewidth=0.8, color='gray', label="optimal speedup")
 
 #  plt.plot(thread_counts, build_efficiencies, '--x', markersize=1.8, linewidth=0.8, color='red', label="build efficiency")
 #  plt.plot(thread_counts, graph_efficiencies, '--o', markersize=1.8, linewidth=0.8, color='blue', label="graph efficiency")
 #  plt.plot(thread_counts, combine_efficiencies, '--^', markersize=1.8, linewidth=0.8, color='green', label="total efficiency")
 
-plt.xlabel("# of threads")
-plt.ylabel("speedup")
-plt.legend(loc="upper left")
+ax.set_xscale("log")
+ax.set_yscale("log")
+ax.set_xlabel("# of threads")
+ax.set_ylabel("speedup")
+ax.legend(loc="upper left")
+ticks=[1,2,4,8,16,32,64,128,256]
+ax.set_xticks(ticks,labels=[str(i) for i in ticks])
+ax.set_yticks(ticks,labels=[str(i) for i in ticks])
+plt.minorticks_off()
 plt.show()
 
