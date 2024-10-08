@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 def random_dataset(d, num_clusters, avg_cluster_size, center_scale):
     while True:
         sizes = np.random.normal(avg_cluster_size, 100, num_clusters).round()
-        if np.alltrue(sizes > 2):
+        if np.all(sizes > 2):
             break
     centers = center_scale*np.random.normal(0, 5, num_clusters*d).reshape((-1,d))
     clusters = []
@@ -22,8 +22,9 @@ def write_fvecs(points, fname):
             f.write(v.tobytes())
 
 points = random_dataset(8,30,20000,2)
-plt.scatter(points[:,0], points[:,1], s=1)
-plt.show()
+#plt.scatter(points[:,0], points[:,1], s=1)
+#plt.show()
+print(f"number of points={len(points)}")
 
 points = points.astype('float32')
 write_fvecs(points, "points")

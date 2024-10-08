@@ -22,6 +22,9 @@
 
 # python combine_outputs.py > results.json
 
+export OMP_PROC_BIND=spread
+export OMP_PLACES=threads
+
 export RADIUS=1.15
 export FILENAME=../points
 
@@ -29,12 +32,12 @@ counter=1
 
 for SPLIT_RATIO in 0.7
 do
-    for THREAD_COUNT in 1 2 3 4 5 6 7 8 9 10 11 12
+    for THREAD_COUNT in 1 2 4 8 16 32 64 128 256
     do
         export OMP_NUM_THREADS=$THREAD_COUNT
         export FNAME= ${COUNTER}
 
-        ../main -r $RADIUS -S $SPLIT_RATIO -o out.${counter}.json $FILENAME
+        numactl -i0-7 ../main -r $RADIUS -S $SPLIT_RATIO -o out.${counter}.json $FILENAME
         counter=$((counter+1))
     done
 done
