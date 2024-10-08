@@ -32,7 +32,7 @@ counter=1
 
 for SPLIT_RATIO in 0.7
 do
-    for THREAD_COUNT in 1 2 4 8 16 32 64 128 256
+    for THREAD_COUNT in 1 2 4 6 8 12 16 24 32 48 64 96 128 192 256
     do
         export OMP_NUM_THREADS=$THREAD_COUNT
         export FNAME= ${COUNTER}
